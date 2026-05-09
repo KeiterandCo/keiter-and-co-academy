@@ -1,0 +1,167 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// Dynamic part index route: /curriculum/[part]
+export function getStaticPaths() {
+  return [
+    {
+      params: { part: 'welcome' },
+      props: {
+        label: 'Part 1',
+        title: 'Welcome to Keiter & Co.',
+        intro: 'Every Keiter build starts with the same foundation: who we are, what we believe, and how we operate. This part covers the philosophy before any tool or technique. The methodology means nothing without it.',
+        modules: [
+          { number: '01', title: 'Welcome and how to use this curriculum', time: '8 min', goal: 'Understand what the academy is, who it is for, how to navigate it, and how long it takes.', href: '/curriculum/welcome/01' },
+          { number: '02', title: 'The Keiter & Co. operating system', time: '15 min', goal: 'Recite the five standing principles, name the partnership structure, and explain the constraints in plain language.', href: '/curriculum/welcome/02' },
+        ],
+        prevPart: null,
+        nextPart: { label: 'Part 2', title: 'The tools', href: '/curriculum/tools' },
+      },
+    },
+    {
+      params: { part: 'tools' },
+      props: {
+        label: 'Part 2',
+        title: 'The tools',
+        intro: 'You cannot operate the methodology without understanding the tools. This part covers what AI is, what Claude is, and how to choose between Claude surfaces for a given task. Start here if you have some AI exposure already.',
+        modules: [
+          { number: '03', title: 'AI 101', time: '12 min', goal: 'Define AI, LLM, and Claude in plain language. Explain why Keiter & Co. uses Claude specifically.', href: '/curriculum/tools/03' },
+          { number: '04', title: 'The three Claude surfaces', time: '18 min', goal: 'Choose between Claude Chat, Claude Code, and Cowork mode for a given task and explain why.', href: '/curriculum/tools/04' },
+          { number: '05', title: 'Working with Claude as your build partner', time: '20 min', goal: 'Run a productive Claude session: confirming scope, automating instead of clicking, ending phases with handoff notes, recovering from a context window crash.', href: '/curriculum/tools/05' },
+        ],
+        prevPart: { label: 'Part 1', title: 'Welcome to Keiter & Co.', href: '/curriculum/welcome' },
+        nextPart: { label: 'Part 3', title: 'How we think', href: '/curriculum/how-we-think' },
+      },
+    },
+    {
+      params: { part: 'how-we-think' },
+      props: {
+        label: 'Part 3',
+        title: 'How we think',
+        intro: 'The Keiter method has a voice and a set of values that travel into every piece of work. This part makes them explicit: the voice, the hard formatting rules, and how to hold the standing principles when a situation tests them.',
+        modules: [
+          { number: '06', title: 'Voice and tone', time: '15 min', goal: 'Identify when copy violates the Keiter rules and rewrite it. Internalize the hard formatting rule and the rules that travel with every build.', href: '/curriculum/how-we-think/06' },
+          { number: '07', title: 'Voice discovery', time: '25 min', goal: 'Run a voice discovery conversation with a client and extract the language patterns, values, and tone the client actually uses.', href: '/curriculum/how-we-think/07' },
+          { number: '08', title: 'Decision-making and the standing principles in action', time: '20 min', goal: 'Hold the standing principles when a client asks for something that violates them. Navigate ambiguous build decisions using a documented framework.', href: '/curriculum/how-we-think/08' },
+        ],
+        prevPart: { label: 'Part 2', title: 'The tools', href: '/curriculum/tools' },
+        nextPart: { label: 'Part 4', title: 'How we build', href: '/curriculum/how-we-build' },
+      },
+    },
+    {
+      params: { part: 'how-we-build' },
+      props: {
+        label: 'Part 4',
+        title: 'How we build',
+        intro: 'The build methodology is the core of what Keiter & Co. does. This part covers the three-document system, how to manage a build across phases without losing context, and every build standard that must pass before a site ships.',
+        modules: [
+          { number: '09', title: 'The three-document system', time: '30 min', goal: 'Explain why Keiter produces a decision log, a spec, and a kickoff before any code. Write each one for a small build.', href: '/curriculum/how-we-build/09' },
+          { number: '10', title: 'Phased prompts and context window management', time: '22 min', goal: 'Split a build into phases, write phase prompts that survive context window limits, and end every phase with a handoff note.', href: '/curriculum/how-we-build/10' },
+          { number: '11', title: 'Build standards I: SEO, AEO, accessibility, mobile', time: '35 min', goal: 'Implement WCAG 2.2 AA, semantic HTML, schema markup, AEO content principles, and mobile-first layout.', href: '/curriculum/how-we-build/11' },
+          { number: '12', title: 'Build standards II: the personality and polish layer', time: '40 min', goal: 'Build a site with a real personality. Animations, hover states, SVG, font loading, image standards, color contrast, and the full polish checklist.', href: '/curriculum/how-we-build/12' },
+          { number: '13', title: 'Definition of Done and BUILDNOTES.md', time: '18 min', goal: 'Run the full DOD checklist against your own build and document remaining items in BUILDNOTES.md.', href: '/curriculum/how-we-build/13' },
+          { number: '14', title: 'The agent fleet and automation queue', time: '18 min', goal: 'Understand what each Live agent does, what is in the Scoped queue, and how new automation gets added.', href: '/curriculum/how-we-build/14' },
+        ],
+        prevPart: { label: 'Part 3', title: 'How we think', href: '/curriculum/how-we-think' },
+        nextPart: { label: 'Part 5', title: 'How we run the business', href: '/curriculum/business' },
+      },
+    },
+    {
+      params: { part: 'business' },
+      props: {
+        label: 'Part 5',
+        title: 'How we run the business',
+        intro: 'A Keiter operator who can only build is not a Keiter operator. This part covers the full business operation: intake, pricing, proposals, infrastructure setup, launch handoff, and ongoing client care.',
+        modules: [
+          { number: '15', title: 'Intake', time: '28 min', goal: 'Run a full Keiter intake conversation, produce a build brief, and recognize when intake notes are too vague to proceed.', href: '/curriculum/business/15' },
+          { number: '16', title: 'Pricing, tiers, Care Plans, and the no-upfront plan', time: '22 min', goal: 'Explain every tier, every Care Plan, and the no-upfront option to a prospect in plain language. Scope a project to the right tier.', href: '/curriculum/business/16' },
+          { number: '17', title: 'Proposals, contracts, and payment', time: '25 min', goal: 'Produce a one-page proposal in the Keiter format, run a HoneyBook contract and deposit flow, and handle payment edge cases.', href: '/curriculum/business/17' },
+          { number: '18', title: 'Infrastructure', time: '30 min', goal: 'Stand up a client site infrastructure: domain registration, Netlify hosting and DNS, GitHub repo, first deploy. Troubleshoot the most common deploy failures.', href: '/curriculum/business/18' },
+          { number: '19', title: 'Launch and the Welcome to the Family guide', time: '25 min', goal: 'Take a build from ready-to-ship to client-is-live with a Welcome to the Family guide in hand.', href: '/curriculum/business/19' },
+          { number: '20', title: 'Care Plans in practice, ongoing comms, offboarding', time: '25 min', goal: 'Run a Care Plan client month over month: analytics snapshot, monthly task, scope-change conversations, and clean offboarding.', href: '/curriculum/business/20' },
+        ],
+        prevPart: { label: 'Part 4', title: 'How we build', href: '/curriculum/how-we-build' },
+        nextPart: { label: 'Part 6', title: 'Practice', href: '/curriculum/practice' },
+      },
+    },
+    {
+      params: { part: 'practice' },
+      props: {
+        label: 'Part 6',
+        title: 'Practice',
+        intro: 'The curriculum ends with doing. A guided walkthrough of a real Keiter build, a capstone where you run one yourself, and the reference templates you will reach for on every project after this.',
+        modules: [
+          { number: '21', title: 'The Outpost Vending walkthrough', time: '45 min', goal: 'Walk through a real Keiter & Co. build from intake notes through launched site, with the actual decision log, spec, and final code as reference material.', href: '/curriculum/practice/21' },
+          { number: '22', title: 'Capstone build', time: 'Variable', goal: 'Run a complete build solo: intake, three documents, multi-phase kickoff, build, launch checklist.', href: '/curriculum/practice/22' },
+          { number: '23', title: 'Reference, templates, and cheat sheets', time: '5 min', goal: 'Access the templates, checklists, and cheat sheets you need to operate without re-reading the curriculum.', href: '/curriculum/practice/23' },
+        ],
+        prevPart: { label: 'Part 5', title: 'How we run the business', href: '/curriculum/business' },
+        nextPart: null,
+      },
+    },
+  ];
+}
+
+const { label, title, intro, modules, prevPart, nextPart } = Astro.props;
+---
+
+<Layout
+  title={title}
+  description={intro}
+>
+  <!-- Part header -->
+  <section class="section bg-warm-white border-b border-stone/20">
+    <div class="container">
+      <p class="text-sm font-medium text-moss uppercase tracking-wide mb-3">{label}</p>
+      <h1 class="mb-4">{title}</h1>
+      <p class="text-bark/80 max-w-xl">{intro}</p>
+      <p class="text-sm text-stone mt-4">
+        {modules.reduce((acc: number, m: {time: string}) => {
+          const n = parseInt(m.time);
+          return isNaN(n) ? acc : acc + n;
+        }, 0)}+ minutes total
+      </p>
+    </div>
+  </section>
+
+  <!-- Module list -->
+  <section class="section">
+    <div class="container max-w-3xl">
+      <ul class="flex flex-col gap-4 list-none p-0 m-0">
+        {modules.map((mod: {number: string; title: string; time: string; goal: string; href: string}, i: number) => (
+          <li>
+            <a
+              href={mod.href}
+              class="flex gap-5 items-start bg-warm-white border border-stone/30 rounded-lg p-5 hover:border-rust hover:-translate-y-0.5 transition-all no-underline group shadow-sm"
+            >
+              <span class="text-2xl font-mono text-stone/60 shrink-0 w-8 leading-tight">{mod.number}</span>
+              <div class="flex-1 min-w-0">
+                <h2 class="text-base font-semibold mb-1 group-hover:text-rust transition-colors leading-snug">{mod.title}</h2>
+                <p class="text-sm text-bark/70 max-w-none mb-2">{mod.goal}</p>
+                <span class="text-xs text-stone">{mod.time}</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Part navigation -->
+  <section class="section border-t border-stone/20">
+    <div class="container flex flex-col sm:flex-row justify-between gap-4">
+      {prevPart ? (
+        <a href={prevPart.href} class="text-sm text-moss hover:text-rust no-underline flex items-center gap-2">
+          <span aria-hidden="true">&#8592;</span>
+          <span>{prevPart.label}: {prevPart.title}</span>
+        </a>
+      ) : <span />}
+      {nextPart && (
+        <a href={nextPart.href} class="text-sm text-moss hover:text-rust no-underline flex items-center gap-2 sm:ml-auto">
+          <span>{nextPart.label}: {nextPart.title}</span>
+          <span aria-hidden="true">&#8594;</span>
+        </a>
+      )}
+    </div>
+  </section>
+</Layout>

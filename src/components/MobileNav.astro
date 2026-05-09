@@ -1,0 +1,81 @@
+---
+const navItems = [
+  { label: 'Curriculum', href: '/curriculum' },
+  { label: 'Resources', href: '/resources' },
+  { label: 'Glossary', href: '/glossary' },
+  { label: 'About', href: '/about' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav
+  id="mobile-nav"
+  aria-label="Mobile navigation"
+  class="hidden md:hidden fixed inset-0 z-50 bg-cream flex flex-col pt-20 pb-8 px-6"
+>
+  <!-- Close button (top-right) -->
+  <button
+    id="mobile-nav-close"
+    type="button"
+    aria-label="Close navigation menu"
+    class="absolute top-4 right-4 p-2 rounded text-bark hover:text-rust min-w-[44px] min-h-[44px] flex items-center justify-center"
+  >
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <ul class="flex flex-col gap-2 list-none p-0 m-0">
+    {navItems.map((item) => (
+      <li>
+        <a
+          href={item.href}
+          class:list={[
+            'block py-3 text-xl font-medium no-underline border-b border-stone/20 transition-colors',
+            currentPath.startsWith(item.href)
+              ? 'text-rust font-semibold'
+              : 'text-bark hover:text-rust',
+          ]}
+          aria-current={currentPath.startsWith(item.href) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      </li>
+    ))}
+    <li>
+      <a
+        href="/start"
+        class="block py-3 text-xl font-medium no-underline border-b border-stone/20 text-bark hover:text-rust transition-colors"
+      >
+        Where to start
+      </a>
+    </li>
+  </ul>
+
+  <div class="mt-6">
+    <a
+      href="/curriculum"
+      class="inline-block bg-rust text-cream font-semibold px-6 py-3 rounded hover:bg-bark transition-colors no-underline min-h-[44px]"
+    >
+      Start the curriculum
+    </a>
+  </div>
+</nav>
+
+<script>
+  const closeBtn = document.getElementById('mobile-nav-close');
+  const mobileNav = document.getElementById('mobile-nav');
+  const trigger = document.getElementById('mobile-nav-trigger');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  closeBtn?.addEventListener('click', () => {
+    mobileNav?.classList.add('hidden');
+    trigger?.setAttribute('aria-expanded', 'false');
+    hamburgerIcon?.classList.remove('hidden');
+    closeIcon?.classList.add('hidden');
+    trigger?.focus();
+  });
+</script>

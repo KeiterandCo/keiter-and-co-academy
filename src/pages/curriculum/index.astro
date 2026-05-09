@@ -1,0 +1,122 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const parts = [
+  {
+    slug: 'welcome',
+    label: 'Part 1',
+    title: 'Welcome to Keiter & Co.',
+    desc: 'Who we are, what we believe, the standing principles, and how to use this curriculum.',
+    modules: [
+      { number: '01', title: 'Welcome and how to use this curriculum', time: '8 min', href: '/curriculum/welcome/01' },
+      { number: '02', title: 'The Keiter & Co. operating system', time: '15 min', href: '/curriculum/welcome/02' },
+    ],
+  },
+  {
+    slug: 'tools',
+    label: 'Part 2',
+    title: 'The tools',
+    desc: 'What AI is, what Claude is, and when to reach for each Claude surface.',
+    modules: [
+      { number: '03', title: 'AI 101', time: '12 min', href: '/curriculum/tools/03' },
+      { number: '04', title: 'The three Claude surfaces', time: '18 min', href: '/curriculum/tools/04' },
+      { number: '05', title: 'Working with Claude as your build partner', time: '20 min', href: '/curriculum/tools/05' },
+    ],
+  },
+  {
+    slug: 'how-we-think',
+    label: 'Part 3',
+    title: 'How we think',
+    desc: 'Voice, tone, the hard formatting rules, and how to hold the principles when it is hard.',
+    modules: [
+      { number: '06', title: 'Voice and tone', time: '15 min', href: '/curriculum/how-we-think/06' },
+      { number: '07', title: 'Voice discovery', time: '25 min', href: '/curriculum/how-we-think/07' },
+      { number: '08', title: 'Decision-making and the standing principles in action', time: '20 min', href: '/curriculum/how-we-think/08' },
+    ],
+  },
+  {
+    slug: 'how-we-build',
+    label: 'Part 4',
+    title: 'How we build',
+    desc: 'The three-document system, phased prompts, build standards, and the Definition of Done.',
+    modules: [
+      { number: '09', title: 'The three-document system', time: '30 min', href: '/curriculum/how-we-build/09' },
+      { number: '10', title: 'Phased prompts and context window management', time: '22 min', href: '/curriculum/how-we-build/10' },
+      { number: '11', title: 'Build standards I: SEO, AEO, accessibility, mobile', time: '35 min', href: '/curriculum/how-we-build/11' },
+      { number: '12', title: 'Build standards II: the personality and polish layer', time: '40 min', href: '/curriculum/how-we-build/12' },
+      { number: '13', title: 'Definition of Done and BUILDNOTES.md', time: '18 min', href: '/curriculum/how-we-build/13' },
+      { number: '14', title: 'The agent fleet and automation queue', time: '18 min', href: '/curriculum/how-we-build/14' },
+    ],
+  },
+  {
+    slug: 'business',
+    label: 'Part 5',
+    title: 'How we run the business',
+    desc: 'Intake, proposals, infrastructure, launch, and ongoing client care.',
+    modules: [
+      { number: '15', title: 'Intake', time: '28 min', href: '/curriculum/business/15' },
+      { number: '16', title: 'Pricing, tiers, Care Plans, and the no-upfront plan', time: '22 min', href: '/curriculum/business/16' },
+      { number: '17', title: 'Proposals, contracts, and payment', time: '25 min', href: '/curriculum/business/17' },
+      { number: '18', title: 'Infrastructure', time: '30 min', href: '/curriculum/business/18' },
+      { number: '19', title: 'Launch and the Welcome to the Family guide', time: '25 min', href: '/curriculum/business/19' },
+      { number: '20', title: 'Care Plans in practice, ongoing comms, offboarding', time: '25 min', href: '/curriculum/business/20' },
+    ],
+  },
+  {
+    slug: 'practice',
+    label: 'Part 6',
+    title: 'Practice',
+    desc: 'A real walkthrough, a capstone build, and the reference templates you will reach for every time.',
+    modules: [
+      { number: '21', title: 'The Outpost Vending walkthrough', time: '45 min', href: '/curriculum/practice/21' },
+      { number: '22', title: 'Capstone build', time: 'Variable', href: '/curriculum/practice/22' },
+      { number: '23', title: 'Reference, templates, and cheat sheets', time: '5 min', href: '/curriculum/practice/23' },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Curriculum"
+  description="The full Keiter & Co. Academy module catalog. Six parts, twenty-three modules, covering everything from AI basics to running a complete client engagement."
+>
+  <section class="section bg-warm-white border-b border-stone/20">
+    <div class="container">
+      <p class="text-sm font-medium text-moss uppercase tracking-wide mb-3">Curriculum</p>
+      <h1 class="mb-4">The full module catalog.</h1>
+      <p class="text-bark/80 max-w-xl">
+        Six parts. Twenty-three modules. Work through them in order, or jump to the part that fits where you are.
+      </p>
+    </div>
+  </section>
+
+  {parts.map((part) => (
+    <section class="section border-b border-stone/20" id={part.slug}>
+      <div class="container">
+        <div class="flex flex-col sm:flex-row sm:items-start sm:gap-10">
+          <div class="sm:w-56 shrink-0 mb-6 sm:mb-0">
+            <span class="text-xs font-semibold text-moss uppercase tracking-wide block mb-1">{part.label}</span>
+            <a href={`/curriculum/${part.slug}`} class="font-serif text-xl font-bold text-off-black hover:text-rust no-underline block leading-tight">
+              {part.title}
+            </a>
+            <p class="text-sm text-stone mt-2 max-w-none">{part.desc}</p>
+          </div>
+          <ul class="flex-1 flex flex-col gap-2 list-none p-0 m-0">
+            {part.modules.map((mod) => (
+              <li>
+                <a
+                  href={mod.href}
+                  class="flex items-center gap-4 bg-cream border border-stone/20 rounded-lg px-4 py-3 hover:border-moss hover:-translate-y-0.5 transition-all no-underline group"
+                >
+                  <span class="text-xs font-mono text-stone shrink-0 w-6">{mod.number}</span>
+                  <span class="flex-1 text-sm font-medium text-bark group-hover:text-rust transition-colors">{mod.title}</span>
+                  <span class="text-xs text-stone shrink-0">{mod.time}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  ))}
+</Layout>

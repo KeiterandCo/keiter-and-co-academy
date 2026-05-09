@@ -1,0 +1,115 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileNav from '../components/MobileNav.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  /** Pass structured data as a JSON-serializable object */
+  schema?: Record<string, unknown>;
+  /** Set to true to hide header and footer (e.g. 404) */
+  bare?: boolean;
+}
+
+const {
+  title,
+  description = 'The Keiter & Co. Academy teaches a new operator how to run a Keiter & Co. build from zero. Self-paced, practical, and grounded in real methodology.',
+  canonicalUrl = Astro.url.href,
+  ogImage = '/images/og-default.png',
+  schema,
+  bare = false,
+} = Astro.props;
+
+const fullTitle = title === 'Keiter & Co. Academy'
+  ? title
+  : `${title} | Keiter & Co. Academy`;
+
+// GA measurement ID. Set GA_ID env var in Netlify to enable.
+const gaId = import.meta.env.GA_ID;
+const enableGA = !import.meta.env.DEV && gaId;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary meta -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Keiter & Co. Academy" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Font preloads -->
+    <link rel="preload" href="/fonts/lora-v700.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/lora-v400.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/inter-v400.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/inter-v500.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+
+    <!-- Structured data slot -->
+    {schema && (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    )}
+
+    <!-- Default site-level WebSite schema -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Keiter & Co. Academy",
+      "url": "https://learn.keiterandco.com",
+      "description": "A self-paced curriculum that teaches a new operator how to run a Keiter & Co. build from zero.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Keiter & Co. LLC",
+        "url": "https://keiterandco.com"
+      }
+    })} />
+
+    <!-- Google Analytics (production only, gated on GA_ID env var) -->
+    {enableGA && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+        <script define:vars={{ gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
+  </head>
+
+  <body class="flex flex-col min-h-screen bg-cream text-bark">
+    {!bare && <Header />}
+    {!bare && <MobileNav />}
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    {!bare && <Footer />}
+  </body>
+</html>

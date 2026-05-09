@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Page not found"
+  description="The page you are looking for is not here. Head back to the Keiter & Co. Academy."
+>
+  <section class="section flex flex-col items-center justify-center text-center min-h-[60vh]">
+    <div class="container max-w-xl">
+      <p class="text-7xl font-serif font-bold text-mauve mb-6" aria-hidden="true">404</p>
+      <h1 class="mb-4">This page is not here.</h1>
+      <p class="text-bark/80 mb-8">
+        It may have moved, or you may have followed a link that was not quite right. Either way, here are a few good places to land.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a
+          href="/"
+          class="inline-flex items-center bg-rust text-cream font-semibold px-6 py-3 rounded hover:bg-bark transition-colors no-underline min-h-[44px]"
+        >
+          Back to the academy
+        </a>
+        <a
+          href="/curriculum"
+          class="inline-flex items-center border border-bark text-bark font-semibold px-6 py-3 rounded hover:bg-bark hover:text-cream transition-colors no-underline min-h-[44px]"
+        >
+          Browse the curriculum
+        </a>
+      </div>
+      <nav aria-label="Quick links" class="mt-10">
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 justify-center list-none p-0 m-0 text-sm">
+          <li><a href="/start" class="text-moss hover:text-rust no-underline">Where to start</a></li>
+          <li><a href="/resources" class="text-moss hover:text-rust no-underline">Resources</a></li>
+          <li><a href="/glossary" class="text-moss hover:text-rust no-underline">Glossary</a></li>
+          <li><a href="/about" class="text-moss hover:text-rust no-underline">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+</Layout>

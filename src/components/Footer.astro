@@ -1,0 +1,60 @@
+---
+const year = new Date().getFullYear();
+
+const footerLinks = [
+  { label: 'Curriculum', href: '/curriculum' },
+  { label: 'About', href: '/about' },
+];
+
+// Social slots: populate when URLs are confirmed
+const socialLinks: { label: string; href: string; icon: string }[] = [];
+---
+
+<footer class="border-t border-stone/30 bg-warm-white mt-auto">
+  <div class="container py-8">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex flex-col gap-1">
+        <p class="text-sm text-bark font-medium">
+          Keiter &amp; Co. Academy
+        </p>
+        <p class="text-xs text-stone">
+          A curriculum by <a href="https://keiterandco.com" class="text-moss hover:text-rust" target="_blank" rel="noopener noreferrer">Keiter &amp; Co.</a>
+        </p>
+      </div>
+
+      <nav aria-label="Footer navigation">
+        <ul class="flex flex-wrap gap-x-5 gap-y-2 list-none p-0 m-0">
+          {footerLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-sm text-bark hover:text-rust no-underline transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {socialLinks.length > 0 && (
+        <ul class="flex gap-3 list-none p-0 m-0" aria-label="Social media links">
+          {socialLinks.map((social) => (
+            <li>
+              <a
+                href={social.href}
+                class="text-stone hover:text-rust transition-colors no-underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+              >
+                {social.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <p class="text-xs text-stone mt-6">
+      &copy; {year} Keiter &amp; Co. LLC. All rights reserved.
+    </p>
+  </div>
+</footer>

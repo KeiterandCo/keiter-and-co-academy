@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Search"
+  description="Search the Keiter & Co. Academy curriculum, glossary, and resources."
+>
+  <section class="section">
+    <div class="container max-w-3xl">
+      <h1 class="mb-6">Search</h1>
+      <!-- Pagefind UI mounts here at build time -->
+      <div id="search" class="w-full">
+        <p class="text-sm text-stone italic">
+          Search is available after the first build. Run <code class="font-mono text-xs bg-mauve-faint px-1 rounded">npm run build</code> to index content.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    if (typeof PagefindUI !== 'undefined') {
+      new PagefindUI({ element: '#search', showSubResults: true });
+    }
+  });
+</script>

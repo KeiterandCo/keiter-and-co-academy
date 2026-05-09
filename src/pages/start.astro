@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Where to start"
+  description="Not sure where to begin? Answer three quick questions and land on the right starting point in the Keiter & Co. Academy curriculum."
+>
+  <section class="section">
+    <div class="container max-w-3xl">
+      <p class="text-sm font-medium text-moss uppercase tracking-wide mb-3">Where to start</p>
+      <h1 class="mb-4">Find your entry point.</h1>
+      <p class="text-bark/80 mb-10">
+        The curriculum is designed to work in order, but not everyone starts from the same place. Pick the description that fits you best.
+      </p>
+
+      <div class="grid gap-5 sm:grid-cols-3">
+        <a
+          href="/curriculum/welcome/01"
+          class="block bg-warm-white border border-stone/30 rounded-lg p-6 hover:border-rust hover:-translate-y-0.5 transition-all no-underline group shadow-sm"
+        >
+          <span class="text-xs font-semibold text-moss uppercase tracking-wide block mb-2">Complete beginner</span>
+          <h2 class="text-base mb-3 group-hover:text-rust transition-colors">New to AI, new to this</h2>
+          <p class="text-sm text-bark/70 max-w-none">
+            Start at Module 1. The curriculum builds from the ground up. You will not be lost.
+          </p>
+        </a>
+
+        <a
+          href="/curriculum/tools/03"
+          class="block bg-warm-white border border-stone/30 rounded-lg p-6 hover:border-rust hover:-translate-y-0.5 transition-all no-underline group shadow-sm"
+        >
+          <span class="text-xs font-semibold text-moss uppercase tracking-wide block mb-2">Some AI exposure</span>
+          <h2 class="text-base mb-3 group-hover:text-rust transition-colors">You have used AI before</h2>
+          <p class="text-sm text-bark/70 max-w-none">
+            Jump to Part 2: The tools. Then pick up the methodology in Part 3.
+          </p>
+        </a>
+
+        <a
+          href="/curriculum/how-we-build/09"
+          class="block bg-warm-white border border-stone/30 rounded-lg p-6 hover:border-rust hover:-translate-y-0.5 transition-all no-underline group shadow-sm"
+        >
+          <span class="text-xs font-semibold text-moss uppercase tracking-wide block mb-2">Experienced builder</span>
+          <h2 class="text-base mb-3 group-hover:text-rust transition-colors">You build sites already</h2>
+          <p class="text-sm text-bark/70 max-w-none">
+            Start with Part 4: How we build. The three-document system is where the Keiter method gets concrete.
+          </p>
+        </a>
+      </div>
+
+      <p class="mt-10 text-sm text-stone">
+        Not sure? <a href="/curriculum" class="text-moss hover:text-rust">Browse the full curriculum</a> and read the module goals before committing.
+      </p>
+    </div>
+  </section>
+</Layout>

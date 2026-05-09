@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+/* ============================================================
+   KEITER & CO. ACADEMY -- GLOBAL STYLES AND DESIGN TOKENS
+   Brand inherited from keiterandco.com.
+   Fonts: Lora (headings, 400/600/700) and Inter (body, 400/500/600).
+   Self-hosted fonts live in /public/fonts/. Preloaded in Layout.astro.
+   ============================================================ */
+
+/* Self-hosted font faces */
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/lora-v400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/lora-v600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/lora-v700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-v400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-v500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-v600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tailwind v4 custom theme */
+@theme {
+  /* Brand colors */
+  --color-cream: #F5F0E8;
+  --color-warm-white: #FDFAF5;
+  --color-bark: #4A3728;
+  --color-moss: #6B7C5C;
+  --color-stone: #A89880;
+  --color-rust: #B85C38;
+  --color-off-black: #1E1610;
+  --color-mauve: #c9a8a0;
+  --color-mauve-faint: #e8d5d0;
+
+  /* Font families */
+  --font-serif: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Layout */
+  --max-width: 70rem;
+  --text-max-width: 65ch;
+}
+
+/* ---- Base reset ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-bark);
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- Focus ring ---- */
+:focus-visible {
+  outline: 3px solid var(--color-rust);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---- Skip link ---- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--color-off-black);
+  color: var(--color-cream);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  z-index: 9999;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 0.5rem;
+}
+
+/* ---- Typography ---- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--color-off-black);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+h1 { font-size: clamp(1.875rem, 5vw, 3rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
+h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
+h4 { font-size: 1.125rem; }
+
+a {
+  color: var(--color-moss);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--color-rust);
+}
+
+/* ---- Layout ---- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.prose {
+  max-width: var(--text-max-width);
+}
+
+/* Section spacing */
+.section {
+  padding-block: 4rem;
+}
+@media (max-width: 768px) {
+  .section {
+    padding-block: 2rem;
+  }
+}
+
+/* ---- Scroll animations ---- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease forwards;
+}
+
+/* ---- Print ---- */
+@media print {
+  header, footer, nav, .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+  a {
+    color: black;
+    text-decoration: underline;
+  }
+}

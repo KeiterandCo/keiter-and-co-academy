@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Placeholder glossary entries - real content lands in Phase 3
+const terms = [
+  { term: 'AEO', definition: 'Answer Engine Optimization. The practice of writing content so that AI assistants and answer engines can cite and recommend your business. AEO is baked into every Keiter & Co. build at every tier.' },
+  { term: 'BUILDNOTES.md', definition: 'A file in the repo root that tracks gaps, deferred items, and anything that could not be resolved during a build session. Checked at the start of every session.' },
+  { term: 'Care Plan', definition: 'The Keiter & Co. post-launch service tier. Basic ($35/month) or Advanced ($65/month). Covers hosting, SSL, monthly tasks, analytics snapshots, and varying levels of support.' },
+  { term: 'Claude', definition: 'The AI assistant built by Anthropic that Keiter & Co. uses for all build work. Available in three surfaces: Claude Chat, Claude Code, and Cowork mode.' },
+  { term: 'CLAUDE.md', definition: 'A file in the root of every repo that tells Claude Code what it needs to know to build correctly. Contains standing principles, formatting rules, voice and tone, stack reference, and build standards.' },
+  { term: 'Context window', definition: 'The amount of text an AI model can hold in its working memory at once. Long builds exceed this limit, which is why Keiter & Co. uses phased kickoffs and handoff notes.' },
+  { term: 'Decision log', definition: 'One of the three build documents. Records every significant decision made before and during a build, including what was considered, what was decided, and why.' },
+  { term: 'Definition of Done', definition: 'The master checklist that every Keiter & Co. build must pass before launch. Covers copy, accessibility, mobile, online personality, font loading, images, SEO, AEO, and more.' },
+  { term: 'Handoff note', definition: 'A note written at the end of every build phase. Records what is done, what is deferred, what the next phase needs to know, and the localhost URL of the current state.' },
+  { term: 'Kickoff', definition: 'One of the three build documents. The instruction set for the build, organized into phases. Each phase is self-contained and ends with a handoff note.' },
+  { term: 'LLM', definition: 'Large Language Model. The type of AI that powers Claude and similar tools. Trained on large amounts of text and used to generate, analyze, and transform language.' },
+  { term: 'Spec', definition: 'One of the three build documents. Describes what is being built: the site architecture, page templates, components, copy standards, and visual direction.' },
+  { term: 'WCAG 2.2 AA', definition: 'Web Content Accessibility Guidelines, version 2.2, Level AA. The accessibility standard every Keiter & Co. build meets. Covers color contrast, keyboard navigation, focus indicators, semantic HTML, and more.' },
+];
+
+// Group alphabetically
+const grouped = terms.reduce<Record<string, typeof terms>>((acc, term) => {
+  const letter = term.term[0].toUpperCase();
+  if (!acc[letter]) acc[letter] = [];
+  acc[letter].push(term);
+  return acc;
+}, {});
+
+const letters = Object.keys(grouped).sort();
+---
+
+<Layout
+  title="Glossary"
+  description="Plain-language definitions of every term used in the Keiter & Co. Academy curriculum. Linked from inline mentions throughout the modules."
+>
+  <section class="section bg-warm-white border-b border-stone/20">
+    <div class="container">
+      <p class="text-sm font-medium text-moss uppercase tracking-wide mb-3">Glossary</p>
+      <h1 class="mb-4">Terms, plain language.</h1>
+      <p class="text-bark/80 max-w-xl">
+        Every term used in the curriculum, defined simply. New terms appear as modules are written. Check back as the curriculum grows.
+      </p>
+    </div>
+  </section>
+
+  <!-- Alphabet nav -->
+  <nav aria-label="Jump to letter" class="border-b border-stone/20 bg-cream sticky top-16 z-10">
+    <div class="container py-2">
+      <ul class="flex flex-wrap gap-2 list-none p-0 m-0">
+        {letters.map((letter) => (
+          <li>
+            <a
+              href={`#letter-${letter}`}
+              class="text-sm font-medium text-moss hover:text-rust no-underline min-w-[32px] min-h-[32px] flex items-center justify-center rounded"
+            >
+              {letter}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container max-w-3xl">
+      {letters.map((letter) => (
+        <div id={`letter-${letter}`} class="mb-10">
+          <h2 class="text-2xl font-serif text-stone mb-4 border-b border-stone/20 pb-2">{letter}</h2>
+          <dl class="flex flex-col gap-6">
+            {grouped[letter].map((entry) => (
+              <div>
+                <dt class="font-semibold text-off-black mb-1" id={`term-${entry.term.toLowerCase().replace(/\s+/g, '-')}`}>
+                  {entry.term}
+                </dt>
+                <dd class="text-bark/80 text-sm max-w-none">{entry.definition}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      ))}
+      <p class="text-sm text-stone italic mt-8">
+        More terms are added as modules are written. Last updated: 2026-05-09.
+      </p>
+    </div>
+  </section>
+</Layout>
