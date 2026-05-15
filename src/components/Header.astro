@@ -38,9 +38,8 @@ const currentPath = Astro.url.pathname;
         </a>
       ))}
       <!-- Search trigger -->
-      <button
-        id="search-trigger"
-        type="button"
+      <a
+        href="/search"
         aria-label="Open search"
         class="ml-2 p-2 rounded text-bark hover:text-rust hover:bg-mauve-faint transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
       >
@@ -48,14 +47,13 @@ const currentPath = Astro.url.pathname;
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-      </button>
+      </a>
     </nav>
 
     <!-- Mobile: search + hamburger -->
     <div class="flex items-center gap-2 md:hidden">
-      <button
-        id="search-trigger-mobile"
-        type="button"
+      <a
+        href="/search"
         aria-label="Open search"
         class="p-2 rounded text-bark hover:text-rust min-w-[44px] min-h-[44px] flex items-center justify-center"
       >
@@ -63,7 +61,7 @@ const currentPath = Astro.url.pathname;
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-      </button>
+      </a>
       <button
         id="mobile-nav-trigger"
         type="button"

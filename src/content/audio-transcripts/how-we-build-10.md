@@ -1,0 +1,180 @@
+# Transcript: how-we-build-10
+
+Audio narration placeholder for this module.
+
+If you sat down to build a full client site in a single Claude session, two things would happen. First, it would go well for a while. Claude would produce good work, follow the spec, build out components thoughtfully. Then, somewhere past the midpoint, the quality would drop. Responses would lose context. Things that were decided two hours ago would get contradicted. The site would start looking like it was built by two different people who had not talked to each other.
+
+That is not a Claude failure. That is a context window, working exactly as designed.
+
+This module explains what a context window is, why it matters for builds, and how the Keiter phased kickoff system solves the problem.
+
+What a context window is
+
+A context window is the amount of information a language model can hold in memory during a single conversation. Everything in the conversation, every message, every response, every file pasted in, every code block, every instruction, counts against that limit.
+
+When the conversation exceeds the limit, the model does not crash. It just loses access to the oldest parts of the conversation. It can no longer "see" what was said early on. It continues working with whatever is still in the window.
+
+  A context window is not infinite memory. It is a sliding window. Old information falls out as new information comes in. Long sessions lose their beginning.
+
+For a short task like "write a product description for this coffee shop" or "fix this CSS bug," the context window is not a problem. The task fits comfortably inside it.
+
+For a full site build with twenty components, six pages, a content schema, responsive layouts, SEO, AEO, and a full Definition of Done checklist, the context window is a real constraint. The build does not fit in a single session without quality degrading.
+
+What happens when context runs out
+
+The pattern is recognizable if you know to look for it:
+
+Early in the session, everything is consistent. Colors match. Component patterns hold. Instructions are followed.
+
+Later in the session, drift appears. A button that was one color is now a slightly different shade. A component that was built one way is now built differently. A decision that was made at the start of the session is quietly reversed.
+
+When you catch it, you explain what the correct state is, Claude corrects it, and things get back on track. For a while. Then drift appears again.
+
+The deeper the session, the more time you spend correcting rather than building. At some point the session is not productive anymore.
+
+This is the context window problem. The fix is not to work faster. The fix is to not put a full build in a single session.
+
+The Keiter solution: phased kickoffs
+
+The Keiter & Co. solution is to break every build into phases. Each phase has a specific, bounded scope. Each phase ends with a handoff note. Each new phase starts with the handoff note in context, not the entire previous session.
+
+This does four things:
+
+1. Keeps each session manageable. A phase that covers scaffold and shell is one scope. A phase that covers content is another. A phase that covers interactive components is another. Each one fits in a session.
+
+2. Creates a clean restart point. A new phase starts fresh. The context window is clear. Claude is not carrying the weight of everything that happened six hours ago.
+
+3. Documents decisions explicitly. The handoff note captures what was done, what was deferred, what the next phase needs to know, and any open questions. That information does not have to survive in Claude's memory because it is written down.
+
+4. Surfaces problems at phase boundaries. If something went wrong in Phase 3, the Phase 3 handoff note says so. Phase 4 starts knowing about the problem and can account for it. Problems do not silently accumulate.
+
+  "Every build follows a spec-first workflow. No exceptions. Before any code is written, all three build documents exist and are human-approved."
+
+Structure of a phase
+
+A Keiter & Co. phase has six parts. You saw these in Module 09. Here they are in the context of context window management:
+
+Inputs. What documents and prior states must exist before this phase starts. This is the explicit answer to "what does Claude need to know coming in?" The inputs list is what you paste into the new session before anything else.
+
+Goal. One sentence on what this phase produces. If the phase does not produce that thing, the phase is not done.
+
+Tasks. An ordered list of specific things to do. Each task is concrete. "Build the Header component" is concrete. "Set up the site" is not.
+
+Quality gates. The checks that must pass before this phase is complete. These are not optional. If a gate fails, fix it before writing the handoff note.
+
+Stop conditions. The situations where the builder should stop and surface a question rather than make an assumption.
+
+Handoff note. A structured note written at the end of the phase. More on this below.
+
+The handoff note
+
+The handoff note is the most important thing you write in any phase. It is the document that makes the next phase possible without re-reading everything from the beginning.
+
+A complete handoff note covers:
+
+Done. Every task that was completed in this phase, listed specifically. Not "built the components" but "built Header, Footer, MobileNav, Callout, ModuleCard."
+
+Deferred. Anything that was stubbed or left as a placeholder, with a note on what it needs.
+
+Known issues. Anything that is off, even minor. A color that is slightly wrong. A mobile layout that is close but not quite right. Document it. Do not paper over it.
+
+State. The current localhost URL. The last git commit hash and message. The next phase name.
+
+For Olivia. Any decision needed before the next phase starts. Any question that came up and was not resolved.
+
+  Done:
+  - Astro project initialized with @astrojs/mdx, @astrojs/tailwind, @astrojs/react, astro-pagefind
+  - Tailwind configured with full academy brand theme (cream, warm-white, moss, rust, bark, stone, off-black)
+  - Layout.astro with head, OpenGraph, font preload, GA snippet (gated on GA_ID), schema slot, body
+  - Header.astro with logo, top nav, search trigger, mobile hamburger
+  - Footer.astro minimal per Keiter standard
+  - MobileNav.astro hamburger overlay with same nav items
+  - 404.astro branded, voice matches academy, links home
+  - All routes from the spec stubbed and rendering placeholder content
+
+  Deferred to later phases:
+  - Font files: Layout.astro preloads them, but the actual WOFF2 files need to be downloaded and placed in public/fonts/ (BUILDNOTES entry added)
+  - Hero image: placeholder in place, real photo lands in Phase 7
+  - OG default image: placeholder reference in Layout.astro, real image lands in Phase 11
+  - Favicon: Astro default, branded version lands in Phase 11
+
+  Known issues:
+  - None that are not already covered by the deferred items above
+
+  State:
+  - Localhost: http://localhost:4321
+  - Last commit: Initial scaffold: Layout, Header, Footer, MobileNav, 404, all routes stubbed
+  - Next phase: Phase 2 (Content infrastructure)
+
+  For Olivia:
+  - Confirm GA property ID when ready (currently placeholder string in netlify.toml)
+
+That handoff note is what Phase 2 starts with. The builder pastes it in, reads it, and knows exactly where things stand without needing to review the entire Phase 1 session.
+
+The twelve-phase academy kickoff
+
+The academy itself uses a twelve-phase kickoff. Each phase is a section in keiter-and-co-academy.kickoff.md. Here is how the phases are organized:
+
+- Phase 1: Scaffold and shell
+- Phase 2: Content infrastructure
+- Phase 3: Self-sourced content, batch 1 (Modules 01, 02, 06, 09, 10, 11)
+- Phase 4: Self-sourced content, batch 2 (Modules 12, 13, 14, 16, 17, 18)
+- Phase 5: Self-sourced content, batch 3 (Modules 19, 20, 23)
+- Phase 6: Original content drafts (Modules 03, 04, 05, 21)
+- Phase 7: Working session placeholders (Modules 07, 08, 15, 22)
+- Phase 8: Interactive components, group 1
+- Phase 9: Interactive components, group 2
+- Phase 10: Audio companion infrastructure and placeholder narration
+- Phase 11: SEO, AEO, schema, and full DOD pass
+- Phase 12: Netlify deploy, DNS configuration, go-live
+
+You are reading a module that was produced in Phase 3. The module was written in a session that started with the Phase 2 handoff note and the Phase 3 inputs, not with the full history of the build.
+
+That is the system working.
+
+  The full twelve-phase kickoff is at keiter-and-co-academy.kickoff.md in the academy repo root. Read it alongside this module. It is a working example of a complete multi-phase kickoff for a mid-complexity build.
+
+Stop gates
+
+Every phase has stop conditions. These are specific situations where the right move is to stop, write a handoff note describing what is blocking progress, and surface the problem to Olivia or Alex before continuing.
+
+Stop gates exist because the alternative is worse. If a phase runs into an ambiguous situation and makes a guess to keep going, the guess may be wrong. If the guess is wrong and the next phase builds on top of it, the wrong assumption compounds. By the time the problem is visible, multiple phases of work are sitting on a bad foundation.
+
+Stop gates prevent compound errors. They are not failures. They are the system catching a problem before it becomes expensive.
+
+Common stop conditions:
+
+- A source-of-truth document cannot be located (stop and ask rather than invent)
+- A client decision is needed and cannot be inferred (stop and surface)
+- A quality gate fails and the fix is not obvious (stop and document before continuing)
+- The phase goal cannot be met without information only Olivia or Alex has (stop and ask)
+
+When a phase stops, write the handoff note anyway. Document what was done, what was deferred, and specifically what is blocking the next step. The handoff note is not just for successful phase completions.
+
+Practical guidance for small builds
+
+The full twelve-phase system is right-sized for the academy, which is a substantial build. A Standard-tier client site does not need twelve phases. It needs however many phases make sense for the scope.
+
+A reasonable starter structure for a Standard-tier site:
+
+Phase 1: Scaffold and shell (Astro init, Tailwind, Layout, Header, Footer, all routes stubbed)
+
+Phase 2: Page content (all pages written and rendering with real content)
+
+Phase 3: SEO, schema, and accessibility pass (meta, schema markup, WCAG checks, DOD checklist)
+
+Phase 4: Pre-launch review and go-live (final review, deploy, DNS, Welcome to the Family guide)
+
+That is four phases for a site that might take a weekend of build time. Each phase fits in a session. Each phase ends with a handoff note. Nothing falls out of the context window because nothing lives in the context window longer than one phase.
+
+Context window size is not the point
+
+Claude's context window has grown significantly and will continue to grow. A future version of Claude may handle a complete site build in a single session without quality degradation.
+
+The phased approach is still worth keeping. Not because of the context window limit, but because of what the handoff notes force. They force you to articulate what you built, what you left, and what comes next. That articulation is valuable independent of the AI. It is the difference between a build you can explain and a build you can only remember.
+
+The interactive component
+
+The tool below shows a simplified, animated version of what happens to a context window during a long build session. You can see the window filling up and older context falling out. It then shows the same build structured as phases, and how the handoff note carries the relevant context into the next session without requiring the entire history.
+
+Interactive component here. Use the live site to try it.

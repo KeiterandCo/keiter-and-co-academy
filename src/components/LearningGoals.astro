@@ -1,0 +1,31 @@
+---
+// LearningGoals.astro
+// Renders a small, scannable list of learning goals at the top of a module page.
+
+interface Props {
+  goals: string[];
+}
+
+const { goals } = Astro.props;
+---
+
+<div class="bg-cream border border-stone/20 rounded-lg px-5 py-4 my-6">
+  <p class="text-xs font-semibold text-stone uppercase tracking-wide mb-3">After this module you will be able to</p>
+  <ul class="space-y-2 list-none p-0 m-0">
+    {goals.map((goal) => (
+      <li class="flex items-start gap-2.5 text-sm text-off-black leading-relaxed">
+        <svg
+          aria-hidden="true"
+          class="w-4 h-4 text-moss shrink-0 mt-0.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        {goal}
+      </li>
+    ))}
+  </ul>
+</div>

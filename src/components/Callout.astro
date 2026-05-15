@@ -1,0 +1,68 @@
+---
+// Callout.astro
+// Variants: source-of-truth, warning, example, key-rule, under-construction
+// Each has a distinct visual style and semantic role.
+
+interface Props {
+  variant: 'source-of-truth' | 'warning' | 'example' | 'key-rule' | 'under-construction';
+  title?: string;
+}
+
+const { variant, title } = Astro.props;
+
+const variants = {
+  'source-of-truth': {
+    containerClass: 'bg-moss/8 border-l-4 border-moss',
+    iconLabel: 'Source of truth',
+    defaultTitle: 'Source of truth',
+    titleClass: 'text-moss font-semibold',
+    icon: `<svg aria-hidden="true" class="w-4 h-4 text-moss shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>`,
+  },
+  'warning': {
+    containerClass: 'bg-rust/8 border-l-4 border-rust',
+    iconLabel: 'Warning',
+    defaultTitle: 'Watch out',
+    titleClass: 'text-rust font-semibold',
+    icon: `<svg aria-hidden="true" class="w-4 h-4 text-rust shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>`,
+  },
+  'example': {
+    containerClass: 'bg-bark/8 border-l-4 border-bark',
+    iconLabel: 'Example',
+    defaultTitle: 'Example',
+    titleClass: 'text-bark font-semibold',
+    icon: `<svg aria-hidden="true" class="w-4 h-4 text-bark shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`,
+  },
+  'key-rule': {
+    containerClass: 'bg-cream border border-stone/30',
+    iconLabel: 'Key rule',
+    defaultTitle: 'Key rule',
+    titleClass: 'text-off-black font-semibold',
+    icon: `<svg aria-hidden="true" class="w-4 h-4 text-off-black shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>`,
+  },
+  'under-construction': {
+    containerClass: 'bg-rust/10 border border-rust/30 border-dashed',
+    iconLabel: 'Under construction',
+    defaultTitle: 'Under construction',
+    titleClass: 'text-rust font-semibold',
+    icon: `<svg aria-hidden="true" class="w-4 h-4 text-rust shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 20h16M6 20V8l6-4 6 4v12M10 12h4M10 16h4" /></svg>`,
+  },
+};
+
+const config = variants[variant];
+const displayTitle = title ?? config.defaultTitle;
+---
+
+<aside
+  class={`rounded-r-lg px-4 py-3 my-6 ${config.containerClass}`}
+  aria-label={`${config.iconLabel}: ${displayTitle}`}
+>
+  <div class="flex items-start gap-2.5">
+    <Fragment set:html={config.icon} />
+    <div class="min-w-0">
+      <p class={`text-sm mb-1 ${config.titleClass}`}>{displayTitle}</p>
+      <div class="text-sm text-off-black leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:mb-1">
+        <slot />
+      </div>
+    </div>
+  </div>
+</aside>

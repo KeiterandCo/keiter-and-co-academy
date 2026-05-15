@@ -30,8 +30,8 @@ const parts = [
     desc: 'Voice, tone, the hard formatting rules, and how to hold the principles when it is hard.',
     modules: [
       { number: '06', title: 'Voice and tone', time: '15 min', href: '/curriculum/how-we-think/06' },
-      { number: '07', title: 'Voice discovery', time: '25 min', href: '/curriculum/how-we-think/07' },
-      { number: '08', title: 'Decision-making and the standing principles in action', time: '20 min', href: '/curriculum/how-we-think/08' },
+      { number: '07', title: 'Voice discovery', time: '25 min', href: '/curriculum/how-we-think/07', status: 'Coming soon: working session in progress.' },
+      { number: '08', title: 'Decision-making and the standing principles in action', time: '20 min', href: '/curriculum/how-we-think/08', status: 'Coming soon: working session in progress.' },
     ],
   },
   {
@@ -54,7 +54,7 @@ const parts = [
     title: 'How we run the business',
     desc: 'Intake, proposals, infrastructure, launch, and ongoing client care.',
     modules: [
-      { number: '15', title: 'Intake', time: '28 min', href: '/curriculum/business/15' },
+      { number: '15', title: 'Intake', time: '28 min', href: '/curriculum/business/15', status: 'Coming soon: working session in progress.' },
       { number: '16', title: 'Pricing, tiers, Care Plans, and the no-upfront plan', time: '22 min', href: '/curriculum/business/16' },
       { number: '17', title: 'Proposals, contracts, and payment', time: '25 min', href: '/curriculum/business/17' },
       { number: '18', title: 'Infrastructure', time: '30 min', href: '/curriculum/business/18' },
@@ -69,16 +69,38 @@ const parts = [
     desc: 'A real walkthrough, a capstone build, and the reference templates you will reach for every time.',
     modules: [
       { number: '21', title: 'The Outpost Vending walkthrough', time: '45 min', href: '/curriculum/practice/21' },
-      { number: '22', title: 'Capstone build', time: 'Variable', href: '/curriculum/practice/22' },
+      { number: '22', title: 'Capstone build', time: 'Variable', href: '/curriculum/practice/22', status: 'Coming soon: working session in progress.' },
       { number: '23', title: 'Reference, templates, and cheat sheets', time: '5 min', href: '/curriculum/practice/23' },
     ],
   },
 ];
+
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  '@id': 'https://learn.keiterandco.com/curriculum/#course',
+  name: 'Keiter & Co. Academy Curriculum',
+  description: 'A self-paced course that teaches operators to run a full Keiter client build from intake through launch and ongoing care.',
+  educationalLevel: 'Beginner to advanced',
+  provider: {
+    '@id': 'https://learn.keiterandco.com/#localbusiness',
+  },
+  inLanguage: 'en-US',
+  teaches: [
+    'Choose the right Claude surface for a build task.',
+    'Run intake and produce a build brief.',
+    'Write a decision log, a spec, and a phased kickoff.',
+    'Apply WCAG 2.2 AA, SEO, AEO, and mobile standards.',
+    'Launch a complete client site and support ongoing care plans.',
+  ],
+};
 ---
 
 <Layout
   title="Curriculum"
-  description="The full Keiter & Co. Academy module catalog. Six parts, twenty-three modules, covering everything from AI basics to running a complete client engagement."
+  metaTitle="Curriculum | Keiter & Co. Academy"
+  description="Browse the full Keiter & Co. Academy curriculum with six parts and twenty-three modules from AI basics through full client delivery."
+  schema={courseSchema}
 >
   <section class="section bg-warm-white border-b border-stone/20">
     <div class="container">
@@ -109,7 +131,14 @@ const parts = [
                   class="flex items-center gap-4 bg-cream border border-stone/20 rounded-lg px-4 py-3 hover:border-moss hover:-translate-y-0.5 transition-all no-underline group"
                 >
                   <span class="text-xs font-mono text-stone shrink-0 w-6">{mod.number}</span>
-                  <span class="flex-1 text-sm font-medium text-bark group-hover:text-rust transition-colors">{mod.title}</span>
+                  <div class="flex-1 min-w-0">
+                    <span class="text-sm font-medium text-bark group-hover:text-rust transition-colors block">{mod.title}</span>
+                    {mod.status && (
+                      <span class="inline-flex mt-1 text-[11px] font-semibold text-rust bg-rust/10 border border-rust/30 rounded-full px-2 py-0.5 leading-tight">
+                        {mod.status}
+                      </span>
+                    )}
+                  </div>
                   <span class="text-xs text-stone shrink-0">{mod.time}</span>
                 </a>
               </li>

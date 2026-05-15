@@ -1,0 +1,235 @@
+---
+title: "Build standards II: the personality and polish layer"
+partSlug: "how-we-build"
+moduleNumber: "12"
+learningGoal: "Build a site with a real personality. Animations, hover states, SVG, font loading, image standards, color contrast, and the full polish checklist."
+learningResourceType: "reading"
+estimatedMinutes: 40
+prerequisites: ["how-we-build-11"]
+sourceOfTruth:
+  - "Build standards section of keiter-and-co-academy.spec.md"
+  - "CLAUDE.md, Build standards summary section"
+  - "keiter-and-co-academy.kickoff.md, Phase 4"
+lastReviewed: 2026-05-09
+audioFile: "/audio/how-we-build-12.mp3"
+transcriptFile: "how-we-build-12.md"
+interactiveComponent: "FirstDraftQualityBar"
+---
+
+import Callout from '../../components/Callout.astro';
+
+Some sites are technically correct and still feel dead. The layout works. The links work. The forms submit. Nothing is broken, but nothing sticks either.
+
+Keiter & Co. does not treat personality as decoration added at the end. Personality is part of whether the build is done. It starts in the first draft, and the polish layer is what keeps a site from feeling like a wireframe that accidentally shipped.
+
+This module covers the second half of the build standards. Module 11 covered structure, accessibility, SEO, AEO, and mobile. This one covers the layer that makes the site feel cared for.
+
+---
+
+## Personality is a build standard
+
+The academy spec is explicit about this. Online personality is a gate, not a preference. Hover states, motion, SVG, card treatments, badges where they make sense, section variety, real footer rules, non-flat hero treatment, all of it belongs to the build itself.
+
+<Callout variant="source-of-truth" title="Source: keiter-and-co-academy.spec.md">
+  Online personality includes scroll-triggered entrance animations on key sections, hover states on all interactive elements, at least one SVG animation, cards, tags, and badges where content supports them, and section variety so two consecutive sections do not feel copy-pasted.
+</Callout>
+
+That matters because small business sites live or die on trust. If the first draft feels generic, the client feels generic. If the page feels considered, the business feels considered.
+
+---
+
+## Build it in from the first draft
+
+Do not treat personality like a final frosting pass. If the first build is a stack of white boxes with placeholder buttons, the later polish pass has to rebuild half the page. The better move is to decide the visual rhythm early.
+
+Questions to answer in the first draft:
+
+- What does the hero feel like, not just what does it say?
+- Which sections need contrast in background or layout so the page has a pace to it?
+- Where does motion add energy, and where would motion be annoying?
+- What repeated UI elements deserve a card, badge, tag, or icon treatment?
+- What part of the client's personality belongs in the page furniture, not just the copy?
+
+For Keiter builds, section variety is one of the easiest ways to avoid sameness. If one section is cream with a card grid, the next might be warm white with a two-column split, then a moss-tinted callout band, then a photo-led strip. You are building a sequence, not a pile.
+
+---
+
+## Motion should reinforce the page
+
+Motion is part of online personality, but it still has a job. It should help reveal content, support focus, or give the page a little life. It should not feel like a preset turned on because the builder got bored.
+
+Good Keiter motion patterns:
+
+- A heading block easing up into place as the section enters the viewport
+- Cards staggering in with a slight delay so the section reads in order
+- A button or link changing color and underline weight on hover
+- An SVG line drawing or checklist animation that fits the page's story
+
+Weak motion patterns:
+
+- Everything moving at once on load
+- Long float animations that never stop
+- Overly springy transitions that make the page feel playful when the business is not playful
+- Motion that hides the content until the animation finishes
+
+<Callout variant="key-rule">
+  Motion is there to support reading, not interrupt it. If the animation calls more attention to itself than to the content, trim it back.
+</Callout>
+
+The academy spec requires at least one SVG animation. That requirement exists to force intention. A site should have one moment that feels handmade.
+
+---
+
+## Hover states and focus states are part of the same discipline
+
+People notice hover states because they signal care. People need focus states because they signal access. In practice, the same builder discipline produces both.
+
+If a link has no hover state, it feels unfinished.
+
+If a button has no focus state, it is unfinished.
+
+If a card looks interactive but does not change at all when someone hovers or tabs to it, it feels uncertain.
+
+The polished version is small, not flashy:
+
+- Link color deepens or warms on hover
+- Underlines appear or thicken deliberately
+- Buttons shift background and border with clear contrast
+- Focus ring stays visible and high-contrast on every interactive element
+
+That is enough. A strong hover and focus system makes the whole page feel more expensive.
+
+---
+
+## Font loading is not optional polish
+
+Font loading lives in the polish layer because people notice it immediately. A page that flashes invisible text or swaps awkwardly from one font to another feels broken before anyone reads a word.
+
+The academy rules are simple:
+
+- Primary fonts are preloaded in the head
+- Every font face uses `font-display: swap`
+- The system fallback stack should be close enough that the swap does not feel jarring
+
+<Callout variant="source-of-truth" title="Source: CLAUDE.md, Build standards summary">
+  Font loading standard: primary fonts preloaded in head, `font-display: swap`, system fallback stack.
+</Callout>
+
+This is why BUILDNOTES already includes an open item for the academy font files. The layout is wired for self-hosted fonts. The final files still need to be placed in `public/fonts/`. Until they are, the fallback stack keeps the page readable, but the font loading gate is not fully passed.
+
+---
+
+## Images need real direction
+
+The image standard is one of the clearest places where Keiter avoids generic work. Every photo slot needs a detailed description and an aspect ratio. Not "team photo here." Not "hero image goes here." A real description.
+
+That description should tell the next person exactly what image belongs in the slot:
+
+- subject
+- setting
+- lighting
+- framing
+- aspect ratio
+- why the image belongs there
+
+The academy landing page hero note is a good example. It names Olivia at her desk in the farmhouse, soft natural light, work in progress on screen, kids' artwork on the wall behind her, and a 16:9 crop. That is specific enough to judge whether a photo fits before it ever reaches the page.
+
+Detailed image notes also make accessibility better. If you know what the image is supposed to communicate, writing useful alt text gets easier.
+
+---
+
+## Section and layout standards
+
+The academy spec names section and layout gates directly:
+
+- minimum four sections per page
+- hero with headline, subheadline, CTA, and a non-flat background
+- Tailwind default spacing scale used throughout
+
+Those rules exist to protect rhythm and restraint at the same time.
+
+The four-section minimum prevents pages from feeling thin.
+
+The non-flat hero background prevents the page from opening like a document.
+
+The Tailwind default spacing scale prevents the builder from solving every layout problem with random custom numbers.
+
+When spacing is consistent, pages feel steadier. When every section uses a different made-up spacing value, the site feels slightly off even if the reader cannot name why.
+
+---
+
+## Color contrast is part of the polish layer too
+
+Module 11 covered accessibility contrast requirements. Here the point is different. Contrast is also visual discipline.
+
+The academy Definition of Done requires build-time contrast checks on:
+
+- body text on page background
+- heading text on any background
+- nav text on nav background, desktop and mobile
+- button text in default, hover, and focus states
+- card text on card backgrounds
+- text rendered over images or gradients
+
+The places where polished pages most often fail are the places the builder wants to get clever, hero overlays, tinted cards, soft secondary labels, and pale buttons. That is why contrast is checked before launch, while the component is still easy to fix.
+
+---
+
+## Footer, 404, social slots, and CTA audit
+
+Polish is not only for the hero. It shows up in the quiet parts of the site too.
+
+### Footer
+
+The footer is minimal by Keiter standard, but minimal is not the same as empty. It still needs hierarchy, spacing, and a clear exit path. The footer should feel finished, not forgotten.
+
+### 404
+
+The 404 page is another direct gate. It must be branded, match the academy voice, and point people home. A default framework 404 tells the visitor the build stopped short.
+
+### Social slots
+
+The code should support social links, but unused slots stay hidden. Empty icons are visual noise and false promise.
+
+### CTA audit
+
+Every page needs at least one clear next action. That does not mean every section needs a button. It means no page should strand the reader at the bottom wondering what comes next.
+
+<Callout variant="example" title="CTA audit in practice">
+  On a module page, the next action might be "Next module" plus "Back to part index." On a landing page, it is the main "Start the curriculum" CTA. On a resources page, it is a download or a path into the curriculum. The point is directional clarity.
+</Callout>
+
+---
+
+## Dark mode off means off
+
+The academy spec is unusually direct here: dark mode is off in v1. Do not add it silently.
+
+That rule is useful because dark mode is a common builder reflex. It feels like a free upgrade. Usually it is not. It doubles the visual QA surface, doubles contrast checks, changes photo treatment, and changes brand feel. If the project did not ask for it, do not ship it because you felt like it.
+
+The same goes for print. The print stylesheet does not need to be fancy. It needs to be useful. Black text on white background. Nav hidden. Footer flourishes hidden. Contact details visible where relevant.
+
+That is enough.
+
+---
+
+## A practical first-draft review
+
+Before showing a first draft to Olivia or a client, run this pass:
+
+1. Scroll the page top to bottom and ask whether each section feels distinct from the one before it.
+2. Hover every interactive element and tab through the page once.
+3. Check whether there is at least one moment of visual personality, a motion reveal, an SVG, a card pattern, a layout break.
+4. Confirm the hero opens with atmosphere, not a flat block.
+5. Confirm the footer, 404 page, and next actions all feel intentional.
+
+If the page passes accessibility and still feels bland, the page is not done. That is the point of this module.
+
+{/* Interactive component stub: FirstDraftQualityBar. Learner describes a page draft in plain language, section by section. The tool scores whether the page includes section variety, hover states, at least one motion moment, a non-flat hero, footer treatment, and a clear CTA. Output is a simple pass / revise report with short suggestions. No external API. */}
+
+<div class="bg-cream border border-stone/30 rounded-lg p-6 my-8 text-sm">
+  <p class="font-semibold text-off-black mb-2">Interactive: First-draft quality bar</p>
+  <p class="text-stone">This tool arrives in Phase 9. In the meantime: take one page you have built, write down each section in order, and circle where the page has real energy. If you cannot point to a single section transition, hover state, or motion moment that feels intentional, the draft needs another pass.</p>
+</div>
+
+{/* Photo placeholder: Desktop monitor showing a homepage draft in the browser with several distinct sections visible, color swatches and type samples on paper beside the keyboard, warm late-afternoon light across the desk, 16:9 aspect ratio. The image should communicate active visual review, not staged perfection. */}

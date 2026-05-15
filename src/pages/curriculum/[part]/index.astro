@@ -41,8 +41,8 @@ export function getStaticPaths() {
         intro: 'The Keiter method has a voice and a set of values that travel into every piece of work. This part makes them explicit: the voice, the hard formatting rules, and how to hold the standing principles when a situation tests them.',
         modules: [
           { number: '06', title: 'Voice and tone', time: '15 min', goal: 'Identify when copy violates the Keiter rules and rewrite it. Internalize the hard formatting rule and the rules that travel with every build.', href: '/curriculum/how-we-think/06' },
-          { number: '07', title: 'Voice discovery', time: '25 min', goal: 'Run a voice discovery conversation with a client and extract the language patterns, values, and tone the client actually uses.', href: '/curriculum/how-we-think/07' },
-          { number: '08', title: 'Decision-making and the standing principles in action', time: '20 min', goal: 'Hold the standing principles when a client asks for something that violates them. Navigate ambiguous build decisions using a documented framework.', href: '/curriculum/how-we-think/08' },
+          { number: '07', title: 'Voice discovery', time: '25 min', goal: 'Run a voice discovery conversation with a client and extract the language patterns, values, and tone the client actually uses.', href: '/curriculum/how-we-think/07', status: 'Coming soon: working session in progress.' },
+          { number: '08', title: 'Decision-making and the standing principles in action', time: '20 min', goal: 'Hold the standing principles when a client asks for something that violates them. Navigate ambiguous build decisions using a documented framework.', href: '/curriculum/how-we-think/08', status: 'Coming soon: working session in progress.' },
         ],
         prevPart: { label: 'Part 2', title: 'The tools', href: '/curriculum/tools' },
         nextPart: { label: 'Part 4', title: 'How we build', href: '/curriculum/how-we-build' },
@@ -73,7 +73,7 @@ export function getStaticPaths() {
         title: 'How we run the business',
         intro: 'A Keiter operator who can only build is not a Keiter operator. This part covers the full business operation: intake, pricing, proposals, infrastructure setup, launch handoff, and ongoing client care.',
         modules: [
-          { number: '15', title: 'Intake', time: '28 min', goal: 'Run a full Keiter intake conversation, produce a build brief, and recognize when intake notes are too vague to proceed.', href: '/curriculum/business/15' },
+          { number: '15', title: 'Intake', time: '28 min', goal: 'Run a full Keiter intake conversation, produce a build brief, and recognize when intake notes are too vague to proceed.', href: '/curriculum/business/15', status: 'Coming soon: working session in progress.' },
           { number: '16', title: 'Pricing, tiers, Care Plans, and the no-upfront plan', time: '22 min', goal: 'Explain every tier, every Care Plan, and the no-upfront option to a prospect in plain language. Scope a project to the right tier.', href: '/curriculum/business/16' },
           { number: '17', title: 'Proposals, contracts, and payment', time: '25 min', goal: 'Produce a one-page proposal in the Keiter format, run a HoneyBook contract and deposit flow, and handle payment edge cases.', href: '/curriculum/business/17' },
           { number: '18', title: 'Infrastructure', time: '30 min', goal: 'Stand up a client site infrastructure: domain registration, Netlify hosting and DNS, GitHub repo, first deploy. Troubleshoot the most common deploy failures.', href: '/curriculum/business/18' },
@@ -92,7 +92,7 @@ export function getStaticPaths() {
         intro: 'The curriculum ends with doing. A guided walkthrough of a real Keiter build, a capstone where you run one yourself, and the reference templates you will reach for on every project after this.',
         modules: [
           { number: '21', title: 'The Outpost Vending walkthrough', time: '45 min', goal: 'Walk through a real Keiter & Co. build from intake notes through launched site, with the actual decision log, spec, and final code as reference material.', href: '/curriculum/practice/21' },
-          { number: '22', title: 'Capstone build', time: 'Variable', goal: 'Run a complete build solo: intake, three documents, multi-phase kickoff, build, launch checklist.', href: '/curriculum/practice/22' },
+          { number: '22', title: 'Capstone build', time: 'Variable', goal: 'Run a complete build solo: intake, three documents, multi-phase kickoff, build, launch checklist.', href: '/curriculum/practice/22', status: 'Coming soon: working session in progress.' },
           { number: '23', title: 'Reference, templates, and cheat sheets', time: '5 min', goal: 'Access the templates, checklists, and cheat sheets you need to operate without re-reading the curriculum.', href: '/curriculum/practice/23' },
         ],
         prevPart: { label: 'Part 5', title: 'How we run the business', href: '/curriculum/business' },
@@ -103,11 +103,20 @@ export function getStaticPaths() {
 }
 
 const { label, title, intro, modules, prevPart, nextPart } = Astro.props;
+
+function clampText(value: string, maxLength: number) {
+  if (value.length <= maxLength) return value;
+  return `${value.slice(0, maxLength - 3).trimEnd()}...`;
+}
+
+const partMetaTitle = clampText(`${label}: ${title}`, 58);
+const partMetaDescription = clampText(intro, 157);
 ---
 
 <Layout
   title={title}
-  description={intro}
+  metaTitle={partMetaTitle}
+  description={partMetaDescription}
 >
   <!-- Part header -->
   <section class="section bg-warm-white border-b border-stone/20">
@@ -128,7 +137,7 @@ const { label, title, intro, modules, prevPart, nextPart } = Astro.props;
   <section class="section">
     <div class="container max-w-3xl">
       <ul class="flex flex-col gap-4 list-none p-0 m-0">
-        {modules.map((mod: {number: string; title: string; time: string; goal: string; href: string}, i: number) => (
+        {modules.map((mod: {number: string; title: string; time: string; goal: string; href: string; status?: string}, i: number) => (
           <li>
             <a
               href={mod.href}
@@ -138,6 +147,11 @@ const { label, title, intro, modules, prevPart, nextPart } = Astro.props;
               <div class="flex-1 min-w-0">
                 <h2 class="text-base font-semibold mb-1 group-hover:text-rust transition-colors leading-snug">{mod.title}</h2>
                 <p class="text-sm text-bark/70 max-w-none mb-2">{mod.goal}</p>
+                {mod.status && (
+                  <p class="text-[11px] font-semibold text-rust bg-rust/10 border border-rust/30 rounded-full px-2 py-1 inline-flex mb-2">
+                    {mod.status}
+                  </p>
+                )}
                 <span class="text-xs text-stone">{mod.time}</span>
               </div>
             </a>

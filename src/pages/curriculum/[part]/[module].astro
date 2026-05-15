@@ -1,8 +1,16 @@
 ---
+import { getCollection, render } from 'astro:content';
+import { readFile } from 'node:fs/promises';
 import Layout from '../../../layouts/Layout.astro';
+import LearningGoals from '../../../components/LearningGoals.astro';
+import ProgressIndicator from '../../../components/ProgressIndicator.astro';
+import LastReviewed from '../../../components/LastReviewed.astro';
+import AudioPlayer from '../../../components/AudioPlayer.astro';
 
-// Module stub: /curriculum/[part]/[module]
-// All 23 modules are stubbed here. Real content lands in Phase 3 onward.
+// Module page: /curriculum/[part]/[module]
+// All 23 modules are statically defined so every route exists.
+// For modules with an MDX entry in src/content/modules/, real content renders.
+// All others show a placeholder until content phases are complete.
 
 type ModuleEntry = {
   title: string;
@@ -15,46 +23,7 @@ type ModuleEntry = {
   nextModule: string | null;
 };
 
-function buildModuleMap(): Record<string, Record<string, ModuleEntry>> {
-  return {
-  welcome: {
-    '01': { title: 'Welcome and how to use this curriculum', part: 'Welcome to Keiter & Co.', partSlug: 'welcome', moduleNumber: '01', estimatedMinutes: 8, goal: 'Understand what the academy is, who it is for, how to navigate it, and how long it takes.', prevModule: null, nextModule: '/curriculum/welcome/02' },
-    '02': { title: 'The Keiter & Co. operating system', part: 'Welcome to Keiter & Co.', partSlug: 'welcome', moduleNumber: '02', estimatedMinutes: 15, goal: 'Recite the five standing principles, name the partnership structure, and explain the constraints in plain language.', prevModule: '/curriculum/welcome/01', nextModule: '/curriculum/tools/03' },
-  },
-  tools: {
-    '03': { title: 'AI 101', part: 'The tools', partSlug: 'tools', moduleNumber: '03', estimatedMinutes: 12, goal: 'Define AI, LLM, and Claude in plain language. Explain why Keiter & Co. uses Claude specifically.', prevModule: '/curriculum/welcome/02', nextModule: '/curriculum/tools/04' },
-    '04': { title: 'The three Claude surfaces', part: 'The tools', partSlug: 'tools', moduleNumber: '04', estimatedMinutes: 18, goal: 'Choose between Claude Chat, Claude Code, and Cowork mode for a given task and explain why.', prevModule: '/curriculum/tools/03', nextModule: '/curriculum/tools/05' },
-    '05': { title: 'Working with Claude as your build partner', part: 'The tools', partSlug: 'tools', moduleNumber: '05', estimatedMinutes: 20, goal: 'Run a productive Claude session: confirming scope, automating instead of clicking, ending phases with handoff notes, recovering from a context window crash.', prevModule: '/curriculum/tools/04', nextModule: '/curriculum/how-we-think/06' },
-  },
-  'how-we-think': {
-    '06': { title: 'Voice and tone', part: 'How we think', partSlug: 'how-we-think', moduleNumber: '06', estimatedMinutes: 15, goal: 'Identify when copy violates the Keiter rules and rewrite it. Internalize the hard formatting rule and the rules that travel with every build.', prevModule: '/curriculum/tools/05', nextModule: '/curriculum/how-we-think/07' },
-    '07': { title: 'Voice discovery', part: 'How we think', partSlug: 'how-we-think', moduleNumber: '07', estimatedMinutes: 25, goal: 'Run a voice discovery conversation with a client and extract the language patterns, values, and tone the client actually uses.', prevModule: '/curriculum/how-we-think/06', nextModule: '/curriculum/how-we-think/08' },
-    '08': { title: 'Decision-making and the standing principles in action', part: 'How we think', partSlug: 'how-we-think', moduleNumber: '08', estimatedMinutes: 20, goal: 'Hold the standing principles when a client asks for something that violates them. Navigate ambiguous build decisions using a documented framework.', prevModule: '/curriculum/how-we-think/07', nextModule: '/curriculum/how-we-build/09' },
-  },
-  'how-we-build': {
-    '09': { title: 'The three-document system', part: 'How we build', partSlug: 'how-we-build', moduleNumber: '09', estimatedMinutes: 30, goal: 'Explain why Keiter produces a decision log, a spec, and a kickoff before any code. Write each one for a small build.', prevModule: '/curriculum/how-we-think/08', nextModule: '/curriculum/how-we-build/10' },
-    '10': { title: 'Phased prompts and context window management', part: 'How we build', partSlug: 'how-we-build', moduleNumber: '10', estimatedMinutes: 22, goal: 'Split a build into phases, write phase prompts that survive context window limits, and end every phase with a handoff note.', prevModule: '/curriculum/how-we-build/09', nextModule: '/curriculum/how-we-build/11' },
-    '11': { title: 'Build standards I: SEO, AEO, accessibility, mobile', part: 'How we build', partSlug: 'how-we-build', moduleNumber: '11', estimatedMinutes: 35, goal: 'Implement WCAG 2.2 AA, semantic HTML, schema markup, AEO content principles, and mobile-first layout.', prevModule: '/curriculum/how-we-build/10', nextModule: '/curriculum/how-we-build/12' },
-    '12': { title: 'Build standards II: the personality and polish layer', part: 'How we build', partSlug: 'how-we-build', moduleNumber: '12', estimatedMinutes: 40, goal: 'Build a site with a real personality. Animations, hover states, SVG, font loading, image standards, color contrast, and the full polish checklist.', prevModule: '/curriculum/how-we-build/11', nextModule: '/curriculum/how-we-build/13' },
-    '13': { title: 'Definition of Done and BUILDNOTES.md', part: 'How we build', partSlug: 'how-we-build', moduleNumber: '13', estimatedMinutes: 18, goal: 'Run the full DOD checklist against your own build and document remaining items in BUILDNOTES.md.', prevModule: '/curriculum/how-we-build/12', nextModule: '/curriculum/how-we-build/14' },
-    '14': { title: 'The agent fleet and automation queue', part: 'How we build', partSlug: 'how-we-build', moduleNumber: '14', estimatedMinutes: 18, goal: 'Understand what each Live agent does, what is in the Scoped queue, and how new automation gets added.', prevModule: '/curriculum/how-we-build/13', nextModule: '/curriculum/business/15' },
-  },
-  business: {
-    '15': { title: 'Intake', part: 'How we run the business', partSlug: 'business', moduleNumber: '15', estimatedMinutes: 28, goal: 'Run a full Keiter intake conversation, produce a build brief, and recognize when intake notes are too vague to proceed.', prevModule: '/curriculum/how-we-build/14', nextModule: '/curriculum/business/16' },
-    '16': { title: 'Pricing, tiers, Care Plans, and the no-upfront plan', part: 'How we run the business', partSlug: 'business', moduleNumber: '16', estimatedMinutes: 22, goal: 'Explain every tier, every Care Plan, and the no-upfront option to a prospect in plain language. Scope a project to the right tier.', prevModule: '/curriculum/business/15', nextModule: '/curriculum/business/17' },
-    '17': { title: 'Proposals, contracts, and payment', part: 'How we run the business', partSlug: 'business', moduleNumber: '17', estimatedMinutes: 25, goal: 'Produce a one-page proposal in the Keiter format, run a HoneyBook contract and deposit flow, and handle payment edge cases.', prevModule: '/curriculum/business/16', nextModule: '/curriculum/business/18' },
-    '18': { title: 'Infrastructure', part: 'How we run the business', partSlug: 'business', moduleNumber: '18', estimatedMinutes: 30, goal: 'Stand up a client site infrastructure: domain registration, Netlify hosting and DNS, GitHub repo, first deploy. Troubleshoot the most common deploy failures.', prevModule: '/curriculum/business/17', nextModule: '/curriculum/business/19' },
-    '19': { title: 'Launch and the Welcome to the Family guide', part: 'How we run the business', partSlug: 'business', moduleNumber: '19', estimatedMinutes: 25, goal: 'Take a build from ready-to-ship to client-is-live with a Welcome to the Family guide in hand.', prevModule: '/curriculum/business/18', nextModule: '/curriculum/business/20' },
-    '20': { title: 'Care Plans in practice, ongoing comms, offboarding', part: 'How we run the business', partSlug: 'business', moduleNumber: '20', estimatedMinutes: 25, goal: 'Run a Care Plan client month over month: analytics snapshot, monthly task, scope-change conversations, and clean offboarding.', prevModule: '/curriculum/business/19', nextModule: '/curriculum/practice/21' },
-  },
-  practice: {
-    '21': { title: 'The Outpost Vending walkthrough', part: 'Practice', partSlug: 'practice', moduleNumber: '21', estimatedMinutes: 45, goal: 'Walk through a real Keiter & Co. build from intake notes through launched site, with the actual decision log, spec, and final code as reference material.', prevModule: '/curriculum/business/20', nextModule: '/curriculum/practice/22' },
-    '22': { title: 'Capstone build', part: 'Practice', partSlug: 'practice', moduleNumber: '22', estimatedMinutes: 'Variable', goal: 'Run a complete build solo: intake, three documents, multi-phase kickoff, build, launch checklist.', prevModule: '/curriculum/practice/21', nextModule: '/curriculum/practice/23' },
-    '23': { title: 'Reference, templates, and cheat sheets', part: 'Practice', partSlug: 'practice', moduleNumber: '23', estimatedMinutes: 5, goal: 'Access the templates, checklists, and cheat sheets you need to operate without re-reading the curriculum.', prevModule: '/curriculum/practice/22', nextModule: null },
-  },
-  };
-}
-
+// Static module map used by getStaticPaths to generate all 23 module routes.
 export function getStaticPaths() {
   const map = {
     welcome: {
@@ -103,12 +72,100 @@ export function getStaticPaths() {
 }
 
 const { title, part: partLabel, partSlug, moduleNumber, estimatedMinutes, goal, prevModule, nextModule } = Astro.props as ModuleEntry;
+
+function clampText(value: string, maxLength: number) {
+  if (value.length <= maxLength) return value;
+  return `${value.slice(0, maxLength - 3).trimEnd()}...`;
+}
+
+const moduleMetaTitle = clampText(`Module ${moduleNumber}: ${title}`, 58);
+const moduleMetaDescription = clampText(goal, 157);
+
+// Progress data: position within part and overall curriculum
+const partModuleNumbers: Record<string, string[]> = {
+  welcome: ['01', '02'],
+  tools: ['03', '04', '05'],
+  'how-we-think': ['06', '07', '08'],
+  'how-we-build': ['09', '10', '11', '12', '13', '14'],
+  business: ['15', '16', '17', '18', '19', '20'],
+  practice: ['21', '22', '23'],
+};
+const partModules = partModuleNumbers[partSlug] ?? [];
+const partTotal = partModules.length;
+const partCurrent = partModules.indexOf(moduleNumber) + 1;
+const curriculumTotal = 23;
+const allModuleNumbers = Object.values(partModuleNumbers).flat();
+const curriculumCurrent = allModuleNumbers.indexOf(moduleNumber) + 1;
+
+// Content collection: find matching MDX entry if it exists
+const allCollectionModules = await getCollection('modules');
+const collectionEntry = allCollectionModules.find(
+  (m) => m.id === `${partSlug}-${moduleNumber}`
+);
+
+let Content: any = null;
+let lastReviewedDate: Date = new Date('2026-05-09');
+let sourceOfTruth: string[] = [];
+let audioFile: string | undefined;
+let transcriptText = '';
+
+if (collectionEntry) {
+  const rendered = await render(collectionEntry);
+  Content = rendered.Content;
+  lastReviewedDate = collectionEntry.data.lastReviewed;
+  sourceOfTruth = collectionEntry.data.sourceOfTruth ?? [];
+  audioFile = collectionEntry.data.audioFile;
+
+  const transcriptFile = collectionEntry.data.transcriptFile;
+  if (transcriptFile) {
+    try {
+      transcriptText = await readFile(
+        new URL(`../../../content/audio-transcripts/${transcriptFile}`, import.meta.url),
+        'utf-8'
+      );
+    } catch {
+      transcriptText = '';
+    }
+  }
+}
+
+const timeRequired = typeof estimatedMinutes === 'number' ? `PT${estimatedMinutes}M` : undefined;
+const learningResourceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LearningResource',
+  '@id': `https://learn.keiterandco.com/curriculum/${partSlug}/${moduleNumber}/#learning-resource`,
+  name: `Module ${moduleNumber}: ${title}`,
+  description: moduleMetaDescription,
+  learningResourceType: collectionEntry?.data.learningResourceType ?? 'reading',
+  educationalLevel: 'Beginner to advanced',
+  inLanguage: 'en-US',
+  isPartOf: {
+    '@id': 'https://learn.keiterandco.com/curriculum/#course',
+  },
+  about: goal,
+  ...(timeRequired ? { timeRequired } : {}),
+};
 ---
 
 <Layout
   title={`Module ${moduleNumber}: ${title}`}
-  description={goal}
+  metaTitle={moduleMetaTitle}
+  description={moduleMetaDescription}
+  ogType="article"
+  schema={learningResourceSchema}
 >
+  <!-- Sticky progress bar -->
+  <ProgressIndicator
+    moduleNumber={moduleNumber}
+    moduleTitle={title}
+    partLabel={partLabel}
+    partSlug={partSlug}
+    partCurrent={partCurrent}
+    partTotal={partTotal}
+    curriculumCurrent={curriculumCurrent}
+    curriculumTotal={curriculumTotal}
+  />
+
   <!-- Module header -->
   <section class="section bg-warm-white border-b border-stone/20">
     <div class="container max-w-3xl">
@@ -123,36 +180,61 @@ const { title, part: partLabel, partSlug, moduleNumber, estimatedMinutes, goal, 
       </nav>
       <p class="text-xs font-semibold text-moss uppercase tracking-wide mb-2">Module {moduleNumber}</p>
       <h1 class="mb-4">{title}</h1>
-      <div class="flex flex-wrap gap-4 text-sm text-stone">
+      <div class="flex flex-wrap items-center gap-4 text-sm text-stone">
         <span>{partLabel}</span>
         <span aria-hidden="true">|</span>
-        <span>{estimatedMinutes} {typeof estimatedMinutes === 'number' ? 'min read' : ''}</span>
+        <span>{estimatedMinutes}{typeof estimatedMinutes === 'number' ? ' min read' : ''}</span>
         <span aria-hidden="true">|</span>
-        <span>Last reviewed: 2026-05-09</span>
+        <!-- Mark complete toggle -->
+        <button
+          id={`complete-toggle-${moduleNumber}`}
+          type="button"
+          class="inline-flex items-center gap-1.5 text-sm font-medium text-moss border border-moss/30 rounded px-3 py-1 hover:bg-moss/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss min-h-[32px]"
+          aria-pressed="false"
+        >
+          <svg id={`complete-icon-${moduleNumber}`} aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span id={`complete-label-${moduleNumber}`}>Mark complete</span>
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- Audio player slot (hidden until audio file exists) -->
-  <!-- BUILDNOTES: Audio player goes here. Slot is empty until Phase 10. -->
+  {audioFile ? (
+    <AudioPlayer
+      moduleNumber={moduleNumber}
+      moduleTitle={title}
+      audioSrc={audioFile}
+      transcript={transcriptText}
+    />
+  ) : null}
 
-  <!-- Learning goal -->
+  <!-- Learning goals -->
   <section class="section border-b border-stone/20">
     <div class="container max-w-3xl">
-      <h2 class="text-lg mb-3">Learning goal</h2>
-      <p class="text-bark/80">{goal}</p>
+      <LearningGoals goals={[goal]} />
     </div>
   </section>
 
-  <!-- Content placeholder -->
-  <section class="section">
+  <!-- Module content -->
+  <section class="section" id="main-content">
     <div class="container max-w-3xl">
-      <div class="bg-mauve-faint border border-mauve rounded-lg p-6 text-sm text-bark">
-        <p class="font-semibold mb-2">This page is under construction.</p>
-        <p>
-          Module {moduleNumber} content lands in a later phase. The structure, navigation, and metadata are in place. Return once content phases are complete.
-        </p>
-      </div>
+      {Content ? (
+        <div class="prose prose-stone max-w-none leading-relaxed [&>p]:mb-4 [&>h2]:font-serif [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:text-off-black [&>h2]:mt-10 [&>h2]:mb-4 [&>h3]:font-serif [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:mt-8 [&>h3]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ul>li]:mb-2 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol>li]:mb-2">
+          <Content />
+        </div>
+      ) : (
+        <div class="bg-mauve-faint border border-mauve/40 rounded-lg p-6 text-sm text-bark">
+          <p class="font-semibold mb-2">This module is under construction.</p>
+          <p>
+            Module {moduleNumber} content lands in a later phase. The structure, navigation, and metadata are in place. Return once the content phases are complete.
+          </p>
+        </div>
+      )}
+
+      <!-- Last reviewed -->
+      <LastReviewed date={lastReviewedDate} sourceOfTruth={sourceOfTruth} />
     </div>
   </section>
 
@@ -185,7 +267,7 @@ const { title, part: partLabel, partSlug, moduleNumber, estimatedMinutes, goal, 
       <div class="mt-8 pt-6 border-t border-stone/20">
         <p class="text-xs text-stone">
           Found something off?
-          <a href="mailto:hello@keiterandco.com?subject=Academy feedback: Module {moduleNumber}" class="text-moss hover:text-rust">
+          <a href={`mailto:hello@keiterandco.com?subject=Academy feedback: Module ${moduleNumber}`} class="text-moss hover:text-rust">
             Let Olivia and Alex know.
           </a>
         </p>
@@ -193,3 +275,31 @@ const { title, part: partLabel, partSlug, moduleNumber, estimatedMinutes, goal, 
     </div>
   </section>
 </Layout>
+
+<script define:vars={{ moduleNumber }}>
+  const key = `academy-complete-${moduleNumber}`;
+  const btn = document.getElementById(`complete-toggle-${moduleNumber}`);
+  const label = document.getElementById(`complete-label-${moduleNumber}`);
+
+  function setComplete(done) {
+    if (!btn || !label) return;
+    btn.setAttribute('aria-pressed', done ? 'true' : 'false');
+    label.textContent = done ? 'Completed' : 'Mark complete';
+    if (done) {
+      btn.classList.add('bg-moss/10', 'border-moss');
+      btn.classList.remove('border-moss/30');
+    } else {
+      btn.classList.remove('bg-moss/10', 'border-moss');
+      btn.classList.add('border-moss/30');
+    }
+  }
+
+  // Initialize from localStorage
+  setComplete(localStorage.getItem(key) === 'true');
+
+  btn?.addEventListener('click', () => {
+    const current = localStorage.getItem(key) === 'true';
+    localStorage.setItem(key, current ? 'false' : 'true');
+    setComplete(!current);
+  });
+</script>

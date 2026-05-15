@@ -4,7 +4,8 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout
   title="Keiter & Co. Academy"
-  description="A self-paced curriculum that teaches a new operator how to run a Keiter & Co. build from zero. Intake, three-document workflow, build, launch, and ongoing client care."
+  metaTitle="Keiter & Co. Academy"
+  description="Learn the Keiter method from AI basics through intake, build, launch, and ongoing care in one practical self-paced curriculum."
 >
   <!-- Hero -->
   <section class="bg-warm-white border-b border-stone/20 section">
@@ -20,7 +21,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="flex flex-wrap gap-4">
           <a
             href="/curriculum"
-            class="inline-flex items-center bg-rust text-cream font-semibold px-6 py-3 rounded hover:bg-bark transition-colors no-underline min-h-[44px]"
+            class="inline-flex items-center bg-rust !text-cream font-semibold px-6 py-3 rounded hover:bg-bark transition-colors no-underline min-h-[44px]"
           >
             Start the curriculum
           </a>
@@ -62,7 +63,7 @@ import Layout from '../layouts/Layout.astro';
         ].map((card) => (
           <div class="bg-warm-white border border-stone/30 rounded-lg p-6 hover:-translate-y-0.5 transition-transform shadow-sm">
             <h3 class="text-lg mb-2">{card.heading}</h3>
-            <p class="text-sm text-bark/80 max-w-none">{card.body}</p>
+            <p class="text-sm text-bark max-w-none">{card.body}</p>
           </div>
         ))}
       </div>
@@ -91,7 +92,7 @@ import Layout from '../layouts/Layout.astro';
           >
             <span class="text-xs font-semibold text-moss uppercase tracking-wide block mb-1">{part.part}</span>
             <h3 class="text-base mb-2 group-hover:text-rust transition-colors">{part.title}</h3>
-            <p class="text-sm text-bark/70 max-w-none">{part.desc}</p>
+              <p class="text-sm text-bark max-w-none">{part.desc}</p>
           </a>
         ))}
       </div>

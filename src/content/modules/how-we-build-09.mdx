@@ -1,0 +1,241 @@
+---
+title: "The three-document system"
+partSlug: "how-we-build"
+moduleNumber: "09"
+learningGoal: "Explain why Keiter & Co. produces a decision log, a spec, and a kickoff before any code. Write each one for a small build."
+learningResourceType: "reading"
+estimatedMinutes: 30
+prerequisites: ["how-we-think-08"]
+sourceOfTruth:
+  - "Build workflow section of keiter-and-co-instructions.md"
+  - "Keiter_co_build_methodology.md"
+  - "keiter-and-co-academy.decision-log.md"
+  - "keiter-and-co-academy.spec.md"
+  - "the-outpost-vending-decision-log.md"
+  - "the-outpost-vending-spec.md"
+lastReviewed: 2026-05-09
+audioFile: "/audio/how-we-build-09.mp3"
+transcriptFile: "how-we-build-09.md"
+interactiveComponent: "KickoffPromptGenerator"
+---
+
+import Callout from '../../components/Callout.astro';
+import KickoffPromptGenerator from '../../components/interactive/KickoffPromptGenerator';
+import DecisionLogGenerator from '../../components/interactive/DecisionLogGenerator';
+
+Before any Keiter & Co. build starts, three documents exist. Not as a formality. Not as a process box to check. They exist because code built without them is code built on guesswork, and guesswork shows up in the work.
+
+This module covers what the three documents are, what goes in each one, and how they connect. By the end, you will understand why the system works and be able to produce all three for a small build.
+
+---
+
+## Why three documents
+
+Most small web shops start building and figure out the details later, or never. A vague description gets handed to a builder. The builder builds something. The client says "that is not what I meant." Rework follows.
+
+The problem is not the builder. The problem is that a vague handoff produces a vague result. The builder made reasonable assumptions. The client had different assumptions. Nobody wrote them down.
+
+For AI-assisted builds specifically, this problem is amplified. Claude works with what you give it. Give it a real spec and it builds something that reflects the client. Give it a vague prompt and it builds something that reflects every other small business website it has encountered in its training. There is no magic. There is only what you put in.
+
+The three-document system forces the handoff to be explicit. By the time build starts, the client's voice, their priorities, the gaps, the visual direction, the technical choices, and the definition of done are all written down. No guessing required.
+
+<Callout variant="source-of-truth" title="Source: Keiter & Co. Build Methodology">
+  "For AI-assisted builds specifically, a good spec is the difference between a build session that produces something useful and one that produces something generic. The model works with what you give it."
+</Callout>
+
+---
+
+## Document one: the decision log
+
+The decision log captures every significant decision made before the build starts, and explains why that decision was made instead of the alternatives considered.
+
+It is not a record of what you built. It is a record of what you decided and why. The distinction matters because the decision log is the document you return to when a client asks "why does the site do it this way?" or when a future operator picks up the work and needs to understand the reasoning.
+
+### What goes in the decision log
+
+Every decision log covers the same categories:
+
+**Context.** Who the client is, what the business does, what problem the site solves, and any relationship or backstory relevant to the decisions that follow.
+
+**Options considered.** For each significant decision, the alternatives that were evaluated and why each one was rejected or selected. This is the part most builders skip. Do not skip it.
+
+**Key decisions made.** The actual decisions, organized by topic. Scope, structure, content approach, visual direction, technical choices, any open questions.
+
+The rule: if you found yourself thinking through a decision, write it down. If you went back and forth between two approaches, write down both and explain why you chose the one you did.
+
+### The Outpost Vending decision log
+
+The Outpost Vending is a veteran-owned vending company run by Katie and Matt. When Olivia and Alex built the portfolio site, they wrote a real decision log before touching a file.
+
+Here is an excerpt, lightly adapted for illustration:
+
+<Callout variant="example" title="From the Outpost Vending decision log: Scope decision">
+  **Tier choice**
+
+  Starter was rejected. The intake described multiple distinct visitor paths (machine placement inquiry, supplier inquiry, QR feedback), a real brand story worth telling, and a growth plan that will outgrow a single-page site within a year. A Starter build would have left most of what Matt described on the floor.
+
+  Custom was rejected as unnecessary. This is not e-commerce, not a booking platform. It is a well-structured marketing and lead-capture site with real thinking behind it, which is exactly what Standard is for.
+
+  Standard was selected. The seven-page structure, two-form contact page, dedicated supplier path, and QR-optimized feedback form all fit within Standard tier scope.
+</Callout>
+
+Notice what that excerpt does. It names the options. It explains why each one was rejected or selected. It makes the reasoning visible to anyone who comes after.
+
+### The academy decision log
+
+This academy also has a decision log. You can read it at `keiter-and-co-academy.decision-log.md`. Here is one entry that shows the same pattern:
+
+<Callout variant="example" title="From the academy decision log: Full curriculum in v1">
+  Considered: A lean v1 of 8 to 10 modules covering Welcome, Tools, How we think, How we build, and the Outpost walkthrough, with business operations, capstone, and audio in later phases.
+
+  Decided: Ship the comprehensive curriculum in v1. All modules, business operations included, capstone build included.
+
+  Reasoning: A new operator who can build a site but cannot run intake, write a proposal, or hand over a Welcome guide is not a Keiter & Co. operator. Splitting the curriculum into phases would mean the first version teaches an incomplete operator, which contradicts the premise.
+</Callout>
+
+The format is consistent across both docs. Considered, decided, reasoning. Three steps. Repeatable for every significant decision in any project.
+
+---
+
+## Document two: the spec
+
+The spec describes what is being built. Where the decision log answers "why," the spec answers "what."
+
+A spec that could describe any business in its category is a bad spec. A good spec could only describe this one client, this one site, this one set of constraints.
+
+<Callout variant="source-of-truth" title="Source: Keiter & Co. Build Methodology">
+  "A brief that could describe any business in its category is a bad brief. A good brief could only describe this one."
+</Callout>
+
+### What goes in the spec
+
+**Project metadata.** Business name, project type (demo vs. client build), tier, builder, date, status.
+
+**Business overview.** The real client material condensed. Owner name, address, phone, hours, what makes this business specific and real.
+
+**Site purpose.** What the site needs to accomplish. One sentence on the primary visitor action.
+
+**Available assets.** Every photo, logo, document, or other asset in the project folder, with a note on what each one shows. The builder should not have to guess what an image contains.
+
+**Pages and content.** Every page with every content element listed explicitly. Not just "About page" but: who the About page is about, what story it tells, what tone it takes, what photos go on it, what copy anchors it needs.
+
+**Tone and visual direction.** Color palette, font direction, aesthetic references. Specific enough that two different builders would produce similar results.
+
+**AEO content anchors.** The plain-language phrases that should appear in the copy to signal to AI assistants what the business does and where it is.
+
+**Technical specs.** Framework, hosting, DNS, build command, Node version. Always Astro, Netlify free tier, Netlify DNS, `npx astro build`, `dist`, NODE_VERSION 18.
+
+**Gaps and flags.** Everything that needs to be confirmed before the site goes live.
+
+**Definition of done.** An explicit checklist of what done looks like.
+
+### What a spec page entry looks like
+
+Here is an excerpt from the Outpost Vending spec's page entry for the Feedback page:
+
+<Callout variant="example" title="From the Outpost Vending spec: Feedback page">
+  **Feedback page**
+
+  QR destination. Machine ID pre-fills via URL parameter and displays as read-only to confirm which machine the visitor is reporting on.
+
+  Form fields: machine ID (pre-filled, read-only), type of feedback dropdown (product request, machine issue, general comment), message, name optional, email optional for response.
+
+  Confirmation message: "Got it, thank you. If you left your contact information, we may reach out for more detail."
+
+  Design note: this page is optimized for someone standing in front of a vending machine on their phone. Large tap targets, minimal scrolling, no navigation distraction.
+</Callout>
+
+That entry is specific. Any competent builder can read it and produce the right page without a follow-up conversation. That specificity is the job of the spec.
+
+### The spec does not duplicate the decision log
+
+The spec describes the what. The decision log explains the why. They reference each other but do not repeat each other. If you find yourself copying decision reasoning into the spec, stop. Write "see decision log for rationale" and move on.
+
+---
+
+## Document three: the kickoff
+
+The kickoff translates the spec into the opening instruction for a build session. Where the spec describes what is being built, the kickoff tells the builder (Claude, in AI-assisted builds) how to build it, in what order, with what specific technical choices.
+
+The kickoff is more directive than the spec. It assigns photo files to specific locations. It gives explicit CSS rules where needed. It calls out quality bar items. It specifies what must be true before the first line of code is written.
+
+<Callout variant="source-of-truth" title="Source: Keiter & Co. Build Methodology">
+  "The spec describes what is being built. The kickoff prompt translates that into the opening instruction for a Claude Code build session. The kickoff is more directive than the spec: it assigns photo files to specific locations, gives explicit CSS rules, calls out quality bar items, and specifies what must be true before the first line of code is written."
+</Callout>
+
+### Structure of a kickoff
+
+A Keiter & Co. kickoff document contains:
+
+**A one-line summary** of what this phase of work produces.
+
+**Inputs.** What documents, files, and prior states need to exist before this phase starts.
+
+**Goal.** The specific, testable outcome of this phase.
+
+**Tasks.** An ordered list of specific things to do. Each task is concrete enough to have a clear done state.
+
+**Quality gates.** The checks that must pass before this phase is complete. These are gates, not preferences. If a gate fails, the phase is not done.
+
+**Stop conditions.** The specific situations where the builder should stop and surface a question rather than make a guess.
+
+**Handoff note template.** A structured note to write at the end of the phase so the next phase can start cleanly.
+
+### Multi-phase kickoffs
+
+Most Keiter & Co. builds are complex enough to need a multi-phase kickoff. Instead of one massive instruction document, the kickoff is broken into phases. Each phase has its own goal, tasks, quality gates, and handoff note. Phase N cannot start until Phase N-1's handoff note exists.
+
+The academy itself uses a twelve-phase kickoff. You can read it at `keiter-and-co-academy.kickoff.md`. Phase 3 of that kickoff is the phase that produced this module.
+
+<Callout variant="example" title="From the academy kickoff: Phase 1 summary">
+  **Phase 1: Scaffold and shell**
+
+  One-line summary: Stand up the Astro project, configure Tailwind, write CLAUDE.md, build the base layout and shared components, stub every route, get localhost rendering.
+
+  Quality gates include: All routes from the spec exist as stubs and render without error. Header, Footer, MobileNav render on every page. Hamburger menu visible and functional on mobile. Focus states visible on every interactive element. 404 page is branded and follows copy standards. First commit pushed to GitHub.
+</Callout>
+
+The multi-phase structure is what makes AI-assisted builds tractable. Context windows are finite. A single-session build of a twenty-page site with a complex component library and full SEO setup would exceed what any AI can hold in memory at once. Phases solve that problem. More on this in Module 10.
+
+---
+
+## The three documents travel together
+
+The spec is always paired with a kickoff. The Keiter & Co. convention is to call these two files together the spec kit. The decision log sits alongside as the why document.
+
+**Decision log:** why the site is structured the way it is.
+
+**Spec:** what is being built.
+
+**Kickoff:** how to build it, in what order, to what standard.
+
+All three files are `.md` files. All three live in the client build folder. Named after the client's business, lowercase, words hyphen-separated. Never `.docx`. Never just one without the others.
+
+<Callout variant="key-rule">
+  All three build documents must exist before any code is written. If you open a build session without all three present, stop and write the missing document first. There is no shortcut here.
+</Callout>
+
+---
+
+## Writing your own three documents
+
+The interactive component below is a kickoff prompt generator. You describe a hypothetical small business, and the tool produces a Keiter-format kickoff draft. Use it to practice the structure before you write your first real one.
+
+There is also a decision log generator that follows the same pattern: you describe two or three decisions you had to make, and the tool shows you how to document them in the Keiter format.
+
+<KickoffPromptGenerator client:load />
+<DecisionLogGenerator client:load />
+
+---
+
+## The documents in context: this academy
+
+The academy is built using the three-document system. The three source documents for this build are:
+
+- `keiter-and-co-academy.decision-log.md`: every significant decision made before the first line of code was written, with the alternatives considered and the reasoning for each choice
+- `keiter-and-co-academy.spec.md`: the full description of what the academy site is, who it is for, what it contains, and what done looks like
+- `keiter-and-co-academy.kickoff.md`: the twelve-phase build plan, phase by phase, with tasks, quality gates, and stop conditions for each phase
+
+These three files are in the academy repo root. Read them. They are a complete worked example of the system in action, and the thing they produced is the site you are reading right now.
+
+{/* Photo placeholder: A desk with three printed documents side by side, each clearly labeled (decision log, spec, kickoff) with handwritten annotations in the margins. Natural light from a window to the left. 16:9 aspect ratio. Shows the three-document system as a physical, tangible practice, not just a naming convention. */}

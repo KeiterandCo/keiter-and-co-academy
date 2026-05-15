@@ -1,0 +1,37 @@
+---
+// LastReviewed.astro
+// Displays when this module was last reviewed against its source-of-truth documents.
+// Renders at the bottom of every module page.
+
+interface Props {
+  date: Date;
+  sourceOfTruth: string[];
+}
+
+const { date, sourceOfTruth } = Astro.props;
+
+const formatted = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<div class="mt-12 pt-6 border-t border-stone/20">
+  <p class="text-xs text-stone">
+    Last reviewed against source documents on{' '}
+    <time datetime={date.toISOString().slice(0, 10)}>{formatted}</time>.
+  </p>
+  {sourceOfTruth.length > 0 && (
+    <details class="mt-2">
+      <summary class="text-xs text-stone cursor-pointer hover:text-rust transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rust rounded">
+        Source documents ({sourceOfTruth.length})
+      </summary>
+      <ul class="mt-2 space-y-1 list-none p-0">
+        {sourceOfTruth.map((source) => (
+          <li class="text-xs text-stone pl-3">{source}</li>
+        ))}
+      </ul>
+    </details>
+  )}
+</div>

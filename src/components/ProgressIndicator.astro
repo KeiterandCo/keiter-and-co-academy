@@ -1,0 +1,76 @@
+---
+// ProgressIndicator.astro
+// Sticky bar showing position in the current part and overall curriculum.
+// Displayed on module pages.
+
+interface Props {
+  moduleNumber: string;
+  moduleTitle: string;
+  partLabel: string;
+  partSlug: string;
+  partCurrent: number;
+  partTotal: number;
+  curriculumCurrent: number;
+  curriculumTotal: number;
+}
+
+const {
+  moduleNumber,
+  moduleTitle,
+  partLabel,
+  partSlug,
+  partCurrent,
+  partTotal,
+  curriculumCurrent,
+  curriculumTotal,
+} = Astro.props;
+
+const partPercent = Math.round((partCurrent / partTotal) * 100);
+const curriculumPercent = Math.round((curriculumCurrent / curriculumTotal) * 100);
+---
+
+<div
+  class="sticky top-0 z-30 bg-warm-white/95 backdrop-blur-sm border-b border-stone/20 px-4 py-2.5"
+  role="navigation"
+  aria-label="Module progress"
+>
+  <div class="container max-w-3xl flex items-center gap-4">
+    <!-- Breadcrumb context -->
+    <a
+      href={`/curriculum/${partSlug}`}
+      class="text-xs text-stone hover:text-rust transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rust rounded shrink-0"
+    >
+      {partLabel}
+    </a>
+    <span class="text-stone/40 text-xs" aria-hidden="true">/</span>
+    <span class="text-xs text-off-black font-medium truncate flex-1 min-w-0">
+      Module {moduleNumber}
+    </span>
+
+    <!-- Part progress -->
+    <div class="flex items-center gap-1.5 shrink-0">
+      <span class="sr-only">{partCurrent} of {partTotal} in {partLabel}</span>
+      <span class="text-xs text-stone hidden sm:inline">Part</span>
+      <div class="w-16 h-1.5 bg-stone/20 rounded-full overflow-hidden" aria-hidden="true">
+        <div
+          class="h-full bg-moss rounded-full transition-all duration-300"
+          style={`width: ${partPercent}%`}
+        ></div>
+      </div>
+      <span class="text-xs text-stone tabular-nums">{partCurrent}/{partTotal}</span>
+    </div>
+
+    <!-- Curriculum progress -->
+    <div class="flex items-center gap-1.5 shrink-0">
+      <span class="sr-only">{curriculumCurrent} of {curriculumTotal} modules complete</span>
+      <span class="text-xs text-stone hidden sm:inline">Total</span>
+      <div class="w-16 h-1.5 bg-stone/20 rounded-full overflow-hidden" aria-hidden="true">
+        <div
+          class="h-full bg-rust rounded-full transition-all duration-300"
+          style={`width: ${curriculumPercent}%`}
+        ></div>
+      </div>
+      <span class="text-xs text-stone tabular-nums">{curriculumCurrent}/{curriculumTotal}</span>
+    </div>
+  </div>
+</div>

@@ -6,27 +6,77 @@ import MobileNav from '../components/MobileNav.astro';
 
 interface Props {
   title: string;
+  metaTitle?: string;
   description?: string;
+  ogType?: 'website' | 'article';
   canonicalUrl?: string;
   ogImage?: string;
   /** Pass structured data as a JSON-serializable object */
-  schema?: Record<string, unknown>;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
   /** Set to true to hide header and footer (e.g. 404) */
   bare?: boolean;
 }
 
 const {
   title,
+  metaTitle,
   description = 'The Keiter & Co. Academy teaches a new operator how to run a Keiter & Co. build from zero. Self-paced, practical, and grounded in real methodology.',
+  ogType = 'website',
   canonicalUrl = Astro.url.href,
-  ogImage = '/images/og-default.png',
+  ogImage = '/images/og-default.svg',
   schema,
   bare = false,
 } = Astro.props;
 
-const fullTitle = title === 'Keiter & Co. Academy'
-  ? title
-  : `${title} | Keiter & Co. Academy`;
+const fullTitle = metaTitle ?? title;
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': 'https://learn.keiterandco.com/#localbusiness',
+  name: 'Keiter & Co.',
+  url: 'https://learn.keiterandco.com',
+  description: 'Keiter & Co. Academy teaches operators how to run a complete Keiter client build from intake through launch and ongoing care.',
+  areaServed: [
+    {
+      '@type': 'Country',
+      name: 'United States',
+    },
+    {
+      '@type': 'AdministrativeArea',
+      name: 'Upstate New York',
+    },
+    {
+      '@type': 'AdministrativeArea',
+      name: 'Western New England',
+    },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Petersburg',
+    addressRegion: 'NY',
+    addressCountry: 'US',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+      ],
+      opens: '09:00',
+      closes: '16:00',
+    },
+  ],
+  priceRange: '$$',
+  sameAs: ['https://keiterandco.com'],
+};
+
+const pageSchemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const allSchemas = [localBusinessSchema, ...pageSchemas];
 
 // GA measurement ID. Set GA_ID env var in Netlify to enable.
 const gaId = import.meta.env.GA_ID;
@@ -50,7 +100,7 @@ const enableGA = !import.meta.env.DEV && gaId;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Keiter & Co. Academy" />
 
     <!-- Twitter card -->
@@ -70,22 +120,21 @@ const enableGA = !import.meta.env.DEV && gaId;
     <link rel="preload" href="/fonts/inter-v500.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 
     <!-- Structured data slot -->
-    {schema && (
-      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-    )}
+    {allSchemas.map((schemaBlock) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schemaBlock)} />
+    ))}
 
     <!-- Default site-level WebSite schema -->
     <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Keiter & Co. Academy",
-      "url": "https://learn.keiterandco.com",
-      "description": "A self-paced curriculum that teaches a new operator how to run a Keiter & Co. build from zero.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Keiter & Co. LLC",
-        "url": "https://keiterandco.com"
-      }
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': 'https://learn.keiterandco.com/#website',
+      name: 'Keiter & Co. Academy',
+      url: 'https://learn.keiterandco.com',
+      description: 'A self-paced curriculum that teaches a new operator how to run a Keiter & Co. build from zero.',
+      publisher: {
+        '@id': 'https://learn.keiterandco.com/#localbusiness',
+      },
     })} />
 
     <!-- Google Analytics (production only, gated on GA_ID env var) -->

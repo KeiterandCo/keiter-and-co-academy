@@ -1,8 +1,12 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-// Placeholder glossary entries - real content lands in Phase 3
-const terms = [
+// Pull terms from content collection first, then supplement with static entries
+// not yet in the collection. Collection entries are authoritative when present.
+const collectionEntries = await getCollection('glossary');
+
+const staticTerms = [
   { term: 'AEO', definition: 'Answer Engine Optimization. The practice of writing content so that AI assistants and answer engines can cite and recommend your business. AEO is baked into every Keiter & Co. build at every tier.' },
   { term: 'BUILDNOTES.md', definition: 'A file in the repo root that tracks gaps, deferred items, and anything that could not be resolved during a build session. Checked at the start of every session.' },
   { term: 'Care Plan', definition: 'The Keiter & Co. post-launch service tier. Basic ($35/month) or Advanced ($65/month). Covers hosting, SSL, monthly tasks, analytics snapshots, and varying levels of support.' },
@@ -18,6 +22,25 @@ const terms = [
   { term: 'WCAG 2.2 AA', definition: 'Web Content Accessibility Guidelines, version 2.2, Level AA. The accessibility standard every Keiter & Co. build meets. Covers color contrast, keyboard navigation, focus indicators, semantic HTML, and more.' },
 ];
 
+// Build a unified map: collection entries override static entries by term name
+const termMap = new Map<string, { term: string; definition: string; fromCollection?: boolean }>();
+
+for (const staticTerm of staticTerms) {
+  termMap.set(staticTerm.term.toLowerCase(), { term: staticTerm.term, definition: staticTerm.definition });
+}
+for (const entry of collectionEntries) {
+  // Collection entry term overrides static if present
+  termMap.set(entry.data.term.toLowerCase(), {
+    term: entry.data.term,
+    definition: entry.data.definition,
+    fromCollection: true,
+  });
+}
+
+const terms = Array.from(termMap.values()).sort((a, b) =>
+  a.term.localeCompare(b.term, 'en', { sensitivity: 'base' })
+);
+
 // Group alphabetically
 const grouped = terms.reduce<Record<string, typeof terms>>((acc, term) => {
   const letter = term.term[0].toUpperCase();
@@ -31,7 +54,8 @@ const letters = Object.keys(grouped).sort();
 
 <Layout
   title="Glossary"
-  description="Plain-language definitions of every term used in the Keiter & Co. Academy curriculum. Linked from inline mentions throughout the modules."
+  metaTitle="Glossary | Keiter & Co. Academy"
+  description="Plain-language definitions for the terms used across the Keiter & Co. Academy curriculum."
 >
   <section class="section bg-warm-white border-b border-stone/20">
     <div class="container">

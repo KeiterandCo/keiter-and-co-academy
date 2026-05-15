@@ -57,9 +57,9 @@
   --color-cream: #F5F0E8;
   --color-warm-white: #FDFAF5;
   --color-bark: #4A3728;
-  --color-moss: #6B7C5C;
-  --color-stone: #A89880;
-  --color-rust: #B85C38;
+  --color-moss: #4A5E3F;
+  --color-stone: #6A5A4D;
+  --color-rust: #8E4327;
   --color-off-black: #1E1610;
   --color-mauve: #c9a8a0;
   --color-mauve-faint: #e8d5d0;
@@ -136,12 +136,20 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
 h4 { font-size: 1.125rem; }
 
 a {
-  color: var(--color-moss);
+  color: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 a:hover {
   color: var(--color-rust);
+}
+
+.prose a {
+  color: var(--color-moss);
+}
+
+.astro-code .line span {
+  color: #d9e2ec !important;
 }
 
 /* ---- Layout ---- */

@@ -1,7 +1,7 @@
 # BUILDNOTES.md
 
 Project: keiter-and-co-academy
-Last updated: 2026-05-09
+Last updated: 2026-05-15
 
 Check this file at the start of every build session. Add to it freely. Never delete an entry without resolving it.
 
@@ -34,19 +34,10 @@ Check this file at the start of every build session. Add to it freely. Never del
 - Detail: GA snippet is gated on the GA_ID env var in Netlify. Add the GA property ID to Netlify environment variables when the project is confirmed.
 - Phase where it blocks: Phase 11 (analytics pass).
 
-### OG default image: /images/og-default.png needed
-- Status: OPEN
-- Detail: Layout.astro references /public/images/og-default.png as the fallback OG image. Create a simple branded 1200x630 image (cream background, Lora heading, Keiter & Co. Academy wordmark) and place it at public/images/og-default.png.
-- Phase where it blocks: Phase 11.
-
-### Favicon: branded favicon needed
-- Status: OPEN, Astro default in place
-- Detail: Replace the default favicon.svg and favicon.ico with branded versions matching the academy identity.
-- Phase where it blocks: Phase 11.
-
-### Audio files: ElevenLabs narration
-- Status: DEFERRED to Phase 10
-- Detail: Every module needs a companion MP3 at /public/audio/[module-slug].mp3. Provider: ElevenLabs (default, surface to Olivia before generating). Player slot is in the module template but hidden until files exist.
+### Audio files: placeholder narration follow-up
+- Status: PARTIAL, Phase 10 placeholder pass complete
+- Detail: Audio player is now live. Placeholder MP3 and transcript files exist for all currently finalized modules in `public/audio/` and `src/content/audio-transcripts/`. Remaining no-audio modules are by design placeholders (07, 08, 15, 22) plus missing content files (05, 21). ElevenLabs-specific generation is still pending because no API key is configured in this environment.
+- Phase where it blocks: Final pre-launch polish if ElevenLabs voice consistency is required before Olivia's human re-record.
 
 ### HoneyBook walkthrough (Module 17): Olivia input needed
 - Status: OPEN, flagged in spec
@@ -54,7 +45,12 @@ Check this file at the start of every build session. Add to it freely. Never del
 
 ### Month-1 check-in (Module 20): documentation needed
 - Status: OPEN, flagged in spec
-- Detail: Module 20 covers the month-1 check-in process. If undocumented by Phase 5, the section ships as a flagged placeholder.
+- Detail: Module 20 covers the month-1 check-in process. The module now ships with a clearly flagged placeholder because the process is still undocumented.
+
+### Cheat sheet PDFs: generation approach needed
+- Status: OPEN
+- Detail: Phase 5 ships the cheat sheets as Markdown downloads. Before final PDF generation, Olivia needs to confirm whether the PDFs should come from a styled browser print flow or a programmatic export path. Resources page copy now says PDF downloads appear where available.
+- Phase where it blocks: Phase 11.
 
 ### Capstone client (Module 22): decision needed
 - Status: OPEN, flagged in spec
@@ -72,4 +68,11 @@ Check this file at the start of every build session. Add to it freely. Never del
 
 ## Resolved items
 
-(none yet)
+- Phase 12 launch complete: site is live at https://learn.keiterandco.com with custom domain attached and SSL valid.
+- Netlify production deploy confirmed at https://keiter-and-co-academy.netlify.app and custom domain routing verified.
+- Launch smoke checks completed on production routes, search route, audio assets, and 404 behavior.
+- Phase 10 audio infrastructure is complete in code: conditional player rendering, transcripts, and module front matter wiring are in place.
+- OG default image is in place at `public/images/og-default.svg` and wired as the sitewide fallback in `Layout.astro`.
+- Branded `favicon.svg` replaced the Astro default icon.
+- Phase 11 schema and SEO pass completed: LocalBusiness, Course, and LearningResource JSON-LD blocks now render across the site.
+- Phase 11 accessibility audits completed: axe scans show 0 violations on representative routes.

@@ -1,0 +1,345 @@
+---
+title: "Build standards I: SEO, AEO, accessibility, mobile"
+partSlug: "how-we-build"
+moduleNumber: "11"
+learningGoal: "Implement WCAG 2.2 AA, semantic HTML, schema markup, AEO content principles, and mobile-first layout."
+learningResourceType: "reading"
+estimatedMinutes: 35
+prerequisites: ["how-we-build-10"]
+sourceOfTruth:
+  - "Build standards section of keiter-and-co-academy.spec.md"
+  - "AEO as a build standard section of keiter-and-co-instructions.md"
+  - "CLAUDE.md, Build standards summary section"
+lastReviewed: 2026-05-09
+audioFile: "/audio/how-we-build-11.mp3"
+transcriptFile: "how-we-build-11.md"
+interactiveComponent: "AEOChecker"
+---
+
+import Callout from '../../components/Callout.astro';
+import AEOChecker from '../../components/interactive/AEOChecker';
+
+Build standards are not a checklist you run at launch. They are how you build from the first file. A site that waits until go-live to check accessibility will find problems that require rebuilding parts of it. A site that waits until go-live to add schema markup will have a meta description that reads like a fragment because nobody wrote the real one yet.
+
+The Keiter & Co. definition of "built correctly" includes all of this, from the first commit.
+
+This module covers the first category of build standards: SEO, AEO, accessibility, and mobile. Module 12 covers the personality and polish layer.
+
+---
+
+## Semantic HTML first
+
+Everything in this module depends on semantic HTML. If you get semantic HTML right, accessibility gets easier, SEO gets easier, and AEO gets easier. It is the foundation.
+
+Semantic HTML means using the right element for the job.
+
+<Callout variant="example" title="Semantic vs. non-semantic markup">
+  **Non-semantic:**
+  ```html
+  <div class="header">
+    <div class="nav">
+      <div class="nav-item"><a href="/">Home</a></div>
+    </div>
+  </div>
+  ```
+
+  **Semantic:**
+  ```html
+  <header>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+  ```
+</Callout>
+
+The semantic version tells the browser, the screen reader, and the search engine what the element is, not just how it looks. `<header>` is a landmark region. `<nav>` announces navigation. `<ul>` announces a list. The non-semantic version is just divs.
+
+The rule is: semantic HTML first. ARIA only when it adds something HTML cannot provide on its own.
+
+Elements that have semantic meaning and should be used instead of divs:
+
+- `<header>`, `<footer>`, `<main>`, `<nav>`, `<aside>`, `<section>`, `<article>` for layout regions
+- `<h1>` through `<h6>` for headings (one `<h1>` per page, nested in order)
+- `<p>` for paragraphs
+- `<ul>`, `<ol>`, `<li>` for lists
+- `<blockquote>` for long quotes
+- `<figure>`, `<figcaption>` for images with captions
+- `<button>` for controls that trigger actions (never an `<a>` with `href="#"`)
+- `<a>` for navigation and links (never a `<div>` with an `onclick`)
+- `<form>`, `<fieldset>`, `<legend>`, `<label>`, `<input>`, `<textarea>`, `<select>` for forms
+
+<Callout variant="key-rule">
+  Every `<button>` is for actions. Every `<a>` is for navigation. Never swap them. Never use a `<div>` for either.
+</Callout>
+
+---
+
+## Accessibility (WCAG 2.2 AA)
+
+WCAG 2.2 AA is the target. Not aspirational, not best effort. It is a gate. Keiter & Co. sites pass it before launch.
+
+Here are the most common failure points and how to handle each one.
+
+### Color contrast
+
+Text needs sufficient contrast against its background. The WCAG 2.2 AA minimums:
+
+- Normal text (below 18pt or 14pt bold): 4.5:1 contrast ratio
+- Large text (18pt or 14pt bold and above): 3:1 contrast ratio
+- Interactive elements (buttons, links) in focus state: 3:1 against adjacent colors
+
+The places most likely to fail: hero text over an image or gradient, light-colored secondary text (like timestamps or labels), placeholder text in form fields, and text on tinted card backgrounds.
+
+Check contrast with the APCA contrast calculator or any WCAG-compliant tool before the component ships, not during the DOD pass.
+
+### Images and alt text
+
+Every image needs alt text that describes what the image shows and why it matters in context. If the image is decorative (a background texture, a divider), mark it with `alt=""` so screen readers skip it.
+
+<Callout variant="example" title="Alt text that works">
+  **Missing:** `<img src="olivia-desk.jpg" alt="photo">`
+
+  **Vague:** `<img src="olivia-desk.jpg" alt="Olivia at her desk">`
+
+  **Descriptive:** `<img src="olivia-desk.jpg" alt="Olivia working at her farmhouse desk, laptop open, soft morning light from the window, kids' artwork on the wall behind her">`
+</Callout>
+
+The descriptive version tells someone who cannot see the image what it shows and gives context for why it is there.
+
+### Keyboard navigation
+
+Every interactive element must be reachable and operable by keyboard. Tab key moves focus forward, Shift+Tab moves backward, Enter or Space activates buttons and links. Custom interactive widgets need keyboard support built in explicitly.
+
+Focus indicators must be visible. The browser default is often understyled. Override it with a visible outline. The minimum: 2px solid, 3:1 contrast ratio against the surrounding color.
+
+```css
+/* Example: visible focus indicator */
+:focus-visible {
+  outline: 2px solid var(--color-moss);
+  outline-offset: 2px;
+}
+```
+
+Do not remove outlines with `outline: none` without replacing them with something equivalent.
+
+### Form fields
+
+Every form field needs a visible, associated `<label>`. Placeholder text is not a label. It disappears when the user starts typing, and screen readers do not reliably announce it.
+
+```html
+<!-- Correct: associated label -->
+<label for="name">Your name</label>
+<input type="text" id="name" name="name">
+
+<!-- Incorrect: placeholder only, no label -->
+<input type="text" placeholder="Your name">
+```
+
+Form errors need to be announced. Use `aria-describedby` to link the input to its error message, and make the error text visible in the DOM, not just styled with color.
+
+### Target sizes
+
+Interactive elements (buttons, links, form controls) need to meet minimum size targets.
+
+Minimum: 24x24 CSS pixels for any interactive element.
+
+Mobile: 44x44 CSS pixels for any touch target.
+
+Spacing counts. If two targets are close together, spacing between them can contribute to the effective target area.
+
+### Text resize
+
+The site must remain readable and usable when text is resized up to 200% via the browser. Do not size elements in `px` only. Use relative units (`rem`, `em`, percentages) for anything that should scale with text size.
+
+---
+
+## SEO
+
+SEO at the Keiter & Co. level is about three things: clean structure, real content, and the right metadata.
+
+### Meta titles and descriptions
+
+Every page gets a meta title and a meta description. They are written as answers, not as keyword strings.
+
+<Callout variant="example" title="Meta descriptions written as answers">
+  **Keyword string:** "Keiter Co Academy web design training course online curriculum"
+
+  **Written as an answer:** "Self-paced curriculum that teaches the Keiter & Co. methodology from zero AI experience through running a full client engagement."
+</Callout>
+
+The first version is optimizing for a keyword. The second version is answering the question "what is this?" An AI assistant searching for curriculum resources can read the second version and decide whether to recommend it. The first version is noise.
+
+Meta title format: `[Page topic] | Keiter & Co. Academy`
+
+Meta description: under 160 characters, written as a direct answer.
+
+### OpenGraph tags
+
+Every page gets OpenGraph tags. These are the `<meta>` tags that control how a page appears when shared on social media or in messaging apps.
+
+```html
+<meta property="og:title" content="Module 11: Build standards | Keiter & Co. Academy">
+<meta property="og:description" content="How to implement WCAG 2.2 AA, semantic HTML, schema markup, and mobile-first layout as a build standard, not a launch audit.">
+<meta property="og:image" content="https://learn.keiterandco.com/images/og-default.png">
+<meta property="og:url" content="https://learn.keiterandco.com/curriculum/how-we-build/11">
+```
+
+The `og:image` is the thumbnail that appears when someone shares the link. Every Keiter & Co. site has a default OG image (a simple branded image at 1200x630 pixels). Pages that have specific images use those instead.
+
+### Canonical URL
+
+Every page has a canonical URL tag that tells search engines which version of the URL is authoritative. This prevents duplicate content issues when pages are reachable via multiple paths.
+
+```html
+<link rel="canonical" href="https://learn.keiterandco.com/curriculum/how-we-build/11">
+```
+
+---
+
+## AEO: Answer Engine Optimization
+
+AEO is what happens when you write for an AI assistant that is going to summarize your content in an answer, not link to your page. It is not a separate workstream. It is the same writing discipline that makes content good for human readers, applied specifically with AI parsers in mind.
+
+<Callout variant="source-of-truth" title="Source: keiter-and-co-instructions.md, AEO as a build standard">
+  "AEO is baked into every site we build across all tiers, not an add-on. Every site we build should be structured so it shows up when someone asks Claude or ChatGPT to recommend a business. Plain language service descriptions, clear location signals, clean structured content AI can parse and cite, and schema markup where appropriate."
+</Callout>
+
+### What AEO requires in practice
+
+**Plain-language service descriptions.** If you describe what a business does in language that only makes sense to someone already in the industry, an AI assistant cannot paraphrase it accurately. Write for the person asking the question, not for industry insiders.
+
+**Clear location signals.** For local businesses, the content should state the service area clearly enough that an AI can answer "is there a vending company near Fort Bragg?" and cite the right page. That means city names, region names, and proximity language appear in the copy, not just in hidden metadata.
+
+**Structured content.** Headings create structure that AI parsers can follow. A page with a clear hierarchy of H2s and H3s is easier to summarize accurately than a page of undifferentiated prose. Use headings to structure information, not just to create visual breaks.
+
+**Answerable questions.** If the page covers a topic, the page should answer the questions someone might ask about that topic. Not with fake FAQs, with actual well-organized answers.
+
+### Schema markup
+
+Schema markup is structured data added to a page that tells parsers explicitly what the page is about. It is JSON-LD, embedded in a `<script type="application/ld+json">` block in the page head.
+
+The Keiter & Co. stack always includes at minimum a `LocalBusiness` block for client sites, and `Course` and `LearningResource` blocks for the academy.
+
+Here is what a `LearningResource` block looks like for a module page:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "LearningResource",
+  "name": "Build standards I: SEO, AEO, accessibility, mobile",
+  "description": "How to implement WCAG 2.2 AA, semantic HTML, schema markup, AEO content principles, and mobile-first layout as build-time standards.",
+  "educationalLevel": "Beginner",
+  "learningResourceType": "Reading",
+  "timeRequired": "PT35M",
+  "url": "https://learn.keiterandco.com/curriculum/how-we-build/11",
+  "provider": {
+    "@type": "Organization",
+    "name": "Keiter & Co.",
+    "url": "https://keiterandco.com"
+  }
+}
+```
+
+That block tells any parser that reads the page what this resource is, what level it is aimed at, how long it takes, and who produced it. An AI assistant that wants to recommend curriculum resources for learning web development methodology can cite this page accurately.
+
+For a standard local business client site, the key blocks are `LocalBusiness`, and `FAQPage` if the site has an FAQ section. Here is a minimal `LocalBusiness` block:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "The Outpost Vending",
+  "description": "Veteran-owned vending company near Fort Bragg, NC. Performance-focused nutrition in military units, gyms, and apartment complexes.",
+  "url": "https://theoutpostvendingco.com",
+  "telephone": "[PLACEHOLDER: confirm with client]",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Fayetteville",
+    "addressRegion": "NC",
+    "addressCountry": "US"
+  },
+  "areaServed": "Fort Bragg, NC and surrounding area",
+  "foundingDate": "[PLACEHOLDER: confirm with client]"
+}
+```
+
+Schema markup is added to the `<head>` via the layout component. In an Astro site, it goes in the base layout inside a `<script type="application/ld+json">` tag, rendered as a string.
+
+---
+
+## Mobile
+
+Mobile is not a mode. It is the primary target. A Keiter & Co. site is built mobile-first and confirmed at 375px before it is confirmed at any larger viewport.
+
+### Mobile-first means the CSS starts small
+
+In Tailwind, mobile-first means writing your base classes for the smallest viewport and using responsive prefixes to override at larger sizes:
+
+```html
+<!-- Mobile: stacked. Tablet and up: side by side -->
+<div class="flex flex-col md:flex-row gap-4">
+  ...
+</div>
+```
+
+Do not write desktop styles first and then add mobile overrides. Write mobile styles first.
+
+### The three viewports to check
+
+Preview at 375px (iPhone SE, the smallest common viewport), 768px (iPad in portrait), and 1280px (desktop). If something looks wrong at any of these three, it is not done.
+
+### Touch targets on mobile
+
+Tap targets on mobile need 44x44 pixels minimum. That includes nav links, buttons, card tap areas, and anything else a finger might activate. If it is smaller, make it bigger. Padding counts toward the tap target area.
+
+### The hamburger menu
+
+Navigation on mobile uses a hamburger menu. It must be:
+
+- Visible and recognizable as a menu trigger (three lines or equivalent)
+- Large enough to tap (44x44 or larger)
+- Keyboard accessible (reachable by tab, opened and closed with Enter or Space)
+- Properly labeled for screen readers (`aria-label="Open menu"` or equivalent, updated to `"Close menu"` when open)
+- Closed when an item is selected
+
+The mobile nav overlay shows the same items as the desktop nav plus a search trigger.
+
+### Responsive typography
+
+Text that is a fixed size at all viewports either looks too small on mobile or too large on desktop. Use fluid typography.
+
+Tailwind's responsive utilities work:
+```html
+<h1 class="text-3xl md:text-4xl lg:text-5xl">
+```
+
+Or use CSS `clamp()` for smooth scaling between viewports:
+```css
+font-size: clamp(1.5rem, 4vw, 2.5rem);
+```
+
+Either approach is acceptable. What is not acceptable is a heading that is 48px on a 375px viewport.
+
+---
+
+## Checking your work
+
+The DOD checklist in Module 13 has a complete set of accessibility and SEO checks. Running it at launch is correct. Running it only at launch is too late.
+
+The pattern that works: when you build a component, check the component. Color contrast, keyboard nav, alt text, semantic markup. When you write a page, write the meta title and description before moving on. When you add schema, validate it at schema.org/validator before committing.
+
+Do not save the checks for a cleanup phase. The cleanup phase always takes longer than expected because the problems are deeper than expected. Build it clean the first time.
+
+---
+
+## The AEO checker
+
+The interactive component below lets you paste a meta description and get scored against the AEO criteria: plain language, answerable, location signals if applicable, under 160 characters. It also checks for common failure patterns like keyword stuffing or phrases that read like generated text.
+
+{/* AEOChecker */}
+<AEOChecker client:load />
+
+{/* Photo placeholder: A laptop screen showing browser developer tools open, with a JSON-LD schema block visible in the source. The screen is at a slight angle, not straight-on. Natural light from behind the photographer. 16:9 aspect ratio. Shows schema markup as a normal part of checking your own work. */}

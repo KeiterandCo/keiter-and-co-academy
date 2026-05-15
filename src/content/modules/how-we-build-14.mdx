@@ -1,0 +1,181 @@
+---
+title: "The agent fleet and automation queue"
+partSlug: "how-we-build"
+moduleNumber: "14"
+learningGoal: "Understand what each Live agent does, what is in the Scoped queue, and how new automation gets added."
+learningResourceType: "reading"
+estimatedMinutes: 18
+prerequisites: ["how-we-build-13"]
+sourceOfTruth:
+  - "Automation section of keiter-and-co-instructions.md"
+  - "Standing principles section of CLAUDE.md"
+  - "keiter-and-co-academy.spec.md"
+lastReviewed: 2026-05-09
+audioFile: "/audio/how-we-build-14.mp3"
+transcriptFile: "how-we-build-14.md"
+---
+
+import Callout from '../../components/Callout.astro';
+
+Keiter & Co. uses agents because some parts of the work benefit from speed, consistency, and memory support. Keiter & Co. does not use agents to avoid responsibility.
+
+That distinction matters. The standing principle is clear: agents recommend, build, and automate as far as possible. Humans push go. Always.
+
+This module explains how to think about the agent fleet, what the Live agents are for, what the Scoped queue is for, and how an automation earns its way from idea to trusted tool.
+
+---
+
+## Start with the hierarchy
+
+The hierarchy does not change just because the automation is good.
+
+People own the relationship.
+
+People own the judgment.
+
+People own the final action.
+
+Agents help with the work between those points.
+
+<Callout variant="source-of-truth" title="Source: CLAUDE.md, Standing principles">
+  We work with AI. It does not work for us. Agents recommend, build, and automate as far as possible. Humans push go. Always.
+</Callout>
+
+If you hold that hierarchy, the rest of the automation system makes sense.
+
+---
+
+## What the agent fleet is for
+
+The agent fleet exists to take repeatable work off human working memory.
+
+That usually means one of four jobs:
+
+- gathering and organizing input
+- spotting patterns or risks a human should review
+- generating a first draft or structured output
+- handling repetitive internal steps that are already understood
+
+What it does not mean is letting an agent decide what should happen to a client relationship, what should be sent without review, or what should be published without sign-off.
+
+If a process needs taste, accountability, client context, or legal judgment, the automation may support it, but it does not own it.
+
+---
+
+## The Live agents
+
+The academy spec names two Live agents directly: the Intake Agent and Business Radar.
+
+### Intake Agent
+
+The Intake Agent supports the earliest stage of the client relationship. Its job is to help structure the intake conversation, capture usable notes, and move those notes toward a build brief.
+
+That matters because early project ambiguity is expensive. If intake notes stay vague, the spec stays vague. If the spec stays vague, the build gets expensive fast.
+
+The Intake Agent helps reduce that drift by making sure the right categories of information are captured consistently. It supports Olivia's process. It does not replace Olivia's ear for what is actually being said.
+
+### Business Radar
+
+Business Radar is the scanning layer. Its job is to help surface opportunities, movement, or signals that deserve human attention.
+
+Think of it as a watcher, not a closer. It can help notice. It cannot decide what relationship work should happen next.
+
+That distinction keeps the business from turning into an outbound automation machine. Keiter is relationship-first. Radar can point. A person still decides whether the signal means anything.
+
+---
+
+## What "Live" means
+
+Live means the automation is active in the real operating system of the business. It has a defined purpose, a known review path, and enough trust behind it that Olivia and Alex actually use it.
+
+An automation should not be marked Live because it is clever. It should be marked Live because:
+
+- the underlying process is already understood manually
+- the output is consistently useful
+- the review step is clear
+- the failure modes are known
+- the human role is still intact
+
+That is a high bar on purpose.
+
+---
+
+## The Scoped queue
+
+The Scoped queue is where future automations wait while the business learns what is actually worth automating.
+
+Scoped does not mean unimportant. It means the job is defined enough to explore, but not mature enough to trust live yet.
+
+Reasons something stays Scoped:
+
+- the manual workflow is still changing
+- the output has not been tested enough
+- the review path is still fuzzy
+- the business does not yet know whether this process happens often enough to justify automation
+- the automation touches a relationship, a payment, or another step that needs especially careful controls
+
+This is why Keiter's rule "run everything manually until it is boring, then automate it" matters so much. You cannot safely automate a process you do not actually understand.
+
+<Callout variant="key-rule">
+  If a process is still changing, keep it manual or keep it Scoped. Live comes after the process itself is stable.
+</Callout>
+
+---
+
+## How a new automation gets added
+
+A good candidate usually starts with friction, not novelty.
+
+Someone notices a repeatable task eating time. The team runs it manually enough times to understand the steps. The task gets scoped clearly. The agent or automation is drafted. Then the output gets reviewed in real use before anyone trusts it.
+
+Questions to ask before promoting anything:
+
+- What exact job is this automating?
+- What input does it need to do that job well?
+- What does a good output look like?
+- Who reviews the output?
+- What happens if it gets something wrong?
+- Does this create any legal, payment, or communication risk?
+
+If the answers are thin, it is not ready.
+
+---
+
+## What should never be automatic
+
+The standing principles give you the boundaries.
+
+Processes that should not skip human approval:
+
+- anything sent on behalf of Keiter & Co.
+- anything that spends money or moves payment
+- anything that publishes a live site or materially changes production infrastructure
+- anything legally adjacent
+- anything where the wrong tone could damage a relationship
+
+An agent can prepare the draft, gather the inputs, or tee up the final step. The person still pushes go.
+
+---
+
+## Why this matters for a future operator
+
+If you join Keiter & Co. later, the biggest mistake you can make with automation is to treat the fleet like a shortcut around judgment. It is not that.
+
+The agent fleet is there to keep attention on the parts only a person can do well. Good intake listening. Good client judgment. Good taste in the work. Good calls when something is ambiguous.
+
+Automation should buy more human care, not less.
+
+---
+
+## The queue will change, the rule set should not
+
+One reason the automation section belongs in the curriculum is that specific tools will evolve. New agents will get added. Existing ones may get retired or renamed. The important thing to learn is not a frozen list of automations. It is the standard by which Keiter trusts them.
+
+If you can answer these two questions, you are on solid ground:
+
+1. What job is this automation doing for the business?
+2. Where is the human review point?
+
+If either answer is fuzzy, the automation needs more work before it earns more trust.
+
+{/* Photo placeholder: Olivia reviewing an intake summary on a laptop while a handwritten notebook with client notes sits open beside it, one hand on the trackpad, natural indoor light, 16:9 aspect ratio. The image should communicate human review of machine-assisted work, not hands-off automation. */}

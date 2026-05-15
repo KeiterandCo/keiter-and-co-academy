@@ -1,0 +1,57 @@
+---
+// GlossaryTerm.astro
+// Inline term with a hover/focus popover definition sourced from the glossary collection.
+// Accessible: popover is triggered by both hover and focus.
+
+interface Props {
+  term: string;
+  definition: string;
+}
+
+const { term, definition } = Astro.props;
+const popoverId = `glossary-${term.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`;
+---
+
+<span class="glossary-term-wrapper relative inline-block">
+  <button
+    type="button"
+    class="glossary-trigger underline decoration-dotted decoration-stone underline-offset-2 text-off-black hover:text-rust focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rust rounded-sm"
+    aria-describedby={popoverId}
+    aria-expanded="false"
+  >
+    {term}
+  </button>
+  <span
+    id={popoverId}
+    role="tooltip"
+    class="glossary-popover pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 bg-off-black text-warm-white text-xs leading-relaxed px-3 py-2 rounded-lg shadow-lg opacity-0 transition-opacity duration-150 z-50"
+  >
+    <span class="font-semibold block mb-0.5">{term}</span>
+    {definition}
+    <span class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-off-black" aria-hidden="true"></span>
+  </span>
+</span>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.glossary-term-wrapper').forEach((wrapper) => {
+    const trigger = wrapper.querySelector<HTMLButtonElement>('.glossary-trigger');
+    const popover = wrapper.querySelector<HTMLElement>('.glossary-popover');
+    if (!trigger || !popover) return;
+
+    function show() {
+      popover!.classList.remove('opacity-0');
+      popover!.classList.add('opacity-100');
+      trigger!.setAttribute('aria-expanded', 'true');
+    }
+    function hide() {
+      popover!.classList.add('opacity-0');
+      popover!.classList.remove('opacity-100');
+      trigger!.setAttribute('aria-expanded', 'false');
+    }
+
+    trigger.addEventListener('mouseenter', show);
+    trigger.addEventListener('mouseleave', hide);
+    trigger.addEventListener('focus', show);
+    trigger.addEventListener('blur', hide);
+  });
+</script>

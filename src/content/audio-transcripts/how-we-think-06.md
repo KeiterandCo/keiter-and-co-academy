@@ -1,0 +1,117 @@
+# Transcript: how-we-think-06
+
+Audio narration placeholder for this module.
+
+Voice is not style. Style is a preference. Voice is how you actually talk when you are talking to someone you know. The Keiter & Co. voice is warm, direct, and unpretentious. It sounds like Olivia talking to someone she runs into at the auto shop. Not formal, not sloppy, just real.
+
+This module is about learning to write that way consistently, and about learning to catch it when you do not.
+
+What the Keiter voice sounds like
+
+The clearest way to describe the voice is by example. Here is the same sentence written two ways.
+
+  Not Keiter & Co.: "Leverage our comprehensive suite of digital solutions to unlock transformative growth for your small business in today's competitive landscape."
+
+  Keiter & Co.: "We build affordable websites for small businesses that need to be found online. Real sites that reflect who you are and where you are."
+
+The first version is corporate. It is also meaningless. No one would actually say it. The second version is something Olivia would say at the farmers market.
+
+The goal is always the second version. Not casual to the point of sloppy, just real.
+
+  "Warm, direct, unpretentious. Write like you are talking to someone you see at the auto shop or the farmers market. Not casual to the point of sloppy, just real."
+
+The hard formatting rule
+
+No em dashes. Ever.
+
+Not in proposals. Not in module copy. Not in code comments. Not in commit messages. Not in emails. Not in internal docs. Not anywhere.
+
+An em dash is this: ,
+
+It looks like a long dash. It is often used where a comma, a period, or a sentence break would work better. Writers use it as a shortcut. Keiter & Co. does not use it.
+
+  No em dashes. Ever. Use a comma, a period, or restructure the sentence. There is no exception to this rule.
+
+This applies to every word in every Keiter & Co. output. If you catch an em dash in a draft, remove it and figure out what the sentence actually needs.
+
+Why is this a hard rule? Because em dashes are one of the clearest markers of AI language. They show up constantly in AI-generated text. Banning them entirely is cleaner than trying to judge case by case.
+
+What to avoid
+
+These rules travel with every build. They apply to every word on every Keiter & Co. site and in every Keiter & Co. doc.
+
+No em dashes. Already covered. Zero exceptions.
+
+No contrast framing. Contrast framing is "this isn't X, it's Y." It sounds punchy but it comes across as dismissive, and it often misrepresents the thing being contrasted.
+
+  Avoid: "We're not a big agency pushing cookie-cutter templates. We're a real couple who actually cares about your business."
+
+  Better: "We're a real couple building affordable, professional websites for small businesses in our community."
+
+The second version says what we are. The first version says what we are not and takes a jab at agencies in the process. The jab is unnecessary and makes us sound defensive.
+
+No engagement bait or false suspense. "You won't believe what happened when we switched to this workflow." "The one thing that changed everything." This is clickbait. It treats the reader as someone to be manipulated, not someone to be helped. Do not write it.
+
+No therapy speak. "This space is a journey of healing and transformation." "Honoring your authentic self." "Sitting with discomfort." These phrases have a specific cultural context that does not belong in business copy or technical documentation. They make the writing feel soft and vague when it should feel clear and useful.
+
+No AI language. You know what this sounds like. "Delve into," "craft a seamless experience," "leverage your unique strengths," "transformative solutions," "in today's fast-paced world." If it reads like a ChatGPT output, rewrite it. The test is: would I actually say this to a real person?
+
+No corporate or agency tone. We are not an agency. We do not write like one. Avoid jargon, passive voice stacking, and sentences that sound like they came from a press release.
+
+No "Best," sign-offs. Use "Best wishes" or "Thank you." The comma-less "Best," is an affectation that landed everywhere in professional email and has no warmth in it.
+
+Women first in references and sign-offs. Olivia and Alex Keiter. Not Alex and Olivia. Every time.
+
+US English spelling and conventions. "Color" not "colour." "Organize" not "organise." The business operates in the US.
+
+Never invent information. If you do not know what a client's hours are, write a placeholder that describes exactly what goes there. Do not make up plausible-sounding hours. If you do not know a fact, flag it. Invented facts become errors in client-facing copy, and errors in client-facing copy reflect on the business.
+
+  These rules appear in the CLAUDE.md file that travels with every Keiter & Co. build. If you are in a build session and you are not sure whether a word or phrase is acceptable, this list is your reference.
+
+Teaching by example
+
+The best way to understand what the voice is is to read some of it and then try to write it yourself.
+
+Here are a few more examples. Each one shows a violation and a rewrite.
+
+Em dash violation:
+
+Before: "We build websites for the kinds of businesses we believe in,locally owned, community-rooted, and doing work that matters."
+
+After: "We build websites for locally owned businesses doing work that matters in their communities."
+
+Engagement bait violation:
+
+Before: "What we discovered about small business websites will surprise you."
+
+After: "Most small business websites are not doing the job they were built to do. Here is what we look for and why."
+
+AI language violation:
+
+Before: "Our holistic approach empowers small business owners to craft a compelling digital presence that resonates with their target demographic."
+
+After: "We build sites that are easy to find, clear about what you do, and honest about who you are."
+
+Therapy speak violation:
+
+Before: "We create a safe space for business owners to share their vision and honor their authentic brand story."
+
+After: "We listen to what you are proud of and build a site that shows it."
+
+The test
+
+When you finish writing anything, read it back and ask:
+
+1. Would I actually say this to someone I know?
+2. Is there an em dash in here?
+3. Does any of this sound like it came out of an AI?
+4. Am I telling the reader something, or am I performing for them?
+5. Is there anything I made up because I did not know the real answer?
+
+If any answer gives you pause, fix it before it goes anywhere.
+
+Practice
+
+The interactive component below gives you a set of copy samples, some of which violate the rules and some of which do not. Your job is to identify the violations and rewrite the ones that need it. The tool grades your rewrites against the rules.
+
+Interactive component here. Use the live site to try it.

@@ -1,0 +1,138 @@
+---
+interface Props {
+  moduleNumber: string;
+  moduleTitle: string;
+  audioSrc: string;
+  transcript?: string;
+}
+
+const { moduleNumber, moduleTitle, audioSrc, transcript = '' } = Astro.props;
+const instanceId = `audio-${moduleNumber}`;
+const hasTranscript = transcript.trim().length > 0;
+---
+
+<section class="section border-b border-stone/20 bg-warm-white" aria-labelledby={`${instanceId}-heading`}>
+  <div class="container max-w-3xl">
+    <div class="rounded-lg border border-stone/30 bg-cream p-5">
+      <h2 id={`${instanceId}-heading`} class="text-xl mb-2">Audio companion</h2>
+      <p class="text-sm text-stone mb-4">
+        Audio narration is currently AI-generated placeholder. Olivia is recording her own version on her schedule.
+      </p>
+
+      <audio id={`${instanceId}-element`} src={audioSrc} preload="metadata" class="sr-only">
+        <track kind="captions" />
+      </audio>
+
+      <div class="grid gap-4">
+        <div class="flex flex-wrap items-center gap-3">
+          <button
+            id={`${instanceId}-play`}
+            type="button"
+            class="inline-flex min-h-11 items-center justify-center rounded bg-moss px-4 py-2 text-sm font-semibold text-cream hover:bg-rust focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rust"
+            aria-controls={`${instanceId}-element`}
+            aria-label={`Play audio for Module ${moduleNumber}`}
+          >
+            Play
+          </button>
+
+          <label for={`${instanceId}-speed`} class="text-sm text-bark">Speed</label>
+          <select
+            id={`${instanceId}-speed`}
+            class="min-h-11 rounded border border-stone/40 bg-warm-white px-2 py-1 text-sm text-bark"
+          >
+            <option value="1">1x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+          </select>
+
+          <p id={`${instanceId}-time`} class="text-sm text-stone" aria-live="polite">0:00 / 0:00</p>
+        </div>
+
+        <div>
+          <label for={`${instanceId}-progress`} class="sr-only">Scrub audio progress</label>
+          <input
+            id={`${instanceId}-progress`}
+            type="range"
+            min="0"
+            max="100"
+            step="0.1"
+            value="0"
+            class="h-2 w-full cursor-pointer rounded-lg accent-moss"
+          />
+        </div>
+
+        {hasTranscript ? (
+          <details class="rounded border border-stone/30 bg-warm-white p-3">
+            <summary class="cursor-pointer text-sm font-semibold text-moss">Transcript for {moduleTitle}</summary>
+            <div class="mt-3 max-h-80 overflow-auto rounded bg-cream p-3">
+              <pre class="whitespace-pre-wrap text-sm leading-relaxed text-bark">{transcript}</pre>
+            </div>
+          </details>
+        ) : null}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ instanceId }}>
+  const audio = document.getElementById(`${instanceId}-element`);
+  const playButton = document.getElementById(`${instanceId}-play`);
+  const speedSelect = document.getElementById(`${instanceId}-speed`);
+  const progress = document.getElementById(`${instanceId}-progress`);
+  const timeText = document.getElementById(`${instanceId}-time`);
+
+  function formatTime(seconds) {
+    if (!Number.isFinite(seconds)) return '0:00';
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60)
+      .toString()
+      .padStart(2, '0');
+    return `${minutes}:${remainingSeconds}`;
+  }
+
+  function syncTimeText() {
+    if (!audio || !timeText) return;
+    timeText.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+  }
+
+  playButton?.addEventListener('click', async () => {
+    if (!audio || !playButton) return;
+    if (audio.paused) {
+      await audio.play();
+      playButton.textContent = 'Pause';
+      playButton.setAttribute('aria-label', 'Pause audio');
+    } else {
+      audio.pause();
+      playButton.textContent = 'Play';
+      playButton.setAttribute('aria-label', 'Play audio');
+    }
+  });
+
+  speedSelect?.addEventListener('change', () => {
+    if (!audio || !speedSelect) return;
+    audio.playbackRate = Number(speedSelect.value);
+  });
+
+  audio?.addEventListener('loadedmetadata', () => {
+    if (!progress || !audio) return;
+    progress.max = String(audio.duration || 0);
+    syncTimeText();
+  });
+
+  audio?.addEventListener('timeupdate', () => {
+    if (!progress || !audio) return;
+    progress.value = String(audio.currentTime);
+    syncTimeText();
+  });
+
+  audio?.addEventListener('ended', () => {
+    if (!playButton) return;
+    playButton.textContent = 'Play';
+    playButton.setAttribute('aria-label', 'Play audio');
+  });
+
+  progress?.addEventListener('input', () => {
+    if (!audio || !progress) return;
+    audio.currentTime = Number(progress.value);
+  });
+</script>

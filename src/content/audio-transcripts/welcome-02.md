@@ -1,0 +1,120 @@
+# Transcript: welcome-02
+
+Audio narration placeholder for this module.
+
+Every decision Keiter & Co. makes runs through the same five principles. Not as a checklist, not as a tagline, but as an actual filter. Before Olivia sends a proposal, before Alex commits code, before any agent does anything, these principles apply.
+
+This module names them, explains each one in plain language, and gives you enough real-world context to hold them when a situation gets complicated.
+
+The five standing principles
+
+  These principles appear at the top of the Keiter & Co. project instructions. They travel into every build session. If a CLAUDE.md file is present in a project repo, these principles are in it. If they are not, something is wrong.
+
+1. We build for people we know and care about.
+
+The work reflects on us and on our community. Every output should feel like it came from someone who gave a damn, not someone trying to close a ticket fast.
+
+This one sounds obvious until you are in a build session at 10pm trying to get a deploy working and you take a shortcut that technically functions but looks slightly off. The principle says: fix it. Not because a client will notice, but because you will.
+
+Keiter & Co. works in communities where Olivia and Alex are neighbors to their clients. The business owner they built a site for is someone they will see at the farmers market on Saturday. That changes how you hold the work.
+
+2. We work with AI. It does not work for us.
+
+This principle covers how Claude fits into the workflow. Claude is a build partner, not an autonomous agent. Claude recommends, builds, and automates. Olivia and Alex make the calls.
+
+In practice, this means:
+- No agent sends, posts, publishes, or communicates on behalf of Keiter & Co. without a human reviewing and approving first.
+- Claude writes copy. Olivia reads it. If it would not come out of Olivia's mouth in a real conversation, it gets rewritten.
+- Claude runs builds. Olivia or Alex reviews the output before it touches a client.
+
+The AI does not have the relationship with the client. The people do. The AI does not have the reputation at stake. The people do. Keep that hierarchy clear and the work is better.
+
+3. Agents recommend, build, and automate as far as possible. Humans push go. Always.
+
+This is the operational version of Principle 2. It is specific about where the line sits.
+
+Claude Code can initialize a project, install dependencies, build components, run a test suite, write a spec, and produce a kickoff prompt. It does not push to GitHub. It does not send a proposal to a client. It does not make a payment. It does not publish a site.
+
+Humans push go. Always.
+
+This is not a technology limitation. It is a deliberate choice about accountability. Olivia and Alex are responsible for everything that goes to a client. That responsibility requires the ability to review before it goes. Automation that removes the review step removes the accountability.
+
+  If you are ever designing a workflow and you catch yourself removing the human review step to make it faster, stop. The review step is the point. Speed it up, yes. Remove it, no.
+
+4. We are not lawyers. When anything feels legally adjacent, stop and verify.
+
+This applies to: image licensing, font licensing, copyright in client copy, client contracts, anything touching someone else's intellectual property, data handling, payment terms, liability clauses.
+
+The instinct to move fast is good. Moving fast through something that turns out to be legally problematic is expensive. Stop and verify is the cheaper move.
+
+Olivia and Alex have a referral for a small business attorney. When something in a build or a client situation feels like it needs a legal opinion, ask for one. Do not use this curriculum, or the project instructions, or anything else in the Keiter methodology as a substitute for actual legal advice.
+
+5. No AI language, ever.
+
+If it would not come out of your mouth in a real conversation with a neighbor at the farmers market, rewrite it.
+
+AI language has a texture. "Leverage your unique strengths to unlock transformative potential." "Delve into the nuanced landscape of modern web development." "Craft a seamless experience that resonates with your audience." You know it when you see it. It sounds like no one said it.
+
+Every word on every Keiter & Co. site, in every proposal, in every internal doc, in every module of this curriculum, gets this test. If it fails, it gets rewritten. There are no exceptions.
+
+This is harder than it sounds because AI language is catching. It sneaks in when you are tired or moving fast. The discipline is to read it back and ask: would I actually say this?
+
+The partnership
+
+Keiter & Co. is Olivia and Alex Keiter. Olivia and Alex are equal partners. Each runs their own clients independently.
+
+Olivia is business lead, client relationships, content, and builder. She uses Claude Code for build tasks. She is not hands-off on the technical side.
+
+Alex is primary builder and technical lead. He owns hosting infrastructure, complex builds, and anything requiring deeper engineering work.
+
+On small decisions: act and inform. On decisions that affect both partners or a client relationship materially, loop in your partner before moving.
+
+Currently Olivia is running all operations while Alex is being onboarded. Once onboarded, Alex runs builds and client relationships the same way Olivia does. The workflow, agents, and tools are the same for both.
+
+When referring to the business or signing off on anything: Olivia and Alex Keiter, or Keiter & Co. Women first, always.
+
+  The build roles section of the project instructions covers the full Olivia/Alex split in detail, including what "equal partners" means operationally and how to handle the transition period.
+
+The constraints
+
+Constraints are the real-world limits on the work. They are not excuses. They are context that shapes how the work gets done.
+
+Two people, two kids, a farm. Capacity is real. Keiter & Co. runs up to five active clients at any stage simultaneously as a soft guideline. Active build work runs one to two clients at a time. This is not a complaint. It is an honest description of the operating model.
+
+Primary service area. Bennington VT, North Adams MA, Hoosick NY, Troy NY, Williamstown MA, and the surrounding rural area. Albany and the Capital Region are in scope. Outside that area: case by case. Two people, two kids, a farm.
+
+Scope of work. Keiter & Co. is a web design business. Not a full digital agency. Not a marketing retainer shop. Not an IT support line. The scope is building professional websites and managing hosting for clients who need them. When a client asks for something outside that scope, the answer is a clear referral, not a stretch into territory we are not equipped to cover.
+
+Not lawyers, not photographers, not accountants. The business has referrals for each. Use them. Do not try to be all things.
+
+How we actually operate
+
+These are not policies. They are how Olivia and Alex actually work.
+
+Think out loud. Neither partner needs to have the answer before starting a conversation. Talking toward the answer together is the process.
+
+Move when you can. Builds are fast. Internal decisions should not sit waiting. Client relationships move at the client's pace, and that is fine.
+
+Treat every interaction as a community relationship. Every email, every site, every message reflects on Olivia and Alex personally. Treat it that way.
+
+Run everything manually until it is boring, then automate it. This applies to every process in this document. The manual process exists first so you actually understand what you are automating.
+
+Pulling it together
+
+The five principles are not decoration. They are a decision framework. When something comes up in a build, in a client conversation, or in an internal process that feels ambiguous, run it through the principles.
+
+Does this output reflect care for the people involved, or does it reflect a fast close?
+
+Are we working with AI, or has AI started working for us?
+
+Is there a human review step before anything goes out?
+
+Does anything here feel legally adjacent?
+
+Does this copy sound like a real person?
+
+If the answers are clean, move forward. If any one of them pulls at you, slow down and look closer.
+
+The interactive component below is a set of flashcards covering each principle. The goal is to get them to the point where you do not need to look them up.
+
+Interactive component here. Use the live site to try it.

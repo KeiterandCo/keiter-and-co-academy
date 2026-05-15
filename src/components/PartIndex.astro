@@ -1,0 +1,59 @@
+---
+// PartIndex.astro
+// Renders a part landing block with intro text and a list of modules in that part.
+
+interface Module {
+  moduleNumber: string;
+  title: string;
+  learningGoal: string;
+  estimatedMinutes: number | string;
+  href: string;
+}
+
+interface Props {
+  partLabel: string;
+  partSlug: string;
+  intro: string;
+  modules: Module[];
+}
+
+const { partLabel, partSlug, intro, modules } = Astro.props;
+
+const totalMinutes = modules.reduce((sum, m) => {
+  return typeof m.estimatedMinutes === 'number' ? sum + m.estimatedMinutes : sum;
+}, 0);
+---
+
+<section class="mb-12" aria-labelledby={`part-heading-${partSlug}`}>
+  <div class="mb-6">
+    <h2 id={`part-heading-${partSlug}`} class="font-serif text-2xl font-semibold text-off-black mb-2">
+      {partLabel}
+    </h2>
+    <p class="text-stone text-sm mb-1">{intro}</p>
+    {totalMinutes > 0 && (
+      <p class="text-xs text-stone">About {totalMinutes} minutes total</p>
+    )}
+  </div>
+
+  <ol class="space-y-3 list-none p-0 m-0">
+    {modules.map((mod) => (
+      <li>
+        <a
+          href={mod.href}
+          class="flex items-start gap-4 p-4 bg-warm-white border border-stone/20 rounded-lg hover:border-rust/40 hover:shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-rust focus-visible:ring-offset-2 group"
+        >
+          <span class="font-mono text-xs text-stone mt-0.5 shrink-0 w-8">{mod.moduleNumber}</span>
+          <div class="min-w-0">
+            <p class="font-medium text-off-black group-hover:text-rust transition-colors leading-snug mb-0.5">
+              {mod.title}
+            </p>
+            <p class="text-sm text-stone leading-relaxed line-clamp-1">{mod.learningGoal}</p>
+          </div>
+          <span class="text-xs text-stone whitespace-nowrap ml-auto mt-0.5 shrink-0">
+            {typeof mod.estimatedMinutes === 'number' ? `${mod.estimatedMinutes} min` : mod.estimatedMinutes}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>

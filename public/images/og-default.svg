@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Keiter and Co. Academy</title>
+  <desc id="desc">Branded Open Graph image for Keiter and Co. Academy.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#FDFAF5"/>
+      <stop offset="100%" stop-color="#F5F0E8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="64" y="64" width="1072" height="502" rx="28" fill="#FFFFFF" opacity="0.55"/>
+  <rect x="92" y="96" width="7" height="438" fill="#6B7C5C"/>
+  <text x="130" y="220" fill="#1E1610" font-family="Lora, Georgia, serif" font-size="74" font-weight="700">
+    Keiter and Co. Academy
+  </text>
+  <text x="130" y="300" fill="#4A3728" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="500">
+    Learn to run a complete Keiter build from zero.
+  </text>
+  <text x="130" y="374" fill="#4A3728" font-family="Inter, Arial, sans-serif" font-size="28">
+    Intake. Three documents. Build. Launch. Care.
+  </text>
+  <rect x="130" y="430" width="362" height="56" rx="28" fill="#B85C38"/>
+  <text x="161" y="468" fill="#F5F0E8" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="600">
+    learn.keiterandco.com
+  </text>
+</svg>

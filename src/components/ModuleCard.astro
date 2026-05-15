@@ -1,0 +1,71 @@
+---
+// ModuleCard.astro
+// Renders a module preview card with title, learning goal, time, part badge, and completion state.
+// Completion state is read from localStorage on the client side.
+
+interface Props {
+  moduleNumber: string;
+  title: string;
+  learningGoal: string;
+  estimatedMinutes: number | string;
+  partSlug: string;
+  partLabel: string;
+  href: string;
+}
+
+const { moduleNumber, title, learningGoal, estimatedMinutes, partSlug, partLabel, href } = Astro.props;
+
+const partColors: Record<string, string> = {
+  welcome: 'bg-moss/10 text-moss',
+  tools: 'bg-bark/10 text-bark',
+  'how-we-think': 'bg-rust/10 text-rust',
+  'how-we-build': 'bg-stone/20 text-off-black',
+  business: 'bg-mauve-faint text-bark',
+  practice: 'bg-cream text-off-black',
+};
+
+const badgeColor = partColors[partSlug] ?? 'bg-stone/20 text-off-black';
+const cardId = `module-card-${moduleNumber}`;
+---
+
+<a
+  href={href}
+  class="group block bg-warm-white border border-stone/20 rounded-lg p-5 hover:border-rust/40 hover:shadow-md transition-all duration-200 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-rust focus-visible:ring-offset-2"
+  aria-describedby={cardId}
+>
+  <div class="flex items-start justify-between gap-3 mb-3">
+    <span class={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeColor}`}>
+      {partLabel}
+    </span>
+    <span class="text-xs text-stone tabular-nums whitespace-nowrap">
+      {typeof estimatedMinutes === 'number' ? `${estimatedMinutes} min` : estimatedMinutes}
+    </span>
+  </div>
+
+  <div class="flex items-baseline gap-2 mb-2">
+    <span class="text-xs font-mono text-stone">Module {moduleNumber}</span>
+    <span
+      id={`complete-badge-${moduleNumber}`}
+      class="hidden text-xs font-medium text-moss"
+      aria-label="Completed"
+    >
+      Done
+    </span>
+  </div>
+
+  <h3 class="font-serif text-base font-semibold text-off-black mb-1.5 group-hover:text-rust transition-colors leading-snug">
+    {title}
+  </h3>
+
+  <p id={cardId} class="text-sm text-stone leading-relaxed line-clamp-2">
+    {learningGoal}
+  </p>
+</a>
+
+<script define:vars={{ moduleNumber }}>
+  const key = `academy-complete-${moduleNumber}`;
+  if (localStorage.getItem(key) === 'true') {
+    const badge = document.getElementById(`complete-badge-${moduleNumber}`);
+    if (badge) badge.classList.remove('hidden');
+  }
+</script>

@@ -794,3 +794,474 @@ The methodology calls for handoff notes at the end of every phase. Take them ser
 When the build is complete, this kickoff itself becomes a worked example future operators read alongside the Hickory Hill kickoff and the Outpost kickoff.
 
 Push go when ready.
+
+---
+
+## Phase 1 handoff
+
+Done:
+- Astro v6 project initialized (minimal template) in `C:\workspace\keiter-co\keiter-and-co-academy`
+- Dependencies installed: `@astrojs/react`, `@astrojs/mdx`, `@astrojs/sitemap`, `astro-pagefind`, `@tailwindcss/vite`
+- `astro.config.mjs` updated: all integrations wired, `site: https://learn.keiterandco.com`, `build.format: directory`
+- Tailwind CSS v4 configured via `@theme` block in `src/styles/global.css` (no `tailwind.config.js` needed in v4). Full brand token set inherited from marketing site: cream, warm-white, bark, moss, stone, rust, off-black, mauve, mauve-faint. Lora (serif, headings) and Inter (sans, body) defined via `@font-face` declarations.
+- `CLAUDE.md` written at repo root. Full standing principles, hard formatting rule, voice, copy standards, stack reference, build standards summary, travel rules.
+- `BUILDNOTES.md` written with all flagged open items.
+- `src/layouts/Layout.astro` built: head with meta, OpenGraph, schema slot, GA snippet (gated on `!import.meta.env.DEV`), four font preloads, body renders Header, slot, Footer.
+- `src/components/Header.astro`, `MobileNav.astro`, `Footer.astro` built.
+- `public/fonts/` and `public/images/` directories created.
+- All routes stubbed: `/`, `/start`, `/curriculum`, `/curriculum/[part]`, `/curriculum/[part]/[module]` (all 23 modules), `/resources`, `/glossary`, `/about`, `/search`, `/404`.
+- Build runs clean: 37 pages built, 0 errors, font warnings only (expected).
+- Git repo initialized. First commit: `3e8732b`. Pushed to `github.com/KeiterandCo/keiter-and-co-academy` on `master`.
+
+Deferred to later phases:
+- Self-hosted font woff2 files not yet downloaded. System fallback stack active. Font preloads point to `/fonts/*.woff2` which will resolve once files are placed in `public/fonts/`. Flagged in BUILDNOTES.
+- Hero photo, About page portrait: placeholders described in code, flagged in BUILDNOTES.
+- OG default image: not created. Flagged in BUILDNOTES.
+- Branded favicon: Astro default in place. Flagged in BUILDNOTES.
+- GA property ID: placeholder string in Layout. Flagged in BUILDNOTES.
+- Audio files: deferred to Phase 10.
+- HoneyBook walkthrough (Module 17): flagged.
+- Month-1 check-in (Module 20): flagged.
+- Capstone client (Module 22): flagged.
+
+Known issues:
+- Font woff2 files missing from `public/fonts/` produce build-time warnings. No functional impact in dev; browsers fall back to system fonts. To resolve: download Lora (400, 600, 700) and Inter (400, 500, 600) woff2 files and place them in `public/fonts/`.
+
+State:
+- Localhost: http://localhost:4321
+- Last commit: `3e8732b` Phase 1: scaffold, shell, all routes stubbed, CLAUDE.md written
+- Repo: https://github.com/KeiterandCo/keiter-and-co-academy
+- Next phase: Phase 2 (content infrastructure)
+
+For Olivia:
+- Font files: download or confirm you want to use Google Fonts CDN as a temporary fallback while Phase 2 is in progress. Self-hosting is required before launch.
+- GA property ID: provide the ID so the GA snippet is wired to the real property before Phase 11.
+- Favicon: provide a branded `.ico` or `.svg` before Phase 11. Astro default is in place.
+- OG default image: provide a branded image (1200x630) before Phase 11.
+- Alex on About page: confirm before Phase 5 whether to include Alex. Default is Olivia only.
+- Capstone client (Module 22): confirm before Phase 6 whether to use a fictional client or a real past client with their permission.
+
+---
+
+## Phase 2 handoff
+
+Done:
+- Content collections validated and confirmed working (`modules`, `glossary`, `resources` in `src/content.config.ts`).
+- Three placeholder entries exist per collection (3 modules, 3 glossary terms, 3 resources).
+- All eight content components confirmed built and rendering:
+  - `ModuleCard.astro`: title, goal, time, part badge, localStorage completion indicator.
+  - `PartIndex.astro`: part heading, intro, module list with goals and times.
+  - `Callout.astro`: four variants (source-of-truth, warning, example, key-rule), each with distinct visual style.
+  - `CodeBlock.astro`: code label, copy-to-clipboard button.
+  - `GlossaryTerm.astro`: hover and focus popover, ARIA-compliant.
+  - `LearningGoals.astro`: checklist of learning goals at module top.
+  - `ProgressIndicator.astro`: sticky bar with part progress bar and curriculum progress bar.
+  - `LastReviewed.astro`: date and expandable source list.
+- Module page (`/curriculum/[part]/[module]`) fully upgraded:
+  - Pulls MDX content from collection via `getCollection` and `render` when a matching entry exists.
+  - Falls back to placeholder callout for modules without content yet.
+  - Renders ProgressIndicator, LearningGoals, content slot, LastReviewed.
+  - Mark-complete toggle with localStorage persistence, ARIA `aria-pressed` state.
+  - Prev/next nav and feedback mailto link.
+- Glossary page merges content collection entries with static terms. Collection entries override static entries by term name. Alphabetical grouping and jump nav working.
+- Resources page merges collection entries with static placeholder cards. Collection-backed cards are visually distinguished.
+- Landing page (`/`): hero, "Who this is for" cards, curriculum overview, "What success looks like" all rendering.
+- Start page (`/start`): three branching entry-point cards rendering.
+- Curriculum index (`/curriculum`): all six parts with module lists rendering.
+- Part index (`/curriculum/[part]`): all six parts render PartIndex with intro and module list.
+- About page (`/about`): copy and photo placeholder rendering.
+- Search page (`/search`): Pagefind UI mounted.
+- 404 page: branded and linking home.
+- Pagefind indexed 37 pages on build.
+- Build: 37 pages, 0 errors, 0 warnings beyond expected font-file-missing notices.
+
+Deferred to later phases:
+- Font woff2 files still missing from `public/fonts/`. Flagged in BUILDNOTES. System fallback active.
+- Audio player slot is a code comment on every module page. Slot is empty until Phase 10.
+- Search modal trigger in Header links to `/search` page. A client-side modal layer can be added in Phase 8 or 9 if desired.
+- Interactive components (flashcard, copy rewrite, context visualizer, etc.) stubbed in module pages. Built in Phases 8 and 9.
+- Resources download links point to paths that do not exist yet. All cards show "Available in Phase 7."
+
+Known issues:
+- None. Build clean.
+
+State:
+- Localhost: http://localhost:4321
+- Next phase: Phase 3 (self-sourced content batch 1, Modules 01, 02, 06, 09, 10, 11)
+
+For Olivia:
+- Nothing required before Phase 3. Source docs for the Phase 3 modules (project instructions, decision log, spec, methodology doc) are all accessible in this workspace.
+- Font files and branded assets (favicon, OG image) are still open. They do not block Phase 3 but should be provided before Phase 11.
+
+---
+
+## Phase 3 handoff note
+
+Date: 2026-05-09
+
+Done:
+- Module 01 (welcome-01.mdx): "Welcome and how to use this curriculum." Full prose, photo placeholder (behind-the-scenes farmhouse, 16:9), source-of-truth callout referencing spec.
+- Module 02 (welcome-02.mdx): "The Keiter & Co. operating system." Full prose covering all five standing principles, partnership structure, constraints. Photo placeholder (handwritten principles in notebook, 4:3). Interactive stub for PrinciplesFlashcards.
+- Module 06 (how-we-think-06.mdx): "Voice and tone." Full prose covering the Keiter voice, the no-em-dash rule, all copy violations, right vs. wrong examples. Photo placeholder (Olivia writing at kitchen table, 4:3). Interactive stub for CopyRewritePractice.
+- Module 09 (how-we-build-09.mdx): "The three-document system." Full prose covering why three documents, decision log, spec, kickoff, and how they work together. Outpost Vending excerpts as real examples. Photo placeholder (three printed documents on desk, 16:9). Two interactive stubs (KickoffPromptGenerator, DecisionLogGenerator).
+- Module 10 (how-we-build-10.mdx): "Phased prompts and context window management." Full prose covering context windows, the phased kickoff solution, handoff note format, the 12-phase academy kickoff as a worked example, stop gates. Photo placeholder (notebook with phase list and handoff note, 4:3). Interactive stub for ContextWindowVisualizer.
+- Module 11 (how-we-build-11.mdx): "Build standards I: SEO, AEO, accessibility, mobile." Full prose covering semantic HTML, WCAG 2.2 AA, SEO meta standards, AEO principles, JSON-LD schema examples (LearningResource, LocalBusiness), mobile-first workflow and checkpoints. Photo placeholder (laptop with dev tools open showing JSON-LD, 16:9). Interactive stub for AEOChecker.
+
+Deferred:
+- Audio files: all six modules have an audio player slot via front matter field. No audio files exist yet. Deferred to Phase 10.
+- Real photos: all six modules have detailed photo placeholder descriptions. No actual images provided yet. Deferred to a future phase when Olivia provides assets.
+- Interactive components (PrinciplesFlashcards, CopyRewritePractice, KickoffPromptGenerator, DecisionLogGenerator, ContextWindowVisualizer, AEOChecker): stubbed with detailed spec comments in module pages. Built in Phases 8 and 9.
+
+Known issues:
+- None. Build clean. 37 pages generated. All six Phase 3 modules render without errors.
+
+State:
+- Localhost: http://localhost:4321
+- Next phase: Phase 4 (self-sourced content batch 2, Modules 12, 13, 14, 16, 17, 18)
+
+For Olivia:
+- Module 09 includes real excerpts from the Outpost Vending decision log and spec as worked examples. Review for accuracy and client sensitivity before the site goes public.
+- Module 11's LocalBusiness JSON-LD block uses Outpost Vending as the example. It has two PLACEHOLDER markers for telephone and foundingDate that need to be confirmed with the client before that example ships.
+- No content decisions blocked Phase 3. Phase 4 sources are all available in this workspace except HoneyBook process notes, which the kickoff flags as an optional supplement for Module 16.
+
+---
+
+## Phase 4 handoff note
+
+Date: 2026-05-09
+
+Done:
+- Module 12 (how-we-build-12.mdx): "Build standards II: the personality and polish layer." Full prose covering online personality, motion, hover states, SVG, font loading, image standards, section variety, footer rules, CTA audit, dark mode, print, and 404 expectations. Photo placeholder (homepage draft review desk scene, 16:9). Interactive stub for FirstDraftQualityBar.
+- Module 13 (how-we-build-13.mdx): "Definition of Done and BUILDNOTES.md." Full prose covering why the DOD exists, how to run it by category, how BUILDNOTES works, and how the academy's own BUILDNOTES acts as the example. Photo placeholder (printed checklist beside laptop, 4:3). Interactive stub for DODChecklist.
+- Module 14 (how-we-build-14.mdx): "The agent fleet and automation queue." Full prose covering the agent hierarchy, Live agents (Intake Agent and Business Radar), what the Scoped queue is for, promotion criteria for automations, and the standing rule that humans push go. Photo placeholder (human review of intake summary, 16:9).
+- Module 16 (business-16.mdx): "Pricing, tiers, Care Plans, and the no-upfront plan." Full prose covering Starter, Standard, and Custom tier fit, how to explain Care Plans and the no-upfront option in plain language, and how to make a clean tier recommendation without inventing current pricing. Photo placeholder (pricing conversation across a table, 16:9). Interactive stub for TierSelector.
+- Module 17 (business-17.mdx): "Proposals, contracts, and payment." Full prose covering one-page proposal structure, contract and deposit logic, and payment edge cases. HoneyBook operational walkthrough shipped as a clearly flagged structural placeholder per Olivia's direction. Photo placeholder (proposal and payment portal on table, 4:3). Interactive stub for ProposalTemplate.
+- Module 18 (business-18.mdx): "Infrastructure." Full prose covering the Keiter stack, domain at Namecheap, repo creation under KeiterandCo, Netlify hosting and DNS, first deploy flow, environment variables, smoke tests, and common deploy failures. Photo placeholder (Netlify dashboard and checklist, 16:9). Interactive stub for InfrastructureChecklist.
+
+Deferred:
+- Audio files: all six Phase 4 modules have the same audio slot pattern as earlier modules. No audio assets exist yet. Deferred to Phase 10.
+- Real photos: all six modules have detailed photo placeholders only. Real image assets still need to be provided later.
+- Interactive components (FirstDraftQualityBar, DODChecklist, TierSelector, ProposalTemplate, InfrastructureChecklist): stubbed in content and deferred to Phases 8 and 9.
+- HoneyBook screen-by-screen walkthrough: Module 17 ships with structural content and a flagged placeholder for Olivia's later operational walkthrough.
+
+Known issues:
+- Module 16 intentionally avoids quoting current pricing figures or plan pricing from memory. Exact current terms still need to come from the service-tier source docs before public launch review.
+- Module 17 still depends on Olivia's documented HoneyBook flow for the final operational walkthrough.
+
+State:
+- Localhost: http://localhost:4321
+- Next phase: Phase 5 (self-sourced content batch 3, Modules 19, 20, 23)
+
+For Olivia:
+- HoneyBook walkthrough decision surfaced during Phase 4. Direction chosen: ship Module 17 now with a structural placeholder rather than block the module.
+- Before launch review, confirm the current pricing sheet or source doc wording that should govern any public-facing phrasing around plan details.
+- Phase 5 will need the month-1 check-in decision for Module 20 before that module can be finalized without a placeholder.
+
+---
+
+## Phase 5 handoff note
+
+Date: 2026-05-09
+
+Done:
+- Module 19 (business-19.mdx): "Launch and the Welcome to the Family guide." Full prose covering pre-launch discipline, the in-person handoff preference, every section of the Welcome guide explained, what the guide is doing for the client relationship, a clean launch sequence, and what to avoid. Photo placeholder (Olivia handing guide across table, 16:9). Interactive stub for GuideSpecWalkthrough.
+- Module 20 (business-20.mdx): "Care Plans in practice, ongoing comms, offboarding." Full prose covering Care Plan purpose, monthly rhythm, hosting responsibility, monthly communication standards, small task boundaries, offboarding steps, and a simple monthly operator checklist. Month-1 check-in section ships as a clearly flagged placeholder per phase instructions. Photo placeholder (monthly check-in desk scene, 16:9). Interactive stub for MonthlySnapshotTemplate.
+- Module 23 (practice-23.mdx): "Reference, templates, and cheat sheets." Short reference module, 5 minutes as planned. Maps everything on the Resources page: templates, cheat sheets, worked examples. Explains how to use templates without filling them mechanically.
+- Resource metadata collection: all template and cheat-sheet entries now backed by actual downloadable Markdown files in public/resources/templates/ and public/resources/cheat-sheets/. Worked example entries in public/resources/worked-examples/.
+- Downloadable templates created: decision-log-template.md, spec-template.md, kickoff-template.md, guide-spec-template.md, buildnotes-template.md, claude-md-template.md.
+- Cheat sheets created: hard-rules-at-a-glance.md, build-standards-summary.md, dod-checklist.md.
+- Worked example reference notes created: academy-decision-log.md, academy-spec.md, outpost-vending.md.
+- Resources page updated: removed Phase 7 placeholder stubs, replaced with collection-driven entries that show real download links where files exist.
+- Resource collection schema extended: downloadPath is now optional; a new downloads array allows multiple download variants per entry (used by the cheat sheets for potential PDF additions later).
+- About page copy tightened: Olivia-only by default per spec, description improved, About Keiter & Co. paragraph revised for voice.
+- BUILDNOTES updated: month-1 check-in entry updated to reflect current state (placeholder ships); cheat sheet PDF generation decision added as a new flagged item.
+- Build validates clean with 37 pages, no errors.
+
+Deferred:
+- Audio files: all three Phase 5 modules have audio slot in template but no files. Deferred to Phase 10.
+- Real photos: all three modules have detailed photo placeholders only.
+- Interactive components (GuideSpecWalkthrough, MonthlySnapshotTemplate): stubbed in content, deferred to Phases 8 and 9.
+- Month-1 check-in: ships as a flagged placeholder. Needs a working session with Olivia before the section finalizes.
+- Cheat sheet PDFs: Markdown downloads are live. PDF format is an open decision flagged in BUILDNOTES.
+
+Known issues:
+- Font files are still missing from public/fonts/ (font fallback is working, pre-production polish item).
+- OG default image still needed at public/images/og-default.png.
+
+State:
+- Localhost: http://localhost:4321
+- Next phase: Phase 6 (original content drafts, Modules 03, 04, 05, 21)
+
+For Olivia:
+- Month-1 check-in process still needs to be documented before Module 20 finalizes. Module ships clearly flagged rather than invented.
+- PDF generation approach needs a decision before the Phase 11 launch review. Options are: styled print export through the browser, or programmatic generation. The Markdown downloads are live now.
+- Alex on the About page: the current About page is Olivia-only per spec default. Confirm before Phase 6 whether Alex should appear. If yes, surface the decision and add in the same session.
+- The cheat sheets are available as Markdown downloads now. The Resources page says PDF downloads appear where available, leaving room to add them without a re-edit.
+
+---
+
+## Phase 7 handoff note
+
+Date: 2026-05-12
+
+Done:
+- Module 07 added at src/content/modules/how-we-think-07.mdx as a working-session placeholder with: voice-discovery framing, intake voice-question list, under-construction callout, and clear learner next steps.
+- Module 08 added at src/content/modules/how-we-think-08.mdx as a working-session placeholder with: principle-tension framing, bridge framework, cross-links to Module 02 and Module 09, under-construction callout, and next steps.
+- Module 15 added at src/content/modules/business-15.mdx as a working-session placeholder with: intake category structure, brief-generation flow, explicit under-construction callout for the intake-in-action layer, and next steps.
+- Module 22 added at src/content/modules/practice-22.mdx as a working-session placeholder with: learner-of-choice framing and fictional fallback, capstone output definition, high-level milestones, under-construction callout, and next steps.
+- New callout variant added in src/components/Callout.astro: under-construction. This creates a distinct visual treatment for working-session placeholders.
+- Curriculum index updated in src/pages/curriculum/index.astro. Modules 07, 08, 15, and 22 now display: "Coming soon: working session in progress."
+- Part indexes updated in src/pages/curriculum/[part]/index.astro. The same four modules now carry the coming-soon status marker in their module rows.
+
+Deferred:
+- Working-session content itself remains pending for Modules 07, 08, 15, and 22. Placeholders now name the missing content explicitly so post-launch sessions can fill it without ambiguity.
+- Intake Agent prompt file from the keiter-and-co-site repo is still not present in this workspace. Placeholder structure references current academy source docs until that file is synced.
+
+Known issues:
+- None introduced by this phase so far. Build verification still required for this handoff.
+
+State:
+- Localhost: http://localhost:4321
+- Next phase: Phase 8 (Interactive components I)
+
+For Olivia:
+- Voice discovery session (Module 07) needs the extraction skill layer and industry pattern examples.
+- Decision-making session (Module 08) needs real principle-tension scenarios and live reasoning patterns.
+- Intake session (Module 15) needs pacing cues, listening cues, and in-the-moment guidance.
+- Capstone session (Module 22) needs milestone prompts, fictional client definition, and first-build rubric.
+
+---
+
+## Phase 8 handoff note
+
+Date: 2026-05-12
+
+Done:
+- Created src/components/interactive/ folder.
+- Built KickoffPromptGenerator.tsx: form inputs for business name, type, primary visitor action, page count, voice notes, brand notes. Output is a partial Keiter-format kickoff document covering two phases. Copyable. Cleans em dashes from all inputs before output. Placed in Module 09.
+- Built DecisionLogGenerator.tsx: form inputs for business name, context, decision topic, three options (C optional), decision made, reasoning, out-of-scope, flags. Output is a Considered/Decided/Reasoning block. Copyable. Em dash stripping applied. Placed in Module 09.
+- Built SurfaceSelector.tsx: task picker with two follow-up questions (access type and urgency level). Produces a surface recommendation (Chat, Code, or Cowork) with reasoning for each scenario. Placed in Module 04.
+- Built AEOChecker.tsx: inputs for page title, meta description, business type (local vs. non-local), and planned schema type. Scores six criteria: title in range, description under 160 chars, reads as an answer, location signals present (when local), plain language, and schema selected. Scores display inline. Placed in Module 11.
+- Built DODChecklist.tsx: full Keiter DOD checklist organized into six categories. Each item has a status selector (open, done, deferred) and a note field. Persistent localStorage state keyed by a user-entered build name. Score summary panel. Copy report output for BUILDNOTES use. Print button. Placed in Module 13.
+- Replaced all five module stubs with live client:load component calls. The old interim "arrives in Phase 8" placeholder divs are removed.
+- Created full content for Module 04 (tools-04.mdx): three-surface primer covering Chat, Code, and Cowork with real Keiter examples for each, when-to-use guidance, switching patterns, and the live SurfaceSelector component.
+- Build clean: 37 pages, 0 errors.
+
+Deferred:
+- Modules 05, 03, and 21 are not yet written (Phase 6 scope). Module 04 is now written and complete.
+- Nine Phase 9 interactive components are not yet built. Stubs remain in their respective modules.
+- Audio files: still deferred to Phase 10. All Phase 8 modules have audio slot in template.
+- Real photos: all modules with new content have detailed placeholder descriptions only.
+
+Known issues:
+- Font woff2 files still missing from public/fonts/. Pre-existing, not introduced by Phase 8.
+
+What learners can now do that they could not before:
+- Generate a Keiter-format kickoff prompt draft and a decision log entry inside the curriculum without leaving the page.
+- Get a surface recommendation (Chat, Code, or Cowork) based on their task.
+- Check a page title and meta description against AEO standards and get criterion-level feedback.
+- Track a full build against the Definition of Done checklist with persistent state, per-item notes, and a copy-to-clipboard report.
+
+State:
+- Localhost: http://localhost:4321
+- Build: 37 pages, clean
+- Next phase: Phase 9 (Interactive components II)
+
+For Olivia:
+- Review Module 04 (tools-04.mdx) before Phase 9 since it is an original draft. Voice and Claude surface descriptions should match what you and Alex actually use.
+- No decisions required before Phase 9 starts.
+
+---
+
+## Phase 9 handoff note
+
+Date: 2026-05-13
+
+Done:
+- Built ContextWindowVisualizer.tsx and wired it into Module 10.
+- Built VoiceDiscoveryDeck.tsx and wired it into Module 07.
+- Built CopyRewritePractice.tsx and wired it into Module 06.
+- Built TierSelector.tsx and wired it into Module 16.
+- Built ProposalTemplate.tsx and wired it into Module 17.
+- Built MonthlySnapshotTemplate.tsx and wired it into Module 20.
+- Built BuildTracker.tsx and wired it into Module 22.
+- Built PrinciplesFlashcards.tsx and wired it into Module 02.
+- Built PickTheNextMove.tsx and wired it into Module 08 with a principles-focused scenario subset.
+- Replaced Phase 9 placeholder cards in the modules above with live client:load component mounts.
+
+Deferred:
+- Module 05 is still not present in src/content/modules/, so PickTheNextMove is currently mounted only in Module 08.
+- Module 12 still references a FirstDraftQualityBar interactive concept from Phase 4 content and is outside the defined Phase 9 component list.
+- Audio remains deferred to Phase 10.
+
+Known issues:
+- Font WOFF2 files are still missing from public/fonts/ and remain tracked in BUILDNOTES.md.
+- Existing open asset items in BUILDNOTES remain unchanged (OG image, favicon, photos, GA_ID).
+
+State:
+- Localhost: http://localhost:4321
+- Next phase: Phase 10 (audio companion infrastructure and placeholder narration)
+
+For Olivia:
+- No new decision blockers were introduced by this phase.
+- If you want PickTheNextMove in Module 05 as originally planned, we need Module 05 content file created first in Phase 6 catch-up.
+
+---
+
+## Phase 10 handoff note
+
+Date: 2026-05-13
+
+Done:
+- Built `src/components/AudioPlayer.astro` with keyboard-accessible controls: play and pause, scrub bar, speed control (1x, 1.25x, 1.5x), current and total time display, and transcript toggle.
+- Updated `src/pages/curriculum/[part]/[module].astro` to load transcript text from `src/content/audio-transcripts/` and render `AudioPlayer` only when a module has an `audioFile` value.
+- Added required module note near the player: "Audio narration is currently AI-generated placeholder. Olivia is recording her own version on her schedule."
+- Created `public/audio/` and generated placeholder MP3 narration files for every currently finalized module in this workspace.
+- Created `src/content/audio-transcripts/` and generated matching transcript files for each narrated module.
+- Updated module front matter for narrated modules with `audioFile` and `transcriptFile` fields.
+- Added automation script at `scripts/generate_phase10_audio.py` so narration and transcript generation can be rerun deterministically when module copy changes.
+- Build verified clean with 37 pages generated and Pagefind indexing complete.
+
+Modules with audio and transcript:
+- welcome-01
+- welcome-02
+- tools-03
+- tools-04
+- how-we-think-06
+- how-we-build-09
+- how-we-build-10
+- how-we-build-11
+- how-we-build-12
+- how-we-build-13
+- how-we-build-14
+- business-16
+- business-17
+- business-18
+- business-19
+- business-20
+- practice-23
+
+Deferred:
+- Placeholder working-session modules remain without audio by design: how-we-think-07, how-we-think-08, business-15, practice-22.
+- Modules 05 and 21 still have no content file in `src/content/modules/`, so there is no narration source text yet.
+- Final human-recorded audio pass is still deferred to Olivia's schedule.
+
+Known issues:
+- Placeholder narration was generated with a warm default TTS voice because an ElevenLabs API key is not configured in this environment.
+- Some pronunciation and pacing may still need manual review and replacement priority marking.
+- Existing font WOFF2 warnings remain unchanged from prior phases.
+
+State:
+- Localhost: http://localhost:4321
+- Total placeholder audio size: 53066592 bytes (about 50.6 MiB)
+- Next phase: Phase 11 (SEO, AEO, schema, and full DOD pass)
+
+For Olivia:
+- Please confirm preferred pronunciation guidance for "Keiter" and any other proper nouns before the final re-record pass.
+- If you want ElevenLabs-generated placeholders specifically, add the API key and preferred voice ID, then rerun `scripts/generate_phase10_audio.py` with the ElevenLabs path.
+
+---
+
+## Phase 11 handoff note
+
+Date: 2026-05-14
+
+Done:
+- Added sitewide LocalBusiness schema in `src/layouts/Layout.astro` with business name, URL, description, locality, service area, opening hours, and price range.
+- Added Course schema to `src/pages/curriculum/index.astro` and linked provider to the LocalBusiness schema.
+- Added LearningResource schema to `src/pages/curriculum/[part]/[module].astro` for every module route.
+- Added metadata controls (`metaTitle`, `ogType`) in `src/layouts/Layout.astro` and applied concise page-level meta titles and descriptions across static and dynamic pages.
+- Confirmed OpenGraph and Twitter card tags are rendered for all pages through the shared layout.
+- Added branded OG fallback image at `public/images/og-default.svg` and wired it in layout.
+- Replaced default favicon artwork in `public/favicon.svg` with a branded icon.
+- Fixed search trigger behavior by turning header search controls into real links to `/search` for keyboard and no-JS reliability.
+- Completed contrast and accessibility hardening pass:
+   - Updated design tokens and link defaults in `src/styles/global.css`.
+   - Raised low-contrast copy in `src/pages/index.astro`.
+   - Improved progress indicator semantics in `src/components/ProgressIndicator.astro`.
+- Validated JSON-LD output by parsing all structured data blocks from built HTML.
+- Ran Lighthouse and axe audits on representative routes and fixed issues found.
+
+Lighthouse scores (representative routes):
+- `/`: Performance 100, Accessibility 100, Best Practices 96, SEO 100
+- `/curriculum`: Performance 100, Accessibility 100, Best Practices 96, SEO 100
+- `/curriculum/how-we-build/11`: Performance 99, Accessibility 100, Best Practices 96, SEO 100
+- `/resources`: Performance 100, Accessibility 100, Best Practices 96, SEO 100
+- `/glossary`: Performance 100, Accessibility 100, Best Practices 96, SEO 100
+
+axe-core scan status (representative routes):
+- Violations: 0 on all scanned routes
+- Incomplete: 1 non-blocking item on `/curriculum/how-we-build/11` tied to an `aria-hidden` arrow glyph in link text
+
+Definition of Done status:
+- Copy and voice: PASS
+- Accessibility: PASS (axe violations fixed)
+- Mobile: PASS (existing responsive layouts preserved, no regressions introduced)
+- Search and metadata: PASS (search route live, schema and meta pass complete)
+- Media and polish: PARTIAL (font WOFF2 files and real photography placeholders still open)
+- Final build discipline: PASS (build clean, deferred items documented, handoff written)
+
+Deferred:
+- GA_ID still needed from Olivia to enable production analytics.
+- Self-hosted font files are still missing from `public/fonts/` and remain a pre-launch blocker.
+- Real photography slots remain placeholders per prior phases.
+- Cheat sheet PDF generation approach still needs Olivia's direction.
+
+Known issues:
+- Lighthouse CLI on this Windows environment intermittently reports temp-folder cleanup EPERM after report generation. Reports still generate with full category scores.
+- One axe incomplete item remains for a decorative arrow glyph, no accessibility violations remain.
+
+State:
+- Localhost: http://localhost:4321
+- Build: 37 pages generated, Pagefind indexed
+- Next phase: Phase 12 (Deploy and launch)
+
+For Olivia:
+- Confirm analytics direction before deploy: keep GA and provide `GA_ID`, or switch to Plausible/Netlify Analytics.
+- Provide final self-hosted font files and real photos before launch.
+- Confirm PDF generation path for cheat sheets before final launch packaging.
+
+---
+
+## Phase 12 handoff note
+
+Date: 2026-05-15
+
+Launch status:
+- Live.
+
+Live URL:
+- https://learn.keiterandco.com
+
+Done:
+- Netlify site is provisioned and linked: `keiter-and-co-academy` (`3bae721a-f6ea-4ebe-8cd4-fdbddc4191fd`).
+- Production deploy confirmed live on Netlify URLs:
+   - https://keiter-and-co-academy.netlify.app
+   - https://6a067ac239d6a453804208fe--keiter-and-co-academy.netlify.app
+- Custom domain attached to site: `learn.keiterandco.com`.
+- DNS resolving to Netlify edge IPs for the custom domain.
+- SSL confirmed valid on the custom domain with a Let's Encrypt wildcard cert for `*.keiterandco.com`.
+- Live smoke checks passed:
+   - Core routes load on custom domain (`/`, `/curriculum/how-we-build/12`, `/resources`, `/search`).
+   - 404 returns on non-existent route.
+   - Audio assets return 200 on both Netlify URL and custom domain.
+   - Search page is reachable and indexed content is present in production.
+
+Deferred items entering post-launch backlog:
+- Working-session modules still intentionally placeholder-complete: 07, 08, 15, 22.
+- Missing module content files still unresolved in repo: 05 and 21.
+- GA production property ID still pending (`GA_ID`).
+- Self-hosted font files in `public/fonts/` still pending.
+- Real photography assets still pending (hero and about portraits).
+- HoneyBook walkthrough final pass for Module 17 still pending.
+- Month-1 check-in process finalization for Module 20 still pending.
+- Cheat sheet PDF generation approach still pending decision.
+
+Known launch notes:
+- During domain setup, Netlify CLI domain helper commands were unavailable in the local CLI path. Domain and TLS setup was completed through authenticated Netlify REST calls instead.
+- Certificate provisioning endpoint returns the account wildcard certificate object for `keiterandco.com`, which now covers `learn.keiterandco.com` and serves correctly in browsers.
+
+For Olivia before sharing widely:
+- Site is shareable now at https://learn.keiterandco.com.
+- Remaining open items are polish and content completeness tasks, not launch blockers for availability.
+- Prioritize working sessions for Modules 07, 08, 15, and 22, then close Modules 05 and 21.

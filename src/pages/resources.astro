@@ -1,17 +1,44 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+
+// Pull from content collection. Additional resources are listed statically below
+// until all resource files are written in Phase 7.
+const collectionResources = await getCollection('resources');
+
+// Group collection resources by type for merging with static sections
+const collectionByType: Record<string, typeof collectionResources> = {};
+for (const entry of collectionResources) {
+  const type = entry.data.fileType;
+  if (!collectionByType[type]) collectionByType[type] = [];
+  collectionByType[type].push(entry);
+}
+
+function getDownloads(entry: (typeof collectionResources)[number]) {
+  const explicitDownloads = entry.data.downloads ?? [];
+  if (explicitDownloads.length > 0) {
+    return explicitDownloads;
+  }
+
+  if (entry.data.downloadPath) {
+    return [{ label: 'Markdown', path: entry.data.downloadPath }];
+  }
+
+  return [];
+}
 ---
 
 <Layout
   title="Resources"
-  description="Templates, checklists, and cheat sheets for running a Keiter & Co. build. Blank decision log, spec, kickoff, BUILDNOTES template, CLAUDE.md template, AEO checklist, and worked examples."
+  metaTitle="Resources | Keiter & Co. Academy"
+  description="Download Keiter templates, checklists, cheat sheets, and worked examples you can use during real builds."
 >
   <section class="section bg-warm-white border-b border-stone/20">
     <div class="container">
       <p class="text-sm font-medium text-moss uppercase tracking-wide mb-3">Resources</p>
       <h1 class="mb-4">Templates, checklists, and cheat sheets.</h1>
       <p class="text-bark/80 max-w-xl">
-        Everything you need to run a Keiter &amp; Co. build without re-reading the curriculum every time. Downloads are plain Markdown files. Open them in any editor.
+        Everything you need to run a Keiter &amp; Co. build without re-reading the curriculum every time. Templates download as Markdown. Cheat sheets download as Markdown and PDF where available.
       </p>
     </div>
   </section>
@@ -23,18 +50,17 @@ import Layout from '../layouts/Layout.astro';
         <div>
           <h2 class="text-xl mb-6">Templates</h2>
           <div class="grid gap-3 sm:grid-cols-2">
-            {[
-              { title: 'Blank decision log', desc: 'A clean decision log template with the standard sections and placeholder entries.', file: 'decision-log-template.md', status: 'coming-soon' },
-              { title: 'Blank spec', desc: 'The full spec template structure. Fill in the sections and delete the guidance notes.', file: 'spec-template.md', status: 'coming-soon' },
-              { title: 'Blank kickoff', desc: 'A kickoff template with travel rules, stack reference, tasks, quality gates, and handoff note template.', file: 'kickoff-template.md', status: 'coming-soon' },
-              { title: 'Welcome to the Family guide spec', desc: 'The guide spec template used to produce the client welcome guide at launch.', file: 'guide-spec-template.md', status: 'coming-soon' },
-              { title: 'BUILDNOTES template', desc: 'A starter BUILDNOTES.md for tracking gaps and deferred items during a build.', file: 'buildnotes-template.md', status: 'coming-soon' },
-              { title: 'CLAUDE.md template', desc: 'The business-level CLAUDE.md template adapted for a new client build.', file: 'claude-md-template.md', status: 'coming-soon' },
-            ].map((item) => (
-              <div class="bg-warm-white border border-stone/30 rounded-lg p-5 flex flex-col gap-2">
-                <h3 class="text-base">{item.title}</h3>
-                <p class="text-sm text-bark/70 flex-1 max-w-none">{item.desc}</p>
-                <span class="text-xs text-stone italic">Downloads available in Phase 7</span>
+            {collectionByType['template']?.map((entry) => (
+              <div class="bg-warm-white border border-moss/30 rounded-lg p-5 flex flex-col gap-2">
+                <h3 class="text-base">{entry.data.title}</h3>
+                <p class="text-sm text-bark/70 flex-1 max-w-none">{entry.data.description}</p>
+                <div class="flex flex-wrap gap-2 pt-2">
+                  {getDownloads(entry).map((download) => (
+                    <a href={download.path} class="inline-flex min-h-[32px] items-center rounded-full border border-moss/30 px-3 py-1 text-xs font-medium text-moss no-underline transition-colors hover:border-rust hover:text-rust focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss" download>
+                      {download.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -43,15 +69,17 @@ import Layout from '../layouts/Layout.astro';
         <div>
           <h2 class="text-xl mb-6">Cheat sheets</h2>
           <div class="grid gap-3 sm:grid-cols-2">
-            {[
-              { title: 'Hard rules at a glance', desc: 'All the copy and formatting rules that travel with every Keiter build, on one page.', status: 'coming-soon' },
-              { title: 'Build standards summary', desc: 'The full Definition of Done checklist, condensed to one printable page.', status: 'coming-soon' },
-              { title: 'DOD checklist', desc: 'The complete Definition of Done as a standalone checklist file.', status: 'coming-soon' },
-            ].map((item) => (
-              <div class="bg-warm-white border border-stone/30 rounded-lg p-5 flex flex-col gap-2">
-                <h3 class="text-base">{item.title}</h3>
-                <p class="text-sm text-bark/70 flex-1 max-w-none">{item.desc}</p>
-                <span class="text-xs text-stone italic">Available in Phase 7</span>
+            {collectionByType['cheat-sheet']?.map((entry) => (
+              <div class="bg-warm-white border border-moss/30 rounded-lg p-5 flex flex-col gap-2">
+                <h3 class="text-base">{entry.data.title}</h3>
+                <p class="text-sm text-bark/70 flex-1 max-w-none">{entry.data.description}</p>
+                <div class="flex flex-wrap gap-2 pt-2">
+                  {getDownloads(entry).map((download) => (
+                    <a href={download.path} class="inline-flex min-h-[32px] items-center rounded-full border border-moss/30 px-3 py-1 text-xs font-medium text-moss no-underline transition-colors hover:border-rust hover:text-rust focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss" download>
+                      {download.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -60,16 +88,17 @@ import Layout from '../layouts/Layout.astro';
         <div>
           <h2 class="text-xl mb-6">Worked examples</h2>
           <div class="grid gap-3 sm:grid-cols-2">
-            {[
-              { title: 'Outpost Vending: decision log', desc: 'The real decision log from the Outpost Vending build. Used as a reference in Module 21.', status: 'coming-soon' },
-              { title: 'Outpost Vending: spec', desc: 'The real spec from the Outpost Vending build. Read alongside the walkthrough in Module 21.', status: 'coming-soon' },
-              { title: 'Academy: decision log', desc: 'This academy\'s own decision log. The build that teaches the methodology using the methodology.', status: 'coming-soon' },
-              { title: 'Academy: spec', desc: 'This academy\'s own spec. A second worked example you can read in parallel with the Outpost docs.', status: 'coming-soon' },
-            ].map((item) => (
-              <div class="bg-warm-white border border-stone/30 rounded-lg p-5 flex flex-col gap-2">
-                <h3 class="text-base">{item.title}</h3>
-                <p class="text-sm text-bark/70 flex-1 max-w-none">{item.desc}</p>
-                <span class="text-xs text-stone italic">Available in Phase 7</span>
+            {collectionByType['worked-example']?.map((entry) => (
+              <div class="bg-warm-white border border-moss/30 rounded-lg p-5 flex flex-col gap-2">
+                <h3 class="text-base">{entry.data.title}</h3>
+                <p class="text-sm text-bark/70 flex-1 max-w-none">{entry.data.description}</p>
+                <div class="flex flex-wrap gap-2 pt-2">
+                  {getDownloads(entry).map((download) => (
+                    <a href={download.path} class="inline-flex min-h-[32px] items-center rounded-full border border-moss/30 px-3 py-1 text-xs font-medium text-moss no-underline transition-colors hover:border-rust hover:text-rust focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss" download>
+                      {download.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

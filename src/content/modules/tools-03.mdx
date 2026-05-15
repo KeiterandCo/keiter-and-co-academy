@@ -1,0 +1,116 @@
+---
+title: "AI 101"
+partSlug: "tools"
+moduleNumber: "03"
+learningGoal: "Define AI, LLM, and Claude in plain language. Explain why Keiter & Co. uses Claude specifically."
+learningResourceType: "reading"
+estimatedMinutes: 12
+prerequisites: ["welcome-02"]
+sourceOfTruth:
+  - "Anthropic public documentation: https://docs.anthropic.com"
+lastReviewed: 2026-05-09
+audioFile: "/audio/tools-03.mp3"
+transcriptFile: "tools-03.md"
+---
+
+import Callout from '../../components/Callout.astro';
+
+You do not need a computer science background to use AI effectively. You do need to know what it actually is, so you can use it deliberately instead of by feel. This module gives you the plain-language version.
+
+---
+
+## What is AI?
+
+Artificial intelligence is software that can do things we used to assume only humans could do. Recognize a photo. Summarize a long document. Answer a question in plain language. Generate code from a description.
+
+That is a useful definition because it sets expectations without overpromising. AI is not thinking. It is not understanding. It is not sentient. It is pattern recognition, at extraordinary scale, applied to language.
+
+The distinction matters because it shapes how you use it. You do not ask AI to "think about" something the way you would ask a colleague. You give it information, context, and a clear task, and it produces output based on patterns in everything it has encountered in training.
+
+---
+
+## What is a large language model?
+
+A large language model, or LLM, is the specific type of AI behind Claude. The "language" part is the key. LLMs are trained on enormous amounts of text: books, websites, code, articles, conversations. The model learns the patterns in that text at a statistical level.
+
+When you write a message to Claude, the model processes your words, considers the statistical patterns it knows, and produces a response that fits those patterns. It is not looking up an answer in a database. It is generating an answer, word by word, based on what it has learned about how language works and what relevant-sounding responses look like.
+
+<Callout variant="key-rule">
+  An LLM generates text based on patterns. It does not look things up. It does not verify. It does not know what it does not know. This is why you check the output.
+</Callout>
+
+Two practical consequences follow from this.
+
+First, LLMs can be confident about things that are wrong. The model does not have a built-in fact-checker. It produces text that looks reasonable. That is different from text that is accurate. Your job is to verify what matters.
+
+Second, LLMs are much better when you give them more context. A vague question produces a vague response. A specific question with the right background produces something much more useful. This is why the Keiter methodology spends so much time on good kickoffs, real specs, and clear phase prompts. The model works with what you give it.
+
+---
+
+## What is Claude?
+
+Claude is an LLM made by Anthropic. Anthropic is an AI safety company founded in 2021. Their focus is on building AI that is helpful, harmless, and honest. That focus shapes the training and the behavior of the model.
+
+Claude is available in several ways:
+
+- **Claude.ai**: the browser-based conversation interface. You open a tab and talk to it.
+- **Claude Code**: an integration inside VS Code. You talk to it while working in a code editor, with access to your actual project files.
+- **Claude API**: for developers building applications that use Claude as a backend.
+
+Keiter & Co. uses Claude.ai and Claude Code. The API is not part of the standard Keiter workflow unless a specific build calls for it.
+
+<Callout variant="source-of-truth" title="Source: Anthropic documentation, docs.anthropic.com">
+  Anthropic's public documentation covers the full Claude model family, capabilities, and rate limits. The current model versions and their specific capabilities change with each release. When something in this module conflicts with what you see in the interface, the interface is current.
+</Callout>
+
+---
+
+## Why Claude, specifically?
+
+Keiter & Co. evaluated the available LLMs and settled on Claude for a specific set of reasons. They are worth naming because they are not arbitrary.
+
+**Instruction-following.** Claude is good at following detailed, structured instructions over a long session. A Keiter kickoff prompt is long. A Keiter build spec is specific. The model needs to hold those instructions without drifting, and Claude does this consistently.
+
+**Voice.** Claude writes in a way that is easier to edit into the Keiter voice. Other models tend to produce more generic output. Claude's baseline prose is cleaner and easier to work with as a starting point for copy that Olivia will review and revise.
+
+**Code quality.** Claude Code integrated into VS Code is the tool Olivia and Alex use for actual builds. The quality of the code it produces, and the way it explains what it is doing, fits the Keiter workflow well.
+
+**Transparency about uncertainty.** Claude tends to flag when it does not know something or when a question is ambiguous. Other models sometimes confidently generate plausible-sounding wrong answers without signaling the uncertainty. That tendency is less useful when you are building real things for real clients.
+
+This is not a permanent endorsement. AI tools change fast. Keiter & Co. reviews the tooling when something materially better is available. The reason to evaluate carefully and then commit is that switching mid-workflow is expensive. Use Claude until a better tool is clearly worth the switch.
+
+---
+
+## What AI is not
+
+Worth naming the things AI is not, because the cultural conversation around AI tends toward extremes in both directions.
+
+**AI is not magic.** It is software. It does not know you, it does not care about your client, and it does not have opinions about whether the site looks good. It has learned patterns and it applies them. Treat it accordingly.
+
+**AI is not a replacement for judgment.** The judgment about what a client needs, what a site should say, whether a design direction is right, whether an output passes the voice test, that judgment is yours. Claude can draft. Olivia decides.
+
+**AI is not infallible.** It makes errors. It sometimes confidently produces wrong information. It hallucinates details. The Keiter workflow is designed around human review at every significant output. That review step is not bureaucracy. It is the point.
+
+**AI is not simple to master.** You will get better with it over time. The first sessions will feel unfamiliar. The twentieth will feel natural. That curve is worth working through.
+
+---
+
+## What this means for your work
+
+You are learning a tool. Like any tool, Claude is more useful once you understand what it is good at and what it is not.
+
+It is good at: drafting structured content, generating code from a clear spec, summarizing long documents, following multi-step instructions, explaining technical concepts, and catching inconsistencies when you give it the right context.
+
+It is less good at: knowing current facts (it has a training cutoff), verifying its own output, understanding context it was not given, exercising judgment about client relationships, and knowing when something is off in a way that requires taste rather than pattern-matching.
+
+The rest of this part covers how to use it well. Module 04 covers the three surfaces and when to use each one. Module 05 covers how to run a productive session.
+
+---
+
+## A note about this curriculum
+
+This curriculum was built using Claude. Every module was drafted with Claude's help. Every spec, kickoff, and decision log was produced using the workflow you are learning.
+
+That is not a disclosure. It is the point. The best way to teach the methodology is to use it. This site is the evidence that it works.
+
+{/* Photo placeholder: A laptop showing the Claude.ai interface mid-conversation, sitting on a farmhouse kitchen table. Coffee cup nearby, natural morning light. The screen shows a real-looking exchange, not a hero graphic. Warm and unposed. 16:9 aspect ratio. */}

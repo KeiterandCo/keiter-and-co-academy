@@ -1,0 +1,53 @@
+---
+// CodeBlock.astro
+// Wraps Shiki-highlighted code output with a label and copy-to-clipboard button.
+// The code content is passed as a slot (already highlighted by MDX/Shiki).
+
+interface Props {
+  label?: string;
+  lang?: string;
+}
+
+const { label, lang } = Astro.props;
+const blockId = `code-block-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="my-6 rounded-lg overflow-hidden border border-stone/20" id={blockId}>
+  <div class="flex items-center justify-between px-4 py-2 bg-off-black/95">
+    <span class="text-xs font-mono text-stone">
+      {label ?? lang ?? 'code'}
+    </span>
+    <button
+      type="button"
+      class="copy-btn text-xs text-stone hover:text-warm-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rust rounded px-2 py-0.5"
+      aria-label="Copy code to clipboard"
+      data-target={blockId}
+    >
+      Copy
+    </button>
+  </div>
+  <div class="overflow-x-auto [&>pre]:m-0 [&>pre]:rounded-none [&>pre]:border-0 [&>pre]:p-4 [&_code]:text-sm">
+    <slot />
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const targetId = btn.dataset.target;
+      if (!targetId) return;
+      const block = document.getElementById(targetId);
+      if (!block) return;
+      const codeEl = block.querySelector('code');
+      if (!codeEl) return;
+      try {
+        await navigator.clipboard.writeText(codeEl.innerText);
+        btn.textContent = 'Copied';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      } catch {
+        btn.textContent = 'Failed';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      }
+    });
+  });
+</script>
